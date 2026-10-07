@@ -1,11 +1,9 @@
 import type { Tool } from '../tool';
 import { listen, target } from '../tool';
-import { bar, highlightBox, isOwn, toast } from '../ui';
-import { runtime } from '../runtime';
+import { highlightBox, isOwn, toast } from '../ui';
 
 let off: (() => void)[] = [];
 let hl: ReturnType<typeof highlightBox> | null = null;
-let b: HTMLElement | null = null;
 
 function pick(): Promise<string | null> {
   return new Promise((res) => {
@@ -26,7 +24,6 @@ export const imageReplacer: Tool = {
   id: 'image-replacer',
   activate() {
     hl = highlightBox();
-    b = bar('Image Replacer — click an image', [{ label: 'Done', primary: true, onClick: () => runtime.deactivate() }]);
     off = [
       listen('mousemove', (e) => { if (isOwn(e)) return; const t = target(e); if (t) hl!.set(t.getBoundingClientRect()); }),
       listen('click', async (e) => {
@@ -41,5 +38,5 @@ export const imageReplacer: Tool = {
       }),
     ];
   },
-  deactivate() { off.forEach((f) => f()); off = []; hl?.remove(); b?.remove(); },
+  deactivate() { off.forEach((f) => f()); off = []; hl?.remove(); },
 };

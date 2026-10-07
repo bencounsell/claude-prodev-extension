@@ -16,6 +16,7 @@ const common = {
   jsx: 'automatic',
   jsxImportSource: 'preact',
   logLevel: 'info',
+  loader: { '.css': 'text' },
 };
 
 const configs = [
@@ -23,7 +24,11 @@ const configs = [
   { ...common, entryPoints: { content: `${src}/src/content/index.ts` }, outdir: out, format: 'iife' },
   {
     ...common,
-    entryPoints: { popup: `${src}/src/popup/index.tsx`, options: `${src}/src/options/index.tsx` },
+    entryPoints: {
+      popup: `${src}/src/popup/index.tsx`,
+      options: `${src}/src/options/index.tsx`,
+      sidepanel: `${src}/src/sidepanel/index.tsx`,
+    },
     outdir: out,
     format: 'iife',
   },

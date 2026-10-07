@@ -1,29 +1,84 @@
-import type { Msg } from '../lib/messaging';
+import type { EnsureResult, Mode, Msg } from '../lib/messaging';
 import { CONFIG, isPro } from '../lib/licence';
+import { getSettings, type Settings } from '../lib/storage';
 
-async function inject(tabId: number) {
+/** Windows whose side panel is open. The side panel holds a port open while it is visible. */
+const panels = new Map<number, chrome.runtime.Port>();
+/** Cached so keyboard shortcuts can open the side panel synchronously (it must happen inside the user gesture). */
+let panelMode: Settings['panelMode'] = 'sidepanel';
+
+async function applyPanelBehavior() {
+  ({ panelMode } = await getSettings());
+  const side = panelMode === 'sidepanel';
+  await chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: side });
+  await chrome.action.setPopup({ popup: side ? '' : 'popup.html' });
+}
+
+chrome.runtime.onInstalled.addListener(({ reason }) => {
+  void applyPanelBehavior();
+  if (reason === 'install') void chrome.tabs.create({ url: chrome.runtime.getURL('options.html?welcome=1') });
+});
+chrome.runtime.onStartup.addListener(() => void applyPanelBehavior());
+chrome.storage.onChanged.addListener((changes, area) => { if (area === 'sync' && changes.settings) void applyPanelBehavior(); });
+void getSettings().then((s) => { panelMode = s.panelMode; });
+
+const modeFor = (windowId?: number): Mode => (windowId !== undefined && panels.has(windowId) ? 'sidepanel' : 'floating');
+
+/** Browser-internal pages can never be scripted; anything else is a missing host permission. */
+const RESTRICTED = /chrome:\/\/|chrome-extension:|edge:\/\/|brave:\/\/|about:|devtools:|view-source:|gallery cannot be scripted|webstore/i;
+
+async function inject(tabId: number, mode?: Mode): Promise<EnsureResult> {
   try {
     await chrome.tabs.sendMessage(tabId, { type: 'get-state' });
   } catch {
-    await chrome.scripting.executeScript({ target: { tabId }, files: ['content.js'] });
+    try {
+      await chrome.scripting.executeScript({ target: { tabId }, files: ['content.js'] });
+    } catch (e) {
+      const error = (e as Error).message ?? String(e);
+      return { ok: false, error, restricted: RESTRICTED.test(error) };
+    }
   }
-  await chrome.tabs.sendMessage(tabId, { type: 'set-pro', pro: await isPro() });
+  const tab = await chrome.tabs.get(tabId);
+  await chrome.tabs.sendMessage(tabId, { type: 'config', pro: await isPro(), mode: mode ?? modeFor(tab.windowId) });
+  return { ok: true };
 }
 
-async function toggle(tabId: number, toolId: string) {
-  await inject(tabId);
-  await chrome.tabs.sendMessage(tabId, { type: 'toggle-tool', toolId });
+async function toggle(tabId: number, toolId: string, mode?: Mode): Promise<EnsureResult> {
+  const res = await inject(tabId, mode);
+  if (res.ok) await chrome.tabs.sendMessage(tabId, { type: 'toggle-tool', toolId });
+  return res;
 }
 
-chrome.commands.onCommand.addListener(async (cmd, tab) => {
-  if (!tab?.id) return;
-  if (cmd === 'toggle-inspector') await toggle(tab.id, 'inspector');
-  if (cmd === 'toggle-picker') await toggle(tab.id, 'color-picker');
-  if (cmd === 'open-palette') { await inject(tab.id); await chrome.tabs.sendMessage(tab.id, { type: 'open-palette' }); }
+chrome.commands.onCommand.addListener((cmd, tab) => {
+  if (!tab?.id || tab.windowId === undefined) return;
+  const id = tab.id;
+  if (cmd === 'open-palette') {
+    void inject(id).then((r) => r.ok && chrome.tabs.sendMessage(id, { type: 'open-palette' }));
+    return;
+  }
+  const toolId = cmd === 'toggle-inspector' ? 'inspector' : cmd === 'toggle-picker' ? 'color-picker' : null;
+  if (!toolId) return;
+  let mode: Mode | undefined;
+  if (panelMode === 'sidepanel') {
+    // Must be called synchronously within the shortcut's user gesture.
+    if (!panels.has(tab.windowId)) chrome.sidePanel.open({ windowId: tab.windowId }).catch(() => {});
+    mode = 'sidepanel';
+  }
+  void toggle(id, toolId, mode);
 });
 
-chrome.runtime.onInstalled.addListener(({ reason }) => {
-  if (reason === 'install') void chrome.tabs.create({ url: chrome.runtime.getURL('options.html?welcome=1') });
+chrome.runtime.onConnect.addListener((port) => {
+  if (port.name !== 'sidepanel') return;
+  let windowId: number | undefined;
+  port.onMessage.addListener((m: { windowId: number }) => { windowId = m.windowId; panels.set(windowId, port); });
+  port.onDisconnect.addListener(async () => {
+    if (windowId === undefined || panels.get(windowId) !== port) return;
+    panels.delete(windowId);
+    // Side panel closed: hand any active tool over to the floating panel so nothing disappears.
+    for (const t of await chrome.tabs.query({ windowId })) {
+      if (t.id) chrome.tabs.sendMessage(t.id, { type: 'set-mode', mode: 'floating' }).catch(() => {});
+    }
+  });
 });
 
 async function stitch(m: Extract<Msg, { type: 'capture-full-page' }>): Promise<string> {
@@ -40,25 +95,28 @@ async function stitch(m: Extract<Msg, { type: 'capture-full-page' }>): Promise<s
   return `data:image/png;base64,${btoa(bin)}`;
 }
 
+const activeTabId = async () => (await chrome.tabs.query({ active: true, lastFocusedWindow: true }))[0]?.id;
+
 chrome.runtime.onMessage.addListener((msg: Msg, sender, reply) => {
   (async () => {
     switch (msg.type) {
       case 'capture-visible':
-        return chrome.tabs.captureVisibleTab({ format: 'png' });
+        return chrome.tabs.captureVisibleTab(sender.tab?.windowId ?? chrome.windows.WINDOW_ID_CURRENT, { format: 'png' });
       case 'capture-full-page':
         return stitch(msg);
       case 'download':
-        await chrome.downloads?.download({ url: msg.url, filename: msg.filename });
+        await chrome.downloads.download({ url: msg.url, filename: msg.filename });
         return true;
       case 'open-upgrade':
         await chrome.tabs.create({ url: CONFIG.checkoutUrl });
         return true;
+      case 'ensure':
+        return inject(msg.tabId, msg.mode);
       case 'toggle-tool': {
-        const id = sender.tab?.id ?? (await chrome.tabs.query({ active: true, currentWindow: true }))[0]?.id;
-        if (id) await toggle(id, msg.toolId);
-        return true;
+        const id = msg.tabId ?? sender.tab?.id ?? (await activeTabId());
+        return id ? toggle(id, msg.toolId, msg.mode) : { ok: false, error: 'No active tab' };
       }
     }
-  })().then(reply);
+  })().then(reply, (e) => reply({ ok: false, error: String(e) }));
   return true;
 });

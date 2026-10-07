@@ -1,35 +1,40 @@
 import type { Tool } from '../tool';
-import { bar, el, interactive, overlay } from '../ui';
 import { runtime } from '../runtime';
 
-const FONTS = ['Inter', 'Roboto', 'Open Sans', 'Lato', 'Montserrat', 'Poppins', 'Playfair Display', 'Merriweather', 'Source Code Pro', 'Georgia', 'Arial', 'Comic Sans MS'];
+const SYSTEM = ['Georgia', 'Arial', 'Helvetica', 'Times New Roman', 'Courier New', 'Verdana', 'system-ui'];
+const FONTS = ['Inter', 'Roboto', 'Open Sans', 'Lato', 'Montserrat', 'Poppins', 'Nunito', 'Raleway', 'Work Sans', 'DM Sans',
+  'Manrope', 'Space Grotesk', 'Playfair Display', 'Merriweather', 'Lora', 'Libre Baskerville', 'Source Code Pro', 'JetBrains Mono', ...SYSTEM];
+
 let styleEl: HTMLStyleElement | null = null;
 let link: HTMLLinkElement | null = null;
-let b: HTMLElement | null = null;
+let current: string | null = null;
 
-export const fontsChanger: Tool = {
-  id: 'fonts-changer',
-  activate() {
-    b = bar('Fonts Changer — Preview any font on this page', [{ label: 'Reset', onClick: reset }, { label: 'Done', primary: true, onClick: () => runtime.deactivate() }]);
-    const sel = interactive(el('select', 'pd-sel'));
-    sel.innerHTML = '<option value="">Choose font…</option>' + FONTS.map((f) => `<option>${f}</option>`).join('');
-    sel.onchange = () => sel.value && apply(sel.value);
-    b.querySelector('.pd-tt')!.after(sel);
-    void overlay;
-  },
-  deactivate() { b?.remove(); },
-};
+const publish = () => runtime.publish({ current, fonts: FONTS });
+
+function reset() { styleEl?.remove(); link?.remove(); styleEl = link = null; current = null; }
 
 function apply(font: string) {
   reset();
-  if (!['Georgia', 'Arial', 'Comic Sans MS'].includes(font)) {
+  if (!SYSTEM.includes(font)) {
     link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(font)}:wght@300;400;500;600;700&display=swap`;
     document.head.append(link);
   }
   styleEl = document.createElement('style');
-  styleEl.textContent = `body, body *:not(code):not(pre):not(i){font-family:'${font}',sans-serif!important}`;
+  styleEl.textContent = `body, body *:not(code):not(pre):not(kbd):not(i):not([class*=icon]){font-family:'${font.replace(/'/g, '')}',sans-serif!important}`;
   document.head.append(styleEl);
+  current = font;
 }
-function reset() { styleEl?.remove(); link?.remove(); styleEl = link = null; }
+
+export const fontsChanger: Tool = {
+  id: 'fonts-changer',
+  activate() { publish(); },
+  // Keep the preview applied after the tool closes, like other page edits; reload restores it.
+  deactivate() {},
+  onAction(action, payload) {
+    if (action === 'apply') apply(payload as string);
+    if (action === 'reset') reset();
+    publish();
+  },
+};

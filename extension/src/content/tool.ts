@@ -2,6 +2,8 @@ export interface Tool {
   id: string;
   activate(): void | Promise<void>;
   deactivate(): void;
+  /** Handles an action sent from the tool's view (side panel or floating panel). */
+  onAction?(action: string, payload: unknown): void | Promise<void>;
 }
 
 /** Registers a capture-phase listener and returns a disposer. */

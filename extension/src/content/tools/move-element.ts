@@ -1,17 +1,14 @@
 import type { Tool } from '../tool';
 import { listen, target } from '../tool';
-import { bar, highlightBox, isOwn } from '../ui';
-import { runtime } from '../runtime';
+import { highlightBox, isOwn } from '../ui';
 
 let off: (() => void)[] = [];
 let hl: ReturnType<typeof highlightBox> | null = null;
-let b: HTMLElement | null = null;
 
 export const moveElement: Tool = {
   id: 'move-element',
   activate() {
     hl = highlightBox();
-    b = bar('Move Element — drag any element', [{ label: 'Done', primary: true, onClick: () => runtime.deactivate() }]);
     let drag: { n: HTMLElement; x: number; y: number; ox: number; oy: number } | null = null;
     off = [
       listen('mousemove', (e) => {
@@ -33,5 +30,5 @@ export const moveElement: Tool = {
       listen('click', (e) => { if (!isOwn(e)) { e.preventDefault(); e.stopPropagation(); } }),
     ];
   },
-  deactivate() { off.forEach((f) => f()); off = []; hl?.remove(); b?.remove(); },
+  deactivate() { off.forEach((f) => f()); off = []; hl?.remove(); },
 };

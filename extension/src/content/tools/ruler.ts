@@ -1,12 +1,10 @@
 import type { Tool } from '../tool';
 import { listen } from '../tool';
-import { bar, el, highlightBox, isOwn, overlay } from '../ui';
-import { runtime } from '../runtime';
+import { el, highlightBox, isOwn, overlay } from '../ui';
 
 let off: (() => void)[] = [];
 let hl: ReturnType<typeof highlightBox> | null = null;
 let label: HTMLElement | null = null;
-let b: HTMLElement | null = null;
 
 export const ruler: Tool = {
   id: 'ruler',
@@ -14,7 +12,6 @@ export const ruler: Tool = {
     hl = highlightBox();
     label = el('div', 'pd-tip');
     overlay().append(label);
-    b = bar('Page Ruler — drag to measure', [{ label: 'Done', primary: true, onClick: () => runtime.deactivate() }]);
     let start: { x: number; y: number } | null = null;
     document.documentElement.style.cursor = 'crosshair';
     off = [
@@ -32,6 +29,6 @@ export const ruler: Tool = {
   deactivate() {
     off.forEach((f) => f()); off = [];
     document.documentElement.style.cursor = '';
-    hl?.remove(); label?.remove(); b?.remove();
+    hl?.remove(); label?.remove();
   },
 };

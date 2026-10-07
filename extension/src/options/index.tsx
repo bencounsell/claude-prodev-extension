@@ -52,8 +52,8 @@ function App() {
           <h2>Welcome to ProDev 👋</h2>
           <p>Inspect, edit and capture any website in seconds. Here's how to get going:</p>
           <ol class="steps">
-            <li><b>Pin ProDev</b><span>Click the puzzle icon in your toolbar and pin ProDev for one-click access.</span></li>
-            <li><b>Open any website</b><span>Click the ProDev icon and choose a tool, or press <kbd>Alt</kbd> <kbd>Shift</kbd> <kbd>K</kbd> for the command palette.</span></li>
+            <li><b>Pin ProDev</b><span>Click the puzzle icon in your toolbar and pin ProDev. Clicking it opens ProDev in Chrome's side panel.</span></li>
+            <li><b>Open any website</b><span>Pick a tool from the side panel, or press <kbd>Alt</kbd> <kbd>Shift</kbd> <kbd>K</kbd> for the command palette.</span></li>
             <li><b>Press Esc to exit</b><span>Every tool closes with Esc and page edits reset when you reload.</span></li>
           </ol>
         </section>
@@ -87,8 +87,21 @@ function App() {
       </section>
 
       <section class="card">
+        <h2>Where tools appear</h2>
+        <p>The side panel keeps the page uncovered and remembers your work as you browse. Floating mode keeps the full page width, which is handy when you need to check desktop breakpoints.</p>
+        <div class="modes" role="radiogroup" aria-label="Panel location">
+          {([['sidepanel', 'Side panel', 'Recommended · docks beside the page', 'M4 4h16v16H4zM14 4v16'], ['floating', 'Floating', 'Panels float over the page', 'M4 4h16v16H4zM13 7h4v4h-4z']] as const).map(([v, label, sub, d]) => (
+            <button key={v} role="radio" aria-checked={settings?.panelMode === v} class={`mode${settings?.panelMode === v ? ' on' : ''}`}
+              onClick={async () => setLocal(await setSettings({ panelMode: v }))}>
+              <Icon d={d} size={22} /><b>{label}</b><span>{sub}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section class="card">
         <h2>Appearance</h2>
-        <p>Theme for the popup and settings page. In-page tools always use a dark glass style for contrast.</p>
+        <p>Theme for the side panel, popup and settings. In-page tools always use a dark glass style for contrast.</p>
         <div class="seg" role="radiogroup" aria-label="Theme">
           {(['system', 'light', 'dark'] as const).map((t) => (
             <button key={t} role="radio" aria-checked={settings?.theme === t} class={settings?.theme === t ? 'on' : ''}
