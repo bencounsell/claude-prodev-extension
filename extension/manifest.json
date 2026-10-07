@@ -50,6 +50,12 @@
         "default": "Alt+Shift+C"
       },
       "description": "Toggle Color Picker"
+    },
+    "open-palette": {
+      "suggested_key": {
+        "default": "Alt+Shift+K"
+      },
+      "description": "Open command palette"
     }
   },
   "content_security_policy": {

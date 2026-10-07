@@ -1,6 +1,7 @@
 export type Msg =
   | { type: 'toggle-tool'; toolId: string }
   | { type: 'deactivate-all' }
+  | { type: 'open-palette' }
   | { type: 'get-state' }
   | { type: 'set-pro'; pro: boolean }
   | { type: 'capture-visible' }

@@ -8,6 +8,14 @@ Freemium: core tools are free, Pro tools unlock with a one-time licence key.
 | CSS Inspector (live editing = Pro), Live Text Editor, List All Fonts, Color Picker, Delete Element, Page Ruler, Page Outliner, Screenshot (full page = Pro) | Free |
 | Fonts Changer, Color Palette, Move Element, Export Element, Extract Images, Image Replacer | Pro |
 
+## Screenshots
+| Popup | In-page inspector |
+|---|---|
+| ![Popup](docs/screenshots/popup-dark.png) | ![Inspector](docs/screenshots/inspector.png) |
+
+Regenerate all screenshots (popup, settings, every tool panel, upsell, command palette) with
+`E2E=1 npm run build && CHROMIUM_PATH=/path/to/chromium node scripts/screenshots.mjs`.
+
 ## Develop
 ```bash
 npm install

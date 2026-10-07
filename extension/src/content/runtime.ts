@@ -1,6 +1,5 @@
 import type { Tool } from './tool';
-import { toast } from './ui';
-import { sendToBackground } from '../lib/messaging';
+import { palette, setActiveTool, toast, upsell } from './ui';
 import { toolById } from '../lib/tools';
 
 class Runtime {
@@ -20,6 +19,7 @@ class Runtime {
     if (wasActive) return;
     if (meta.tier === 'pro' && !this.pro) { this.requirePro(meta.name); return; }
     this.active = tool;
+    setActiveTool(id);
     try { await tool.activate(); } catch (e) { console.error('[ProDev]', e); toast('Something went wrong with this tool'); this.deactivate(); }
   }
 
@@ -31,10 +31,11 @@ class Runtime {
 
   requirePro(feature: string): boolean {
     if (this.pro) return true;
-    toast(`${feature} is a Pro feature — opening upgrade page`);
-    void sendToBackground({ type: 'open-upgrade' });
+    upsell(feature);
     return false;
   }
+
+  openPalette() { this.deactivate(); palette(this.pro, (id) => void this.toggle(id)); }
 
   pushColor(c: string) { this.colors = [c, ...this.colors.filter((x) => x !== c)].slice(0, 20); }
 }

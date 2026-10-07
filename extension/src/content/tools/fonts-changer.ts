@@ -10,11 +10,11 @@ let b: HTMLElement | null = null;
 export const fontsChanger: Tool = {
   id: 'fonts-changer',
   activate() {
-    b = bar('Fonts Changer', [{ label: 'Reset', onClick: reset }, { label: 'Done', primary: true, onClick: () => runtime.deactivate() }]);
-    const sel = interactive(el('select', 'pd-btn'));
+    b = bar('Fonts Changer — Preview any font on this page', [{ label: 'Reset', onClick: reset }, { label: 'Done', primary: true, onClick: () => runtime.deactivate() }]);
+    const sel = interactive(el('select', 'pd-sel'));
     sel.innerHTML = '<option value="">Choose font…</option>' + FONTS.map((f) => `<option>${f}</option>`).join('');
     sel.onchange = () => sel.value && apply(sel.value);
-    b.prepend(sel);
+    b.querySelector('.pd-tt')!.after(sel);
     void overlay;
   },
   deactivate() { b?.remove(); },

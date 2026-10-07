@@ -60,6 +60,32 @@ test('inspector shows computed styles on hover', async () => {
   await page.hover('#title', { position: { x: 20, y: 10 } });
   await expect(shadow('.pd-panel')).toContainText('font-size');
   await expect(shadow('.pd-panel')).toContainText('32px');
+  await expect(shadow('.pd-bm')).toBeVisible();
+});
+
+test('inspector live-edits styles inline with Pro, and resets', async () => {
+  await setPro(true);
+  await toggle('inspector');
+  await page.click('#title', { position: { x: 20, y: 10 } });
+  const v = shadow('.pd-val[data-p="font-size"]');
+  await v.click();
+  await page.keyboard.press('ControlOrMeta+a');
+  await page.keyboard.type('48px');
+  await page.keyboard.press('Enter');
+  expect(await page.evaluate(() => getComputedStyle(document.getElementById('title')!).fontSize)).toBe('48px');
+  await shadow('button:has-text("Reset edits")').click();
+  expect(await page.evaluate(() => getComputedStyle(document.getElementById('title')!).fontSize)).toBe('32px');
+});
+
+test('command palette launches a tool', async () => {
+  await sw.evaluate(async () => {
+    const tab = (await chrome.tabs.query({})).find((t) => t.url?.includes('fixtures/page.html'))!;
+    await chrome.tabs.sendMessage(tab.id!, { type: 'open-palette' });
+  });
+  await expect(shadow('.pd-pal')).toBeVisible();
+  await page.keyboard.type('ruler');
+  await page.keyboard.press('Enter');
+  await expect(shadow('.pd-bar')).toContainText('Page Ruler');
 });
 
 test('delete element hides and is undoable', async () => {
@@ -78,8 +104,10 @@ test('fonts list reports page fonts', async () => {
 test('color palette is gated without Pro, works with Pro', async () => {
   await setPro(false);
   await toggle('color-palette');
-  await expect(shadow('.pd-toast')).toContainText('Pro feature');
+  await expect(shadow('.pd-up')).toContainText('Pro feature');
   await expect(page.locator('prodev-root .pd-panel')).toHaveCount(0);
+  await shadow('button:has-text("Maybe later")').click();
+  await expect(page.locator('prodev-root .pd-up')).toHaveCount(0);
   await setPro(true);
   await toggle('color-palette');
   await expect(shadow('.pd-panel')).toContainText('Color palette');

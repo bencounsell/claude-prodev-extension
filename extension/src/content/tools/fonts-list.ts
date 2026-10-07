@@ -18,10 +18,11 @@ export const fontsList: Tool = {
     }
     p = panel(`Fonts on this page (${map.size})`, () => runtime.deactivate());
     p.body.innerHTML = [...map.entries()].sort((a, b) => b[1].count - a[1].count).map(([f, v]) => `
-      <div style="padding:10px 0;border-bottom:1px solid #20242c">
-        <div style="font-family:'${esc(f)}',sans-serif;font-size:18px;color:#fff">${esc(f)}</div>
-        <div style="color:#8d93a3;margin-top:4px">${v.count} elements · weights ${[...v.weights].sort().join(', ')}<br>sizes ${[...v.sizes].sort((a, b) => parseFloat(a) - parseFloat(b)).join(', ')}</div>
-      </div>`).join('') || 'No text found.';
+      <div class="pd-font">
+        <div class="n" style="font-family:'${esc(f)}',sans-serif">${esc(f)} <span class="pd-dim" style="font-family:inherit;font-size:11px">${v.count} elements</span></div>
+        <div style="font-family:'${esc(f)}',sans-serif;color:var(--mut);margin-top:4px">The quick brown fox jumps over the lazy dog</div>
+        <div class="m">Weights ${[...v.weights].sort().join(' · ')}<br>Sizes ${[...v.sizes].sort((a, b) => parseFloat(a) - parseFloat(b)).join(' · ')}</div>
+      </div>`).join('') || '<div class="pd-empty">No text found on this page.</div>';
   },
   deactivate() { p?.root.remove(); },
 };

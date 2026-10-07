@@ -19,10 +19,11 @@ chrome.commands.onCommand.addListener(async (cmd, tab) => {
   if (!tab?.id) return;
   if (cmd === 'toggle-inspector') await toggle(tab.id, 'inspector');
   if (cmd === 'toggle-picker') await toggle(tab.id, 'color-picker');
+  if (cmd === 'open-palette') { await inject(tab.id); await chrome.tabs.sendMessage(tab.id, { type: 'open-palette' }); }
 });
 
 chrome.runtime.onInstalled.addListener(({ reason }) => {
-  if (reason === 'install') void chrome.runtime.openOptionsPage();
+  if (reason === 'install') void chrome.tabs.create({ url: chrome.runtime.getURL('options.html?welcome=1') });
 });
 
 async function stitch(m: Extract<Msg, { type: 'capture-full-page' }>): Promise<string> {

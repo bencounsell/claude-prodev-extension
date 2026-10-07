@@ -26,6 +26,7 @@ if (!window.__prodev) {
     switch (msg.type) {
       case 'set-pro': runtime.pro = msg.pro; reply(true); break;
       case 'toggle-tool': void runtime.toggle(msg.toolId).then(() => reply(true)); return true;
+      case 'open-palette': runtime.openPalette(); reply(true); break;
       case 'deactivate-all': runtime.deactivate(); reply(true); break;
       case 'get-state': reply({ active: runtime.active?.id ?? null, pro: runtime.pro } satisfies PageState); break;
     }
