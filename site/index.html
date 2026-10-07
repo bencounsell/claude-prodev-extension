@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ProDev: inspect, edit and capture any website</title>
+<meta name="description" content="ProDev puts 14 web developer and designer tools in your browser's side panel: CSS inspector, live editing, color palettes, fonts, rulers, export and screenshots.">
+<meta property="og:title" content="ProDev: the web toolkit in your side panel">
+<meta property="og:description" content="Inspect, edit and capture any website with 14 tools for developers and designers.">
+<meta property="og:image" content="media/hero-loop.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="media/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="ProDev home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9"/><path d="M11 11l-5 5 5 5M21 11l5 5-5 5M17.5 9l-3 14"/></svg>
+      <span>ProDev</span>
+    </a>
+    <nav class="links" aria-label="Sections">
+      <a href="#tools">Tools</a><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" data-store href="#pricing">Add to Chrome</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- Hero -->
+  <section class="hero wrap">
+    <p class="eyebrow mono">Chrome extension · Side panel · 14 tools</p>
+    <h1>Inspect, edit and capture <span class="hl">any website.</span></h1>
+    <p class="lede">ProDev docks beside the page you're working on. Hover to read any element's CSS, change values live, pull every color and font, measure to the pixel and export what you find.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" data-store href="#pricing">Add to Chrome, it’s free</a>
+      <button class="btn btn-ghost" type="button" data-tour>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>Watch the 90-second tour
+      </button>
+    </div>
+    <ul class="meta mono">
+      <li>Chrome, Edge &amp; Brave</li><li>No tracking</li><li>Free tools, one-time Pro</li>
+    </ul>
+
+    <figure class="boxmodel" aria-label="ProDev running in the browser side panel">
+      <span class="tag mono" aria-hidden="true">video.demo <b>1920 × 1080</b></span>
+      <span class="bm-label bm-m mono" aria-hidden="true">margin 32</span>
+      <div class="bm-pad">
+        <span class="bm-label bm-p mono" aria-hidden="true">padding 16</span>
+        <div class="bm-content">
+          <video data-auto autoplay muted loop playsinline preload="auto" poster="media/hero-loop.jpg" aria-label="ProDev inspecting and live-editing a website from the side panel">
+            <source src="media/hero-loop.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </figure>
+  </section>
+
+  <!-- How it works -->
+  <section class="how wrap" id="how">
+    <div class="section-head">
+      <p class="eyebrow mono">How it works</p>
+      <h2>Lives in the side panel, out of your way.</h2>
+    </div>
+    <div class="how-grid">
+      <article>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM14 4v16"/></svg>
+        <h3>Docked beside the page</h3>
+        <p>Click the toolbar icon and ProDev opens in Chrome's side panel. Nothing covers the page, and your tools stay put as you switch tabs.</p>
+      </article>
+      <article>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v11H3zM8 20h8M12 16v4"/></svg>
+        <h3>Knows your breakpoint</h3>
+        <p>The panel narrows the page, so it shows the live viewport and breakpoint, like <span class="mono chip">900 × 800 · MD</span>. Need full width? Switch to floating panels.</p>
+      </article>
+      <article>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18v10H3zM7 11h1M10 11h1M13 11h1M16 11h1M8 14h8"/></svg>
+        <h3>One keystroke away</h3>
+        <p>Press <kbd>Alt</kbd> <kbd>Shift</kbd> <kbd>K</kbd> for the command palette, or jump straight to the inspector with <kbd>Alt</kbd> <kbd>Shift</kbd> <kbd>I</kbd>. <kbd>Esc</kbd> closes any tool.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Feature showcases -->
+  <section class="features wrap" aria-label="Features">
+    <article class="feature">
+      <div class="f-copy">
+        <p class="eyebrow mono">CSS Inspector</p>
+        <h2>Read any element. Then change it.</h2>
+        <p>Hover to see the box model, typography and colors. Click to lock an element and edit any value right in the panel; the page updates as you type, and one click resets everything.</p>
+        <ul class="ticks">
+          <li>Margin, border and padding drawn on the page</li>
+          <li>Copy CSS or a selector in one click</li>
+          <li>Edits stay on your screen and reset on reload</li>
+        </ul>
+      </div>
+      <div class="f-media"><video data-auto muted loop playsinline preload="none" poster="media/feature-inspect-edit.jpg" aria-label="Inspecting a button and editing its CSS live"><source src="media/feature-inspect-edit.mp4" type="video/mp4"></video></div>
+    </article>
+
+    <article class="feature flip">
+      <div class="f-copy">
+        <p class="eyebrow mono">Color Palette &amp; Picker</p>
+        <h2>Every color on the page, ready to paste.</h2>
+        <p>Pull the full palette sorted by usage, copy a swatch, or export the lot as CSS variables or a Tailwind config. The picker gives HEX, RGB and HSL with contrast ratings against white and black.</p>
+        <ul class="ticks">
+          <li>WCAG AA / AAA ratings for every color</li>
+          <li>Picks any pixel on screen, even outside the page</li>
+          <li>Color history you can click back into</li>
+        </ul>
+      </div>
+      <div class="f-media"><video data-auto muted loop playsinline preload="none" poster="media/feature-colors.jpg" aria-label="Extracting a site's color palette and checking contrast"><source src="media/feature-colors.mp4" type="video/mp4"></video></div>
+    </article>
+
+    <article class="feature">
+      <div class="f-copy">
+        <p class="eyebrow mono">Page Ruler &amp; Outliner</p>
+        <h2>Measure to the pixel.</h2>
+        <p>Drag anywhere to measure. Outline every element to see how a layout is built, with tag names and sizes as you hover.</p>
+        <ul class="ticks">
+          <li>Live width × height while you drag</li>
+          <li>Color-coded outlines by element type</li>
+        </ul>
+      </div>
+      <div class="f-media"><video data-auto muted loop playsinline preload="none" poster="media/feature-measure.jpg" aria-label="Outlining a page and measuring a card with the ruler"><source src="media/feature-measure.mp4" type="video/mp4"></video></div>
+    </article>
+
+    <div class="mini-grid">
+      <article class="mini">
+        <div class="f-media"><video data-auto muted loop playsinline preload="none" poster="media/feature-fonts.jpg" aria-label="Listing fonts and previewing alternatives"><source src="media/feature-fonts.mp4" type="video/mp4"></video></div>
+        <h3>Identify and swap fonts</h3>
+        <p>Every family, weight and size in use. Preview the page in another font with one click.</p>
+      </article>
+      <article class="mini">
+        <div class="f-media"><video data-auto muted loop playsinline preload="none" poster="media/feature-rearrange.jpg" aria-label="Deleting, moving and rewriting page elements"><source src="media/feature-rearrange.mp4" type="video/mp4"></video></div>
+        <h3>Rearrange anything</h3>
+        <p>Delete, drag and rewrite elements to try ideas on the live page, with undo.</p>
+      </article>
+      <article class="mini">
+        <div class="f-media"><video data-auto muted loop playsinline preload="none" poster="media/feature-export.jpg" aria-label="Exporting an element as HTML and CSS"><source src="media/feature-export.mp4" type="video/mp4"></video></div>
+        <h3>Export any element</h3>
+        <p>Click an element to copy it as standalone HTML with its computed CSS inlined.</p>
+      </article>
+      <article class="mini">
+        <div class="f-media"><video data-auto muted loop playsinline preload="none" poster="media/feature-capture.jpg" aria-label="Taking screenshots and extracting images"><source src="media/feature-capture.mp4" type="video/mp4"></video></div>
+        <h3>Capture and collect</h3>
+        <p>Screenshot the view, one element or the full page, and download every image on it.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Tools -->
+  <section class="tools wrap" id="tools">
+    <div class="ruler" aria-hidden="true"></div>
+    <div class="section-head">
+      <p class="eyebrow mono">The toolkit</p>
+      <h2>14 tools. Eight of them free.</h2>
+      <p class="sub">Free tools stay free. Pro unlocks the rest, plus live CSS editing and full-page screenshots.</p>
+    </div>
+    <div class="tool-groups">
+      <div class="tool-group"><h3 class="mono">Inspect</h3><ul class="tool-list">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l7 17 2.5-7.5L20 10zM13 13l6 6"/></svg><div><b>CSS Inspector</b><span>Hover any element to see its box model and styles.</span></div></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h6"/></svg><div><b>List All Fonts</b><span>Every font family, weight and size used on the page.</span></div></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4l6 6-9 9H5v-6zM12 6l6 6"/></svg><div><b>Color Picker</b><span>Pick any pixel and copy HEX, RGB or HSL.</span></div></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3c0-5-4-11-8-11z"/></svg><div><b>Color Palette</b><span class="pro mono">Pro</span><span>Extract every color a website uses.</span></div></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17L17 3l4 4L7 21zM8 12l2 2M11 9l2 2M14 6l2 2"/></svg><div><b>Page Ruler</b><span>Drag to measure anything in pixels.</span></div></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8h8v8H8z"/></svg><div><b>Page Outliner</b><span>Outline every element to see the HTML structure.</span></div></li>
+      </ul></div>
+      <div class="tool-group"><h3 class="mono">Edit</h3><ul class="tool-list">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg><div><b>Live Text Editor</b><span>Click and type to edit any text on the page.</span></div></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20l7-16 7 16M8 14h8"/></svg><div><b>Fonts Changer</b><span class="pro mono">Pro</span><span>Swap fonts on the whole page or a single element.</span></div></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"/></svg><div><b>Move Element</b><span class="pro mono">Pro</span><span>Drag elements to try new layouts.</span></div></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg><div><b>Delete Element</b><span>Click to remove or hide anything. Undo any time.</span></div></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4M9 12h6"/></svg><div><b>Image Replacer</b><span class="pro mono">Pro</span><span>Swap any image with a file or URL.</span></div></li>
+      </ul></div>
+      <div class="tool-group"><h3 class="mono">Capture</h3><ul class="tool-list">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><div><b>Export Element</b><span class="pro mono">Pro</span><span>Copy any element as standalone HTML + CSS.</span></div></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3zM3 16l5-5 4 4 3-3 6 6M8 9h.01"/></svg><div><b>Extract Images</b><span class="pro mono">Pro</span><span>Find every image and download them all.</span></div></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4zM12 17a4 4 0 100-8 4 4 0 000 8z"/></svg><div><b>Take Screenshot</b><span>Capture the visible area, an element, or the full page.</span></div></li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- Privacy -->
+  <section class="privacy wrap" aria-labelledby="privacy-h">
+    <div class="privacy-card">
+      <div>
+        <p class="eyebrow mono">Privacy</p>
+        <h2 id="privacy-h">Runs on your machine. Sends nothing.</h2>
+        <p>No analytics, no tracking, no account. Page content never leaves your browser. ProDev only goes online to check a Pro licence key, or to load a Google Font when you preview one that isn't installed.</p>
+      </div>
+      <dl class="perms mono">
+        <div><dt>activeTab</dt><dd>Only the tab you open it on</dd></div>
+        <div><dt>scripting</dt><dd>Draws highlights on that page</dd></div>
+        <div><dt>storage</dt><dd>Your settings and licence</dd></div>
+        <div><dt>downloads</dt><dd>Saves screenshots and images</dd></div>
+        <div><dt>sidePanel</dt><dd>Docks beside the page</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing wrap" id="pricing">
+    <div class="section-head">
+      <p class="eyebrow mono">Pricing</p>
+      <h2>Start free. Pay once for Pro.</h2>
+    </div>
+    <div class="plans">
+      <article class="plan">
+        <h3>Free</h3>
+        <p class="price"><b>$0</b></p>
+        <p class="plan-note">Everything you need to inspect a page.</p>
+        <ul class="ticks">
+          <li>CSS Inspector (read-only)</li><li>Color Picker with contrast checks</li><li>List All Fonts</li><li>Page Ruler and Outliner</li>
+          <li>Live Text Editor and Delete Element</li><li>Visible-area and element screenshots</li><li>Side panel, floating mode, command palette</li>
+        </ul>
+        <a class="btn btn-ghost" data-store href="#pricing">Add to Chrome</a>
+      </article>
+      <article class="plan plan-pro">
+        <span class="badge mono">One-time</span>
+        <h3>Pro</h3>
+        <p class="price"><b data-price>$29</b> <span>once, no subscription</span></p>
+        <p class="plan-note">Everything in Free, plus:</p>
+        <ul class="ticks">
+          <li>Live CSS editing in the inspector</li><li>Color Palette with CSS and Tailwind export</li><li>Fonts Changer</li><li>Move Element and Image Replacer</li>
+          <li>Export Element as HTML + CSS</li><li>Extract Images and full-page screenshots</li><li>Free updates</li>
+        </ul>
+        <a class="btn btn-primary" data-checkout href="#pricing">Get ProDev Pro</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq wrap" id="faq">
+    <div class="section-head"><p class="eyebrow mono">FAQ</p><h2>Questions, answered.</h2></div>
+    <div class="faq-list">
+      <details><summary>Which browsers does ProDev work in?</summary><p>Chrome, Microsoft Edge and Brave, version 116 or later. They all support Chrome's side panel and Manifest V3.</p></details>
+      <details><summary>Does it work on every website?</summary><p>It works on any normal web page. Browsers don't let extensions run on their own internal pages, such as settings, the new tab page or the extension store, so ProDev tells you when you're on one of those.</p></details>
+      <details><summary>Do my edits change the real website?</summary><p>No. Edits, deletions and moved elements only change what you see in your own browser, and they reset when you reload the page. Use Copy CSS or Export Element to take your changes with you.</p></details>
+      <details><summary>What's the difference between the side panel and floating mode?</summary><p>The side panel docks beside the page and keeps everything uncovered. Floating mode shows tools over the page instead, which keeps the full page width, handy when you need to check a desktop breakpoint. Switch any time in Settings.</p></details>
+      <details><summary>How does the Pro licence work?</summary><p>Buy once and you get a licence key. Paste it into ProDev's Settings to unlock Pro. It keeps working offline, and you can deactivate a browser and move the key whenever you like.</p></details>
+      <details><summary>Does ProDev collect any data?</summary><p>No. There's no analytics or tracking, and page content never leaves your browser. The only network requests are licence checks for Pro and Google Fonts when you preview a font. Read the <a href="privacy.html">privacy policy</a>.</p></details>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="final wrap">
+    <h2>Open any site. Start inspecting.</h2>
+    <p>Free to install. Eight tools free forever.</p>
+    <div class="cta-row center"><a class="btn btn-primary" data-store href="#pricing">Add to Chrome, it’s free</a><button class="btn btn-ghost" type="button" data-tour>Watch the tour</button></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <a class="brand" href="#top"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9"/><path d="M11 11l-5 5 5 5M21 11l5 5-5 5M17.5 9l-3 14"/></svg><span>ProDev</span></a>
+    <nav aria-label="Footer"><a href="privacy.html">Privacy</a><a href="#faq">FAQ</a><a href="#pricing">Pricing</a></nav>
+    <p class="mono">© 2026 ProDev</p>
+  </div>
+</footer>
+
+<dialog class="tour" id="tour" aria-label="ProDev product tour">
+  <button class="tour-close" type="button" aria-label="Close tour" data-close>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <video controls playsinline preload="none" poster="media/product-tour.jpg"><source src="media/product-tour.mp4" type="video/mp4"></video>
+</dialog>
+<script src="main.js"></script>
+</body>
+</html>

@@ -143,7 +143,7 @@ function App() {
 
       <section class="card">
         <h2>Privacy</h2>
-        <p class="last">ProDev runs entirely in your browser. No analytics, no tracking, and page content never leaves your device. The only network request is to the licence server when you activate or re-validate a key.</p>
+        <p class="last">ProDev runs entirely in your browser. No analytics, no tracking, and page content never leaves your device. It only goes online to check a Pro licence key, or to load a Google Font when you preview one with Fonts Changer.</p>
       </section>
     </div>
   );

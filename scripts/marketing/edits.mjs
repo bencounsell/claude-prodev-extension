@@ -110,6 +110,11 @@ export const VIDEOS = [
   loop('feature-export', [S.export], { poster: 5 }),
   loop('feature-capture', [S.capture], { poster: 2 }),
   loop('feature-command-palette', [S.keystroke], { poster: 1.5 }),
+  // Caption-free versions for the marketing site, where the page copy sits beside each video.
+  ...[
+    ['inspect-edit', [S.inspect, S.edit], 6], ['colors', [S.palette, S.picker], 3], ['fonts', [S.fonts], 2.5], ['measure', [S.measure], 6],
+    ['rearrange', [S.rearrange], 3], ['export', [S.export], 5], ['capture', [S.capture], 2], ['command-palette', [S.keystroke], 1.5],
+  ].map(([n, shots, poster]) => ({ name: `site-${n}`, layout: 'hero', captions: false, loop: true, crf: 24, poster, web: true, shots })),
   {
     name: 'product-tour', layout: 'landscape', crf: 20,
     shots: [{ kind: 'intro', dur: 4.2 }, S.inspect, S.edit, S.palette, S.picker, { ...S.fonts, speed: 1.25 }, S.measure, { ...S.rearrange, speed: 1.4 }, S.export, { ...S.capture, speed: 1.25 }, { ...S.keystroke, speed: 1.25 }, { kind: 'end', dur: 5 }],
