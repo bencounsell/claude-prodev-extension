@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "ProDev \u2013 Web Developer & Designer Toolkit",
+  "short_name": "ProDev",
+  "version": "0.0.0",
+  "description": "14 tools to inspect, edit and export any website: CSS inspector, color picker, fonts, ruler, screenshots and more.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "ProDev",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "clipboardWrite",
+    "downloads"
+  ],
+  "host_permissions": [
+    "https://api.lemonsqueezy.com/*"
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+P"
+      },
+      "description": "Open ProDev"
+    },
+    "toggle-inspector": {
+      "suggested_key": {
+        "default": "Alt+Shift+I"
+      },
+      "description": "Toggle CSS Inspector"
+    },
+    "toggle-picker": {
+      "suggested_key": {
+        "default": "Alt+Shift+C"
+      },
+      "description": "Toggle Color Picker"
+    }
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

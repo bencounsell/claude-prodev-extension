@@ -1,0 +1,33 @@
+{
+  "name": "prodev-extension",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "ProDev - 14 developer & designer tools for any website",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint extension --ext .ts,.tsx",
+    "test": "vitest run",
+    "zip": "npm run build && node scripts/zip.mjs",
+    "test:e2e": "E2E=1 node scripts/build.mjs && playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/chrome": "^0.0.280",
+    "@types/node": "^26.6.4",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "archiver": "^7.0.1",
+    "esbuild": "^0.24.0",
+    "eslint": "^8.57.0",
+    "jsdom": "^25.0.0",
+    "playwright-core": "^1.63.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "dependencies": {
+    "preact": "^10.24.0"
+  }
+}
