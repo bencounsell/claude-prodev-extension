@@ -3,4 +3,4 @@ dist
 *.zip
 .DS_Store
 test-results
-media/
+/media/
