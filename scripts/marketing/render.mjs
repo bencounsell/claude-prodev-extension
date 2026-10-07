@@ -80,7 +80,9 @@ function timeline(video) {
       for (const [spec, z, f] of s.cam ?? [[0, 1, 'all']]) {
         // '@mark±x' → that take moment; negative → from the shot's end; else seconds from its start.
         const lt = typeof spec === 'string' ? (at(meta, spec.slice(1)) - from) / (s.speed ?? 1) : spec < 0 ? dur + spec : spec;
-        cam.push([start + Math.max(0, Math.min(dur, lt)), z, ...(typeof f === 'string' ? FOCUS[f] : f)]);
+        // Hold each shot's framing until the crossfade, so moves to the next shot happen during the cut.
+        const limit = last ? dur : dur - XFADE;
+        cam.push([start + Math.max(0, Math.min(limit, lt)), z, ...(typeof f === 'string' ? FOCUS[f] : f)]);
       }
     }
     prevEnd = end;

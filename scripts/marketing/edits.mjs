@@ -83,7 +83,7 @@ const SOCIAL_VERTICAL = [
   tight(S.edit, [[0.3, 2.25, 'panelLow'], ['@edited-0.4', 2.25, 'panelLow'], ['@edited+0.5', 2.25, [0.2, 0.5]]]),
   tight(S.palette, [[0.3, 2.25, 'panelTop'], [-0.3, 2.25, 'panelTop']]),
   tight(S.ruler, [[0, 2.1, [0.5, 0.45]]]),
-  tight(S.keystrokeShort, [[0, 2.1, [0.62, 0.45]]]),
+  tight(S.keystrokeShort, [[0, 2.1, [0.76, 0.42]]]),
   { kind: 'end', dur: 3.8 },
 ];
 
