@@ -30,7 +30,9 @@ function usePanelPort() {
     let closed = false;
     const connect = () => {
       port = chrome.runtime.connect({ name: 'sidepanel' });
-      void chrome.windows.getCurrent().then((w) => port?.postMessage({ windowId: w.id }));
+      // A pinned panel (tests, recordings) belongs to its tab's window, like a real side panel does.
+      const win = pinnedTab ? chrome.tabs.get(pinnedTab).then((t) => t.windowId) : chrome.windows.getCurrent().then((w) => w.id);
+      void win.then((windowId) => port?.postMessage({ windowId }));
       // The service worker may be recycled; reconnect so it keeps knowing the panel is open.
       port.onDisconnect.addListener(() => { if (!closed) setTimeout(connect, 300); });
     };
