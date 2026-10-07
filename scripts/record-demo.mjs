@@ -7,11 +7,9 @@
 // (900px page + 380px panel = what a 1280px window looks like with the side panel open).
 // Headless Chrome has no visible mouse pointer, so a small cursor + click ripple is injected.
 // Raw captures for internal review: no captions or framing.
-import { chromium } from 'playwright-core';
-import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
+import { Stream, driver, ff, launch, sleep } from './lib/rig.mjs';
 
 const root = process.cwd();
 const OUT = path.resolve(process.env.OUT ?? 'media');
@@ -24,133 +22,21 @@ fs.mkdirSync(path.join(OUT, 'review'), { recursive: true });
 const PAGE = { width: 900, height: 800 };
 const PANEL = { width: 380, height: 800 };
 const FULL = { width: 1280, height: 800 };
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-const ff = (...args) => execFileSync('ffmpeg', ['-y', '-hide_banner', '-loglevel', 'error', ...args]);
 
-/* ------------------------------------------------------------------ cursor */
-
-const CURSOR = () => {
-  if (window.__pdCursor) return;
-  window.__pdCursor = true;
-  const layer = (css) => {
-    const d = document.createElement('div');
-    d.setAttribute('popover', 'manual'); // top layer: above every z-index, including ProDev's own UI
-    d.style.cssText = `all:initial;inset:auto;position:fixed;left:0;top:0;margin:0;padding:0;border:0;background:transparent;
-      pointer-events:none;overflow:visible;outline:none!important;${css}`;
-    document.documentElement.append(d);
-    try { d.showPopover(); } catch { /* popover unsupported */ }
-    return d;
-  };
-  let c = null;
-  addEventListener('mousemove', (e) => {
-    if (!c) {
-      c = layer('width:24px;height:24px');
-      c.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24"><path d="M5 3l14 8.2-6.2 1.5-3.4 6.1z" fill="#111" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>';
-    }
-    c.style.display = 'block';
-    c.style.transform = `translate(${e.clientX - 5}px,${e.clientY - 3}px)`;
-  }, true);
-  addEventListener('mousedown', (e) => {
-    const r = layer(`width:34px;height:34px;border-radius:99px;background:rgba(124,108,255,.35);border:2px solid rgba(124,108,255,.9)!important;
-      transform:translate(${e.clientX - 17}px,${e.clientY - 17}px)`);
-    r.animate([{ scale: '.3', opacity: 1 }, { scale: '1.4', opacity: 0 }], { duration: 450, easing: 'ease-out' }).onfinish = () => r.remove();
-  }, true);
-  window.__cursorHide = () => { if (c) c.style.display = 'none'; };
-};
-
-/* ------------------------------------------------------------------ recorder */
-
-class Stream {
-  constructor(page, name) {
-    this.page = page; this.name = name; this.frames = [];
-    // A closed page (the side panel being closed) shows as an empty panel area from then on.
-    page.once('close', () => { this.closedAt = Date.now() / 1000; });
-  }
-  async start() {
-    this.cdp = await this.page.context().newCDPSession(this.page);
-    let n = 0;
-    this.cdp.on('Page.screencastFrame', (f) => {
-      const file = path.join(FRAMES, `${this.name}-${String(n++).padStart(5, '0')}.jpg`);
-      fs.writeFileSync(file, Buffer.from(f.data, 'base64'));
-      this.frames.push({ file, t: f.metadata.timestamp });
-      this.cdp.send('Page.screencastFrameAck', { sessionId: f.sessionId }).catch(() => {});
-    });
-    await this.cdp.send('Page.startScreencast', { format: 'jpeg', quality: 92 });
-  }
-  async stop() { await this.cdp.send('Page.stopScreencast').catch(() => {}); await this.cdp.detach().catch(() => {}); }
-  /** Constant-30fps video of this stream between t0 and t1 (seconds, browser clock). */
-  encode(t0, t1, size) {
-    const frames = [...this.frames];
-    if (this.closedAt) {
-      const blank = path.join(FRAMES, `blank-${size.width}x${size.height}.jpg`);
-      if (!fs.existsSync(blank)) ff('-f', 'lavfi', '-i', `color=c=0x16181f:s=${size.width}x${size.height}`, '-frames:v', '1', blank);
-      frames.push({ file: blank, t: this.closedAt });
-    }
-    const all = frames.filter((f) => f.t < t1).sort((a, b) => a.t - b.t);
-    let i = all.findLastIndex((f) => f.t <= t0);
-    const seq = all.slice(Math.max(i, 0)).map((f) => ({ ...f }));
-    if (!seq.length) throw new Error(`${this.name}: no frames`);
-    seq[0].t = t0;
-    const list = seq.map((f, k) => `file '${f.file}'\nduration ${((seq[k + 1]?.t ?? t1) - f.t).toFixed(4)}`).join('\n');
-    const txt = path.join(FRAMES, `${this.name}.txt`);
-    fs.writeFileSync(txt, `${list}\nfile '${seq.at(-1).file}'\n`);
-    const out = path.join(FRAMES, `${this.name}.mp4`);
-    ff('-f', 'concat', '-safe', '0', '-i', txt, '-vf', `scale=${size.width}:${size.height}:flags=lanczos,fps=30,format=yuv420p`,
-      '-c:v', 'libx264', '-crf', '16', '-preset', 'veryfast', out);
-    return out;
-  }
-}
-
-/* ------------------------------------------------------------------ browser */
-
-const ctx = await chromium.launchPersistentContext(fs.mkdtempSync(path.join(os.tmpdir(), 'pd-rec-')), {
-  executablePath: process.env.CHROMIUM_PATH, headless: false, viewport: null, acceptDownloads: true,
-  args: [`--disable-extensions-except=${root}/dist`, `--load-extension=${root}/dist`, '--headless=new', '--no-sandbox'],
-});
-await ctx.addInitScript(CURSOR);
-const sw = ctx.serviceWorkers()[0] ?? (await ctx.waitForEvent('serviceworker'));
-const EXT = `chrome-extension://${new URL(sw.url()).host}`;
-for (let i = 0; i < 50 && !(await sw.evaluate(() => !!chrome.tabs)); i++) await sleep(100);
-
-const setPro = (pro) => sw.evaluate((p) => (p
-  ? chrome.storage.local.set({ licence: { key: 'demo', instanceId: 'demo', validatedAt: Date.now(), valid: true } })
-  : chrome.storage.local.remove('licence')), pro);
+const { ctx, sw, EXT, setPro, openWindow, tabIdFor } = await launch({ root, viewport: PAGE });
 await setPro(true);
 await sw.evaluate(() => chrome.storage.local.set({ recent: [] }));
-
-/** Opens `url` in its own (visible) window so it keeps painting while we work in the other one. */
-async function openWindow(url, size) {
-  const [p] = await Promise.all([ctx.waitForEvent('page'), sw.evaluate((u) => chrome.windows.create({ url: u, focused: false }), url)]);
-  await p.waitForLoadState();
-  await p.setViewportSize(size);
-  return p;
-}
 
 const page = ctx.pages()[0] ?? (await ctx.newPage());
 await page.setViewportSize(PAGE);
 await page.goto('file://' + path.join(root, 'tests/fixtures/demo.html'));
-const tabId = await sw.evaluate(async () => (await chrome.tabs.query({})).find((t) => t.url?.includes('demo.html')).id);
+const tabId = await tabIdFor('demo.html');
 let panel = await openWindow(`${EXT}/sidepanel.html?tab=${tabId}`, PANEL);
 
 /* ------------------------------------------------------------------ helpers */
 
 const pages = () => [page, panel].filter((p) => p && !p.isClosed());
-async function moveTo(p, x, y, steps = 22) {
-  for (const o of pages()) if (o !== p) await o.evaluate(() => window.__cursorHide?.()).catch(() => {});
-  await p.mouse.move(x, y, { steps });
-}
-async function to(p, loc, fx = 0.5, fy = 0.5, steps) {
-  await loc.scrollIntoViewIfNeeded();
-  const b = await loc.boundingBox();
-  await moveTo(p, b.x + b.width * fx, b.y + b.height * fy, steps);
-}
-async function click(p, loc, fx, fy) {
-  await to(p, loc, fx, fy);
-  await sleep(180);
-  await p.mouse.down(); await sleep(70); await p.mouse.up();
-  await sleep(250);
-}
-async function type(p, text, delay = 70) { await p.keyboard.type(text, { delay }); }
+const { moveTo, to, click, type } = driver(pages);
 const tool = (name) => panel.locator('.launcher .tool', { hasText: name });
 const done = () => click(panel, panel.locator('.sp-toolbar .v-btn', { hasText: 'Done' }));
 const own = (sel) => page.locator(`prodev-root ${sel}`);
@@ -169,7 +55,7 @@ async function resetStage() {
 const clips = [];
 async function scene(name, { stacked = true, size = FULL } = {}, body) {
   console.log(`● ${name}`);
-  const subjects = stacked ? [new Stream(page, `${name}-page`), new Stream(panel, `${name}-panel`)] : [new Stream(body.page ?? page, `${name}-page`)];
+  const subjects = stacked ? [new Stream(page, `${name}-page`, FRAMES), new Stream(panel, `${name}-panel`, FRAMES)] : [new Stream(body.page ?? page, `${name}-page`, FRAMES)];
   const marks = [];
   for (const s of subjects) await s.start();
   await sleep(400);

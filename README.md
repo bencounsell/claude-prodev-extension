@@ -41,3 +41,23 @@ Load `dist/` via `chrome://extensions` → Developer mode → Load unpacked.
 - Set `CONFIG` in `extension/src/lib/licence.ts` (Lemon Squeezy store/product IDs, real checkout URL).
 - Marketing site, privacy policy, store screenshots/promo tiles, listing copy.
 - Test on complex sites (SPAs, iframes, shadow DOM) in Chrome, Edge and Brave.
+
+## Marketing videos
+Two-stage pipeline in `scripts/marketing/` (footage is the real extension; output is not committed):
+
+```bash
+E2E=1 npm run build
+export CHROMIUM_PATH=/path/to/chromium
+TAKES=media/takes node scripts/marketing/capture.mjs            # record takes (2x, page + side panel)
+TAKES=media/takes OUT=media/marketing node scripts/marketing/render.mjs [video ...]
+```
+
+- `capture.mjs`: drives the extension on the demo sites in `scripts/marketing/sites/` and records each
+  take with marks (`take.json`). Re-run a single take by name, e.g. `capture.mjs inspector`.
+- `edits.mjs`: shot lists, captions, camera moves and layouts for every video. The product name only
+  appears in `BRAND` (end cards), so a rename is a one-line change plus a re-render.
+- `director.html` + `render.mjs`: frames each shot in a generic browser window on the brand stage and
+  renders frame by frame → MP4 (+ WebM and poster for web loops) and a contact sheet per video.
+
+Outputs: `hero-loop`, `feature-*` loops (1920×1080, seamless), `product-tour` (~90s), `social-square`
+(1080×1080) and `social-vertical` (1080×1920). Silent by design (autoplay-friendly); add music in an editor.

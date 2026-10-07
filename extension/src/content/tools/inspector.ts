@@ -31,8 +31,16 @@ function overlays(node: Element) {
   const r = node.getBoundingClientRect();
   const cs = getComputedStyle(node);
   box.set(r);
+  // Once locked, show just an outline so live edits stay clearly visible.
+  box.node.classList.toggle('lk', locked);
+  if (locked) { mar.hide(); pad.hide(); return showTip(node, r); }
   mar.set({ left: r.left - px(cs.marginLeft), top: r.top - px(cs.marginTop), width: r.width + px(cs.marginLeft) + px(cs.marginRight), height: r.height + px(cs.marginTop) + px(cs.marginBottom) });
   pad.set({ left: r.left + px(cs.borderLeftWidth), top: r.top + px(cs.borderTopWidth), width: r.width - px(cs.borderLeftWidth) - px(cs.borderRightWidth), height: r.height - px(cs.borderTopWidth) - px(cs.borderBottomWidth) });
+  showTip(node, r);
+}
+
+function showTip(node: Element, r: DOMRect) {
+  if (!tip) return;
   tip.style.display = 'block';
   tip.textContent = `${label(node)}  ${Math.round(r.width)} × ${Math.round(r.height)}`;
   Object.assign(tip.style, { left: `${Math.max(4, Math.min(r.left, innerWidth - tip.offsetWidth - 4))}px`, top: `${r.top > 30 ? r.top - 28 : r.bottom + 6}px` });

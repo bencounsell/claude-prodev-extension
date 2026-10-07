@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ProDev director</title>
+<!-- Stage for marketing renders. render.mjs calls setup(config) once, then render(t) per frame. -->
+<style>
+:root{--ink:#16131f;--mut:#5d5873;--accent:#7c6cff;--accent2:#a78bfa;--grad:linear-gradient(135deg,#7c6cff,#a78bfa)}
+*{box-sizing:border-box;margin:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#f7f4ff}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:100vw;height:100vh;overflow:hidden}
+.bg{position:absolute;inset:0;background:
+  radial-gradient(60% 55% at 78% 18%,rgba(167,139,250,.38),transparent 70%),
+  radial-gradient(55% 60% at 12% 92%,rgba(124,108,255,.22),transparent 70%),
+  radial-gradient(40% 40% at 50% 50%,rgba(255,255,255,.7),transparent 80%),
+  linear-gradient(160deg,#ffffff 0%,#f5f1ff 45%,#ebe4ff 100%)}
+.grain{position:absolute;inset:0;opacity:.35;background-image:radial-gradient(rgba(124,108,255,.18) 1px,transparent 1px);background-size:26px 26px;
+  -webkit-mask-image:radial-gradient(70% 60% at 50% 45%,transparent 40%,#000 100%);mask-image:radial-gradient(70% 60% at 50% 45%,transparent 40%,#000 100%)}
+
+/* captions */
+#cap{position:absolute;left:0;right:0;text-align:center;will-change:transform,opacity;z-index:3}
+#scrim{position:absolute;left:0;right:0;top:0;z-index:2;opacity:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(248,245,255,.97) 0%,rgba(246,242,255,.9) 62%,rgba(246,242,255,0) 100%)}
+#cap h1{font:800 var(--capT,46px)/1.08 "Inter Display",Inter,sans-serif;letter-spacing:-.025em;color:var(--ink)}
+#cap p{margin-top:var(--capGap,10px);font:500 var(--capS,21px)/1.4 Inter,sans-serif;color:var(--mut)}
+#cap h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;color:transparent}
+
+/* camera + browser window */
+#cam{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+.win{width:1280px;border-radius:14px;background:#fff;overflow:hidden;
+  box-shadow:0 50px 100px -20px rgba(54,34,140,.28),0 30px 60px -30px rgba(20,14,50,.35),0 0 0 1px rgba(40,30,90,.08)}
+.chrome{height:46px;display:flex;align-items:center;gap:14px;padding:0 14px;background:#f3f1f8;border-bottom:1px solid #e4e0ef}
+.dots{display:flex;gap:7px}.dots i{width:12px;height:12px;border-radius:99px;background:#ff5f57}.dots i:nth-child(2){background:#febc2e}.dots i:nth-child(3){background:#28c840}
+.tab{display:flex;align-items:center;gap:8px;height:32px;margin-top:14px;padding:0 14px;border-radius:9px 9px 0 0;background:#fff;font:500 12.5px Inter,sans-serif;color:#3b3650;max-width:230px;white-space:nowrap;overflow:hidden}
+.tab b{width:14px;height:14px;border-radius:4px;flex:none}
+.url{flex:1;display:flex;align-items:center;gap:8px;height:30px;padding:0 12px;border-radius:9px;background:#fff;border:1px solid #e4e0ef;font:500 13px Inter,sans-serif;color:#4a4560}
+.url svg{width:13px;height:13px;stroke:#8a84a3;fill:none;stroke-width:2}
+.ext{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:var(--grad);box-shadow:0 3px 10px rgba(124,108,255,.35)}
+.ext svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.content{position:relative;width:1280px;height:800px;background:#fff;overflow:hidden}
+.layer{position:absolute;inset:0;opacity:0}
+.layer img{position:absolute;top:0;height:800px;display:block}
+.layer .pg{left:0;width:900px}.layer .pn{left:900px;width:380px;box-shadow:-1px 0 0 #e4e0ef}
+.layer.full .pg{width:1280px}.layer.full .pn{display:none}
+
+/* intro / end cards */
+.card{position:absolute;inset:0;display:grid;place-items:center;text-align:center;opacity:0}
+.card .in{display:grid;justify-items:center;gap:var(--cardGap,22px);padding:0 60px}
+.logo{width:var(--logo,96px);height:var(--logo,96px);border-radius:28%;background:var(--grad);display:grid;place-items:center;
+  box-shadow:0 24px 50px -10px rgba(124,108,255,.55),inset 0 1px 0 rgba(255,255,255,.35)}
+.logo svg{width:52%;height:52%;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.card h2{font:800 var(--cardT,64px)/1.05 "Inter Display",Inter,sans-serif;letter-spacing:-.03em}
+.card h2 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;color:transparent}
+.card p{font:500 var(--cardS,24px)/1.45 Inter,sans-serif;color:var(--mut);max-width:var(--cardW,900px)}
+.pills{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:16px 26px;border-radius:99px;font:700 var(--pill,20px) Inter,sans-serif;background:#fff;color:var(--ink);
+  box-shadow:0 10px 30px -10px rgba(54,34,140,.3),0 0 0 1px rgba(124,108,255,.18)}
+.pill.primary{background:var(--grad);color:#fff;box-shadow:0 16px 36px -10px rgba(124,108,255,.65)}
+.small{font:500 calc(var(--cardS,24px)*.72) Inter,sans-serif;color:#8a84a3}
+.icons{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;max-width:var(--cardW,900px)}
+.icons span{width:var(--ico,58px);height:var(--ico,58px);border-radius:16px;display:grid;place-items:center;background:#fff;
+  box-shadow:0 12px 26px -12px rgba(54,34,140,.35),0 0 0 1px rgba(124,108,255,.14)}
+.icons svg{width:46%;height:46%;stroke:var(--accent);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="bg"></div><div class="grain"></div>
+  <div id="scrim"></div>
+  <div id="cap"><h1></h1><p></p></div>
+  <div id="cam">
+    <div class="win">
+      <div class="chrome">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="tab"><b></b><span></span></div>
+        <div class="url"><svg viewBox="0 0 24 24"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v9H6z"/></svg><span></span></div>
+        <div class="ext"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/></svg></div>
+      </div>
+      <div class="content">
+        <div class="layer"><img class="pg" alt=""><img class="pn" alt=""></div>
+        <div class="layer"><img class="pg" alt=""><img class="pn" alt=""></div>
+      </div>
+    </div>
+  </div>
+  <div class="card" id="intro"><div class="in"></div></div>
+  <div class="card" id="end"><div class="in"></div></div>
+</div>
+<script>
+const FPS = 30;
+const SITES = {
+  acme: { url: 'acme.com', title: 'Acme: Ship beautiful products', fav: 'linear-gradient(135deg,#f97316,#e11d48)' },
+  bloom: { url: 'bloomandbean.shop', title: 'Bloom & Bean: Coffee and plants', fav: '#2f5d50' },
+};
+const WIN = { w: 1280, h: 846 };
+let C = null; // config
+const $ = (s) => document.querySelector(s);
+const easeIO = (x) => (x < 0.5 ? 4 * x * x * x : 1 - (-2 * x + 2) ** 3 / 2);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const icon = (d) => `<svg viewBox="0 0 24 24"><path d="${d}"/></svg>`;
+
+/** config: { width, height, layout, captions, brand, tools, shots:[{kind,take?,site?,layout?,start,end,frames:{pg,pn,count},caption,cam}] } */
+window.setup = (config) => {
+  C = config;
+  const L = C.layout;
+  const st = document.documentElement.style;
+  for (const [k, v] of Object.entries(L.vars ?? {})) st.setProperty(k, v);
+  $('#cap').style.top = `${L.capTop}px`;
+  $('#scrim').style.height = `${(L.safeTop ?? 0) + 70}px`;
+  // Base window placement: scale B, centred at (cx, cy).
+  C.B = L.scale; C.cx = C.width / 2; C.cy = L.winCenterY;
+  const ic = C.tools.slice(0, L.introIcons ?? 9).map((t) => `<span>${icon(t.icon)}</span>`).join('');
+  $('#intro .in').innerHTML = `<div class="icons">${ic}</div><h2>${C.intro.title}</h2><p>${C.intro.sub}</p>`;
+  $('#end .in').innerHTML = `<div class="logo">${icon('M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14')}</div>
+    <h2>${C.brand.name}</h2><p>${C.brand.tagline}</p>
+    <div class="pills"><span class="pill primary">${C.brand.cta}</span><span class="pill">${C.brand.secondary}</span></div>
+    <div class="small">${C.brand.footnote}</div>`;
+};
+
+function camAt(t) {
+  // Global camera keyframes: [time, zoom, fx, fy], eased between neighbours.
+  const k = C.cam;
+  if (!k.length) return [1, 0.5, 0.5];
+  if (t <= k[0][0]) return k[0].slice(1);
+  for (let i = 0; i < k.length - 1; i++) {
+    const [ta, ...a] = k[i], [tb, ...b] = k[i + 1];
+    if (t <= tb) { const e = easeIO(clamp((t - ta) / Math.max(1e-6, tb - ta))); return a.map((v, j) => v + (b[j] - v) * e); }
+  }
+  return k.at(-1).slice(1);
+}
+
+/** Visibility of a shot at time t, with crossfades over its overlap with neighbours. */
+function vis(s, t) {
+  if (t < s.start || t > s.end) return 0;
+  const fin = s.fadeIn ? clamp((t - s.start) / s.fadeIn) : 1;
+  const fout = s.fadeOut ? clamp((s.end - t) / s.fadeOut) : 1;
+  return Math.min(easeIO(fin), easeIO(fout));
+}
+
+const loaded = new Map();
+function setImg(img, src) {
+  if (!src) { img.removeAttribute('src'); return Promise.resolve(); }
+  if (img.dataset.src === src) return Promise.resolve();
+  img.dataset.src = src;
+  img.src = src;
+  return img.decode().catch(() => {});
+}
+
+window.render = async (t) => {
+  const layers = [...document.querySelectorAll('.layer')];
+  const waits = [];
+  let dom = null, domV = -1;
+  const shots = C.shots.filter((s) => s.kind === 'take');
+  const active = shots.filter((s) => vis(s, t) > 0);
+  layers.forEach((l) => { l.style.opacity = 0; });
+  active.forEach((s) => {
+    const l = layers[s.slot];
+    const v = vis(s, t);
+    const idx = Math.min(s.frames.count - 1, Math.max(0, Math.floor((t - s.start) * FPS + 1e-6)));
+    const n = String(idx + 1).padStart(5, '0');
+    l.classList.toggle('full', s.layout === 'full');
+    waits.push(setImg(l.querySelector('.pg'), `${s.frames.pg}/${n}.jpg`));
+    waits.push(setImg(l.querySelector('.pn'), s.layout === 'full' ? null : `${s.frames.pn}/${n}.jpg`));
+    // The incoming shot sits on top and fades in over the outgoing one.
+    l.style.opacity = v; l.style.zIndex = s.slot === (active.at(-1)?.slot) ? 2 : 1;
+    if (v >= domV) { dom = s; domV = v; }
+  });
+  if (active.length === 2) { const [a, b] = active; layers[a.slot].style.opacity = 1; layers[b.slot].style.opacity = vis(b, t); }
+  if (dom) {
+    const site = SITES[dom.site] ?? SITES.acme;
+    $('.tab span').textContent = site.title; $('.tab b').style.background = site.fav; $('.url span').textContent = site.url;
+  }
+
+  // Window: visible whenever a take is on screen; cards cover it otherwise.
+  const cardV = Math.max(0, ...C.shots.filter((s) => s.kind !== 'take').map((s) => vis(s, t)));
+  const winV = Math.max(0, ...shots.map((s) => (t >= s.start - (s.fadeIn ?? 0) && t <= s.end + (s.fadeOut ?? 0) ? 1 : 0)));
+  const [z, fx, fy] = camAt(t);
+  // Zooming in eases the window up to at least full frame width, so close-ups never show its edges.
+  const cover = C.width / WIN.w;
+  const S = Math.max(C.B * z, C.B + (Math.max(cover, C.B) - C.B) * easeIO(clamp((z - 1) / 0.25)));
+  // Zoomed shots stay full-bleed: once the window outgrows the frame it is clamped to cover it,
+  // and it never rides up under the captions (safeTop).
+  let tx = C.cx - fx * WIN.w * S, ty = C.cy - fy * WIN.h * S;
+  const ww = WIN.w * S, wh = WIN.h * S, top = C.layout.safeTop ?? 0;
+  if (ww >= C.width) tx = clamp(tx, C.width - ww, 0);
+  if (wh >= C.height - top) ty = clamp(ty, C.height - wh, top);
+  else ty = Math.max(ty, top);
+  const rise = cardV * 40; // window drops slightly while a card is up
+  $('#cam').style.transform = `translate(${tx}px,${ty + rise}px) scale(${S})`;
+  $('#cam').style.opacity = winV ? 1 - cardV : 0;
+  // When a close-up slides under the caption, fade in a scrim so the caption stays legible.
+  $('#scrim').style.opacity = C.captions ? clamp((top - (ty + rise)) / 60) * (1 - cardV) : 0;
+
+  // Captions follow the dominant shot; fade/slide when the text changes.
+  const capEl = $('#cap');
+  if (C.captions && dom?.caption && cardV < 1) {
+    const span = C.captionSpans.find((c) => t >= c.start && t <= c.end) ?? null;
+    if (span) {
+      capEl.querySelector('h1').innerHTML = span.title; capEl.querySelector('p').textContent = span.sub ?? '';
+      const a = easeIO(clamp((t - span.start) / 0.45)) * easeIO(clamp((span.end - t) / 0.35));
+      capEl.style.opacity = a * (1 - cardV); capEl.style.transform = `translateY(${(1 - a) * 14}px)`;
+    } else capEl.style.opacity = 0;
+  } else capEl.style.opacity = 0;
+
+  for (const id of ['intro', 'end']) {
+    const s = C.shots.find((x) => x.kind === id);
+    const el = $(`#${id}`);
+    const v = s ? vis(s, t) : 0;
+    el.style.opacity = v;
+    if (s && v) {
+      const local = t - s.start;
+      // Staggered entrance for card contents.
+      [...el.querySelector('.in').children].forEach((c, i) => {
+        const a = easeIO(clamp((local - 0.15 - i * 0.12) / 0.5));
+        c.style.opacity = a; c.style.transform = `translateY(${(1 - a) * 18}px)`;
+      });
+    }
+  }
+  await Promise.all(waits);
+};
+</script>
+</body>
+</html>

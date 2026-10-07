@@ -54,6 +54,7 @@ kbd{font-size:10.5px;padding:1px 5px;border-radius:5px;background:var(--surface-
 /* highlight + labels */
 .pd-hl{position:fixed;pointer-events:none;border:1.5px solid #7c6cff;background:rgba(124,108,255,.13);z-index:3;border-radius:2px;
  box-shadow:0 0 0 1px rgba(255,255,255,.35);transition:left .07s,top .07s,width .07s,height .07s}
+.pd-hl.lk{background:transparent;border-width:2px;box-shadow:0 0 0 3px rgba(124,108,255,.18)}
 .pd-hl.m{border:0;background:rgba(251,146,60,.28);box-shadow:none}.pd-hl.p{border:0;background:rgba(52,211,153,.3);box-shadow:none}
 .pd-tip{position:fixed;background:var(--solid);color:var(--text);font:600 11px ui-monospace,SFMono-Regular,Menlo,monospace;padding:4px 8px;border-radius:7px;
  pointer-events:none;z-index:4;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.35);border:1px solid var(--border)}
