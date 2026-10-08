@@ -92,8 +92,8 @@ section { padding-block: clamp(56px, 8vw, 104px); }
   transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
 }
 .btn svg { width: 16px; height: 16px; fill: currentColor; }
-.btn-primary { background: var(--accent); color: var(--on-accent); box-shadow: 0 10px 26px -12px var(--accent); }
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 16px 30px -12px var(--accent); }
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-primary:hover { background: color-mix(in srgb, var(--accent) 86%, var(--ink-2)); }
 .btn-ghost { background: var(--card); color: var(--ink); border-color: var(--line); }
 .btn-ghost:hover { border-color: var(--accent); }
 .btn-sm { min-height: 38px; padding: 0 16px; font-size: .92rem; border-radius: 10px; }
@@ -118,7 +118,8 @@ kbd {
 .mark path { fill: none; stroke: var(--on-accent); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 .mark .fine { stroke-width: 1; opacity: .55; }
 .brand span { text-transform: lowercase; letter-spacing: -0.05em; }
-.brand small { font-size: .78rem; font-weight: 500; color: var(--ink-3); letter-spacing: -0.01em; margin-left: 2px; }
+.brand-name { display: inline-flex; align-items: baseline; gap: 8px; line-height: 1; }
+.brand small { font-size: .78rem; font-weight: 500; color: var(--ink-3); letter-spacing: -0.01em; }
 @media (max-width: 720px) { .brand small { display: none; } }
 .links { display: flex; gap: 24px; margin-right: auto; }
 .links a { color: var(--ink-2); text-decoration: none; font: 500 .9rem var(--f-mono); letter-spacing: -0.02em; }
@@ -170,11 +171,13 @@ kbd {
 .feature.flip .f-copy { order: 2; }
 .f-copy { display: grid; gap: 16px; min-width: 0; }
 .f-copy > p:not(.eyebrow) { color: var(--ink-2); }
-.f-media {
-  border-radius: 16px; overflow: hidden; background: var(--paper-2); border: 1px solid var(--line); box-shadow: var(--shadow);
-  aspect-ratio: 16 / 9; max-width: 100%;
-}
-.f-media video { width: 100%; height: 100%; object-fit: cover; }
+/* Feature videos reuse the hero's box-model frame at a smaller scale. */
+.f-media { min-width: 0; }
+.f-media.boxmodel { margin: 0; padding: clamp(10px, 1.6vw, 20px); border-radius: 20px; }
+.f-media .bm-pad { padding: clamp(6px, 1vw, 12px); border-radius: 14px; }
+.f-media .bm-content { border-radius: 8px; box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--content) 55%, transparent); }
+.f-media .bm-m { right: 18px; }
+.f-media .bm-p { left: 14px; }
 .ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; color: var(--ink); font-size: .98rem; }
 .ticks li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; }
 .ticks li::before {

@@ -10,7 +10,7 @@ const CSS = `
 :host{all:initial;
  --glass:rgba(16,17,19,.92);--solid:#111214;
  --text:#f2f4fa;--muted:#a1a8bb;--faint:#727a90;--surface:rgba(255,255,255,.04);--surface-2:rgba(255,255,255,.06);--surface-3:rgba(255,255,255,.1);
- --border:rgba(255,255,255,.09);--accent:#ecedee;--accent-soft:rgba(255,255,255,.1);--grad:#f2f2f3;--on-grad:#0d0e10;--glow:rgba(0,0,0,.45);--hl:#3b8cf0;
+ --border:rgba(255,255,255,.09);--accent:#ecedee;--accent-soft:rgba(255,255,255,.1);--grad:#f2f2f3;--on-grad:#0d0e10;--hl:#3b8cf0;
  --ok:#34d399;--err:#f87171}
 /* The host carries an inline all:initial (beats :host), so base type lives on top-level children. */
 :host>*{font:13px/1.45 -apple-system,BlinkMacSystemFont,"Inter","Segoe UI",system-ui,sans-serif;color:var(--text);
@@ -30,7 +30,7 @@ kbd{font-size:10.5px;padding:1px 5px;border-radius:5px;background:var(--surface-
 .pd-bar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:6px 6px 6px 7px;
  border-radius:14px;z-index:5;animation:pd-up .28s cubic-bezier(.2,.9,.3,1.2) both;user-select:none;max-width:calc(100vw - 24px)}
 .pd-bar.moved{transform:none}
-.pd-grip{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;cursor:grab;flex:none;background:var(--grad);color:var(--on-grad);box-shadow:0 4px 14px var(--glow)}
+.pd-grip{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;cursor:grab;flex:none;background:var(--grad);color:var(--on-grad)}
 .pd-grip svg{width:16px;height:16px;stroke:currentColor}
 .pd-bar.dragging .pd-grip{cursor:grabbing}
 .pd-tt{display:flex;flex-direction:column;min-width:0;padding-right:8px}
@@ -69,7 +69,7 @@ kbd{font-size:10.5px;padding:1px 5px;border-radius:5px;background:var(--surface-
 /* modal (upsell + palette) */
 .pd-back{position:fixed;inset:0;background:rgba(6,8,12,.5);backdrop-filter:blur(4px);z-index:8;display:grid;animation:pd-fade .18s both}
 .pd-up{margin:auto;width:380px;max-width:92vw;padding:28px 26px 22px;border-radius:22px;text-align:center;animation:pd-in .3s cubic-bezier(.2,.9,.3,1.1) both}
-.pd-up .lock{width:54px;height:54px;border-radius:18px;margin:0 auto 14px;display:grid;place-items:center;background:var(--grad);color:var(--on-grad);box-shadow:0 10px 30px var(--glow)}
+.pd-up .lock{width:54px;height:54px;border-radius:18px;margin:0 auto 14px;display:grid;place-items:center;background:var(--grad);color:var(--on-grad)}
 .pd-up .lock svg{width:26px;height:26px;stroke:currentColor}
 .pd-up h2{font-size:18px;font-weight:700;letter-spacing:-.01em}.pd-up p{color:var(--muted);margin:8px 0 18px;font-size:13px;line-height:1.5}
 .pd-up .row2{display:flex;gap:8px;justify-content:center}.pd-up .pd-btn{padding:9px 16px;font-size:13px}

@@ -20,7 +20,7 @@
   <div class="wrap nav-in">
     <a class="brand" href="#top" aria-label="Hairline home">
       <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><path d="M10 24V10h14"/><path class="fine" d="M24 10v14H10M10 5v5M5 10h5"/></svg>
-      <span>Hairline</span><small class="mono">web devtools</small>
+      <span class="brand-name"><span>Hairline</span><small class="mono">web devtools</small></span>
     </a>
     <nav class="links" aria-label="Sections">
       <a href="#tools">Tools</a><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a>
@@ -63,7 +63,7 @@
   <section class="how wrap" id="how">
     <div class="section-head">
       <p class="eyebrow mono">How it works</p>
-      <h2>Lives in the side panel, out of your way.</h2>
+      <h2>Docked in the side panel, beside your page</h2>
     </div>
     <div class="how-grid">
       <article>
@@ -89,7 +89,7 @@
     <article class="feature">
       <div class="f-copy">
         <p class="eyebrow mono">CSS Inspector</p>
-        <h2>Read any element. Then change it.</h2>
+        <h2>Hover to read the CSS, click to change it</h2>
         <p>Hover to see the box model, typography and colors. Click to lock an element and edit any value right in the panel; the page updates as you type, and one click resets everything.</p>
         <ul class="ticks">
           <li>Margin, border and padding drawn on the page</li>
@@ -97,13 +97,16 @@
           <li>Edits stay on your screen and reset on reload</li>
         </ul>
       </div>
-      <div class="f-media"><video data-auto muted loop playsinline preload="none" poster="media/feature-inspect-edit.jpg" aria-label="Inspecting a button and editing its CSS live"><source src="media/feature-inspect-edit.mp4" type="video/mp4"></video></div>
+      <div class="f-media boxmodel">
+        <span class="bm-label bm-m mono" aria-hidden="true">margin 20</span>
+        <div class="bm-pad"><span class="bm-label bm-p mono" aria-hidden="true">padding 12</span><div class="bm-content"><video data-auto muted loop playsinline preload="none" poster="media/feature-inspect-edit.jpg" aria-label="Inspecting a button and editing its CSS live"><source src="media/feature-inspect-edit.mp4" type="video/mp4"></video></div></div>
+      </div>
     </article>
 
     <article class="feature flip">
       <div class="f-copy">
         <p class="eyebrow mono">Color Palette &amp; Picker</p>
-        <h2>Every color on the page, ready to paste.</h2>
+        <h2>Pull every color a site uses</h2>
         <p>Pull the full palette sorted by usage, copy a swatch, or export the lot as CSS variables or a Tailwind config. The picker gives HEX, RGB and HSL with contrast ratings against white and black.</p>
         <ul class="ticks">
           <li>WCAG AA / AAA ratings for every color</li>
@@ -111,20 +114,26 @@
           <li>Color history you can click back into</li>
         </ul>
       </div>
-      <div class="f-media"><video data-auto muted loop playsinline preload="none" poster="media/feature-colors.jpg" aria-label="Extracting a site's color palette and checking contrast"><source src="media/feature-colors.mp4" type="video/mp4"></video></div>
+      <div class="f-media boxmodel">
+        <span class="bm-label bm-m mono" aria-hidden="true">margin 20</span>
+        <div class="bm-pad"><span class="bm-label bm-p mono" aria-hidden="true">padding 12</span><div class="bm-content"><video data-auto muted loop playsinline preload="none" poster="media/feature-colors.jpg" aria-label="Extracting a site's color palette and checking contrast"><source src="media/feature-colors.mp4" type="video/mp4"></video></div></div>
+      </div>
     </article>
 
     <article class="feature">
       <div class="f-copy">
         <p class="eyebrow mono">Page Ruler &amp; Outliner</p>
-        <h2>Measure to the pixel.</h2>
+        <h2>Measure spacing and layout to the pixel</h2>
         <p>Drag anywhere to measure. Outline every element to see how a layout is built, with tag names and sizes as you hover.</p>
         <ul class="ticks">
           <li>Live width × height while you drag</li>
           <li>Color-coded outlines by element type</li>
         </ul>
       </div>
-      <div class="f-media"><video data-auto muted loop playsinline preload="none" poster="media/feature-measure.jpg" aria-label="Outlining a page and measuring a card with the ruler"><source src="media/feature-measure.mp4" type="video/mp4"></video></div>
+      <div class="f-media boxmodel">
+        <span class="bm-label bm-m mono" aria-hidden="true">margin 20</span>
+        <div class="bm-pad"><span class="bm-label bm-p mono" aria-hidden="true">padding 12</span><div class="bm-content"><video data-auto muted loop playsinline preload="none" poster="media/feature-measure.jpg" aria-label="Outlining a page and measuring a card with the ruler"><source src="media/feature-measure.mp4" type="video/mp4"></video></div></div>
+      </div>
     </article>
 
     <div class="showcase">
@@ -134,8 +143,9 @@
         <button class="sc-tab" type="button" role="tab" id="sc-export" aria-selected="false" aria-controls="sc-panel" tabindex="-1" data-video="media/feature-export.mp4" data-poster="media/feature-export.jpg" data-label="Exporting an element as HTML and CSS"><b>Export any element</b><span>Click an element to copy it as standalone HTML with its computed CSS inlined.</span></button>
         <button class="sc-tab" type="button" role="tab" id="sc-capture" aria-selected="false" aria-controls="sc-panel" tabindex="-1" data-video="media/feature-capture.mp4" data-poster="media/feature-capture.jpg" data-label="Taking screenshots and extracting images"><b>Capture and collect</b><span>Screenshot the view, one element or the full page, and download every image on it.</span></button>
       </div>
-      <div class="f-media" id="sc-panel" role="tabpanel" aria-labelledby="sc-fonts">
-        <video data-auto muted loop playsinline preload="none" poster="media/feature-fonts.jpg" aria-label="Listing fonts and previewing alternatives"><source src="media/feature-fonts.mp4" type="video/mp4"></video>
+      <div class="f-media boxmodel" id="sc-panel" role="tabpanel" aria-labelledby="sc-fonts">
+        <span class="bm-label bm-m mono" aria-hidden="true">margin 20</span>
+        <div class="bm-pad"><span class="bm-label bm-p mono" aria-hidden="true">padding 12</span><div class="bm-content"><video data-auto muted loop playsinline preload="none" poster="media/feature-fonts.jpg" aria-label="Listing fonts and previewing alternatives"><source src="media/feature-fonts.mp4" type="video/mp4"></video></div></div>
       </div>
     </div>
   </section>
@@ -145,8 +155,8 @@
     <div class="ruler" aria-hidden="true"></div>
     <div class="section-head">
       <p class="eyebrow mono">The toolkit</p>
-      <h2>15 tools. Nine of them free.</h2>
-      <p class="sub">Free tools stay free. Pro unlocks the rest, plus live CSS editing and full-page screenshots.</p>
+      <h2>Everything in the toolkit</h2>
+      <p class="sub">15 tools for inspecting, editing and capturing pages. Nine are free to use forever, and Pro unlocks the rest along with live CSS editing and full-page screenshots.</p>
     </div>
     <div class="tool-groups">
       <div class="tool-group"><h3 class="mono">Inspect</h3><ul class="tool-list">
@@ -178,7 +188,7 @@
     <div class="privacy-card">
       <div>
         <p class="eyebrow mono">Privacy</p>
-        <h2 id="privacy-h">Runs on your machine. Sends nothing.</h2>
+        <h2 id="privacy-h">Everything happens in your browser</h2>
         <p>No analytics, no tracking, no account. Page content never leaves your browser unless you paste it into your own AI app with Send to AI. Hairline only goes online to check a Pro licence key, or to load a Google Font when you preview one that isn't installed.</p>
       </div>
       <dl class="perms mono">
@@ -195,7 +205,7 @@
   <section class="pricing wrap" id="pricing">
     <div class="section-head">
       <p class="eyebrow mono">Pricing</p>
-      <h2>Start free. Pay once for Pro.</h2>
+      <h2>Free tools, with a one-time Pro upgrade</h2>
     </div>
     <div class="plans">
       <article class="plan">
@@ -224,7 +234,7 @@
 
   <!-- FAQ -->
   <section class="faq wrap" id="faq">
-    <div class="section-head"><p class="eyebrow mono">FAQ</p><h2>Questions, answered.</h2></div>
+    <div class="section-head"><p class="eyebrow mono">FAQ</p><h2>Common questions</h2></div>
     <div class="faq-list">
       <details><summary>Which browsers does Hairline work in?</summary><p>Chrome, Microsoft Edge and Brave, version 116 or later. They all support Chrome's side panel and Manifest V3.</p></details>
       <details><summary>Does it work on every website?</summary><p>It works on any normal web page. Browsers don't let extensions run on their own internal pages, such as settings, the new tab page or the extension store, so Hairline tells you when you're on one of those.</p></details>
@@ -238,8 +248,8 @@
 
   <!-- Final CTA -->
   <section class="final wrap">
-    <h2>Open any site. Start inspecting.</h2>
-    <p>Free to install. Nine tools free forever.</p>
+    <h2>Try it on the next site you open</h2>
+    <p>Free to install, with nine tools that stay free.</p>
     <div class="cta-row center"><a class="btn btn-primary" data-store href="#pricing">Add to Chrome, it’s free</a><button class="btn btn-ghost" type="button" data-tour>Watch the tour</button></div>
   </section>
 </main>

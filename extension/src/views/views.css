@@ -28,7 +28,7 @@
   background:var(--surface-2);border:1px solid var(--border);color:var(--text);cursor:pointer;transition:background .15s,transform .1s,filter .15s}
 .v-btn:hover{background:var(--surface-3)}.v-btn:active{transform:scale(.97)}
 .v-btn:disabled{opacity:.45;cursor:default;transform:none}
-.v-btn.primary{background:var(--grad);border-color:transparent;color:var(--on-grad);box-shadow:0 4px 14px var(--glow)}
+.v-btn.primary{background:var(--grad);border-color:transparent;color:var(--on-grad)}
 .v-btn.primary:hover{filter:brightness(1.08)}
 .v-btn.wide{width:100%;padding:11px}
 .v-btn:focus-visible,.v-opt:focus-visible,.v-swatch:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -105,7 +105,7 @@
 
 /* generic */
 .v-generic{text-align:center;padding:28px 8px 8px;display:grid;justify-items:center;gap:6px}
-.v-generic-ic{width:60px;height:60px;border-radius:20px;display:grid;place-items:center;background:var(--grad);color:var(--on-grad);margin-bottom:8px;box-shadow:0 10px 26px var(--glow)}
+.v-generic-ic{width:60px;height:60px;border-radius:20px;display:grid;place-items:center;background:var(--grad);color:var(--on-grad);margin-bottom:8px}
 .v-generic b{font-size:15px}
 .v-generic p{margin:0;color:var(--muted);line-height:1.5}
 .v-generic .v-note{margin-top:10px}
