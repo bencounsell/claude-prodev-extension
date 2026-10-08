@@ -17,6 +17,7 @@
   --margin: #f08a4b;     /* box-model margin */
   --pad: #2bb688;        /* box-model padding */
   --content: #4a9cf2;    /* box-model content */
+  --dt-tag: #881280; --dt-cls: #1a1aa6;  /* DevTools tooltip: tag name, class */
   --shadow: 0 30px 80px -30px rgba(20, 22, 26, .32), 0 12px 30px -18px rgba(20, 22, 26, .22);
 
   /* Developer faces: JetBrains Mono for headings, labels and code; Geist for running text. */
@@ -34,7 +35,7 @@
   :root:not([data-theme="light"]) {
     --paper: #0d0e10; --paper-2: #15171a; --card: #1a1c20; --ink: #ecedee; --ink-2: #a9adb3; --ink-3: #7d8187;
     --line: #272a2f; --accent: #2f8cff; --accent-ink: #6db0ff; --accent-soft: #10233d; --on-accent: #ffffff; --ok: #34c26d;
-    --margin: #ff9d63; --pad: #45d3a3; --content: #6db3ff;
+    --margin: #ff9d63; --pad: #45d3a3; --content: #6db3ff; --dt-tag: #d48ff7; --dt-cls: #8fb4ff;
     --shadow: 0 30px 80px -30px rgba(0, 0, 0, .7), 0 12px 30px -18px rgba(0, 0, 0, .6);
     color-scheme: dark;
   }
@@ -42,7 +43,7 @@
 :root[data-theme="dark"] {
   --paper: #0d0e10; --paper-2: #15171a; --card: #1a1c20; --ink: #ecedee; --ink-2: #a9adb3; --ink-3: #7d8187;
   --line: #272a2f; --accent: #2f8cff; --accent-ink: #6db0ff; --accent-soft: #10233d; --on-accent: #ffffff; --ok: #34c26d;
-  --margin: #ff9d63; --pad: #45d3a3; --content: #6db3ff;
+  --margin: #ff9d63; --pad: #45d3a3; --content: #6db3ff; --dt-tag: #d48ff7; --dt-cls: #8fb4ff;
   --shadow: 0 30px 80px -30px rgba(0, 0, 0, .7), 0 12px 30px -18px rgba(0, 0, 0, .6);
   color-scheme: dark;
 }
@@ -133,20 +134,30 @@ kbd {
 .meta { display: flex; flex-wrap: wrap; gap: 8px 20px; list-style: none; padding: 0; margin: 0; font-size: .8rem; color: var(--ink-3); }
 .meta li::before { content: "✓ "; color: var(--ok); }
 
-/* video frame: one quiet graphite frame around every video */
+/* video frame: drawn like DevTools' hover overlay. Margin and padding are flat tints, the video is the
+   content box, and a tooltip names the element. */
 .boxmodel {
-  position: relative; margin: clamp(26px, 4vw, 44px) 0 0; padding: clamp(8px, 1.2vw, 14px);
-  border: 1px solid var(--line); border-radius: 20px;
-  /* hairline hatching, like DevTools' margin overlay but quieter */
-  background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--ink) 6%, transparent) 0 1px, transparent 1px 8px);
+  position: relative; margin: clamp(48px, 5vw, 60px) 0 0; padding: clamp(10px, 1.4vw, 18px);
+  background: color-mix(in srgb, var(--margin) 24%, var(--paper));
 }
-.bm-content { border-radius: 12px; overflow: hidden; background: var(--card); box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 14%, transparent); }
+.bm-content {
+  background: var(--card); outline: 1px solid color-mix(in srgb, var(--content) 70%, transparent);
+  box-shadow: 0 0 0 clamp(6px, .9vw, 12px) color-mix(in srgb, var(--pad) 28%, var(--paper));
+  margin: clamp(6px, .9vw, 12px);
+}
 .bm-content video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
 .tag {
-  position: absolute; left: 24px; top: -15px; z-index: 2; font-size: .74rem; padding: 6px 10px; border-radius: 8px;
-  background: var(--ink); color: var(--paper); box-shadow: 0 8px 18px -8px rgba(0, 0, 0, .4);
+  position: absolute; left: 0; bottom: calc(100% + 9px); z-index: 2; display: flex; align-items: baseline; gap: 0;
+  font-size: .74rem; line-height: 1; padding: 7px 10px; border-radius: 4px; white-space: nowrap;
+  background: var(--card); color: var(--ink-3); border: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
 }
-.tag b { font-weight: 500; opacity: .7; margin-left: 6px; }
+.tag::after {
+  content: ""; position: absolute; left: 14px; top: 100%; width: 9px; height: 9px; margin-top: -4px;
+  background: var(--card); border: solid var(--line); border-width: 0 1px 1px 0; transform: rotate(45deg);
+}
+.tag i { font-style: normal; color: var(--dt-tag); }
+.tag em { font-style: normal; color: var(--dt-cls); }
+.tag b { font-weight: 400; margin-left: 10px; padding-left: 10px; border-left: 1px solid var(--line); }
 
 /* how */
 .how { padding-top: 24px; }
@@ -165,8 +176,7 @@ kbd {
 .f-copy { display: grid; gap: 16px; min-width: 0; }
 .f-copy > p:not(.eyebrow) { color: var(--ink-2); }
 .f-media { min-width: 0; }
-.f-media.boxmodel { margin: 0; border-radius: 18px; }
-.f-media .bm-content { border-radius: 10px; }
+.f-media.boxmodel { margin: 40px 0 0; }
 .ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; color: var(--ink); font-size: .98rem; }
 .ticks li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; }
 .ticks li::before {
@@ -284,7 +294,6 @@ details p { padding: 0 40px 22px 0; color: var(--ink-2); max-width: 64ch; }
   .links { display: none; }
   .nav-in { justify-content: space-between; }
   .how-grid, .plans, .tool-groups, .showcase { grid-template-columns: minmax(0, 1fr); }
-  .tag { left: 12px; }
   .perms div { grid-template-columns: 92px minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
