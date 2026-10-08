@@ -56,8 +56,9 @@ TAKES=media/takes OUT=media/marketing node scripts/marketing/render.mjs [video .
   take with marks (`take.json`). Re-run a single take by name, e.g. `capture.mjs inspector`.
 - `edits.mjs`: shot lists, captions, camera moves and layouts for every video. The product name only
   appears in `BRAND` (end cards), so a rename is a one-line change plus a re-render.
-- `director.html` + `render.mjs`: frames each shot in a generic browser window on the brand stage and
-  renders frame by frame → MP4 (+ WebM and poster for web loops) and a contact sheet per video.
+- `director.html` + `render.mjs`: frames each shot (in a generic browser window on the brand stage, or
+  tightly cropped to just the page + side panel for the website's `bare` layout) and renders frame by
+  frame → MP4 (+ WebM and poster for web loops) and a contact sheet per video.
 
-Outputs: `hero-loop`, `feature-*` loops (1920×1080, seamless), `product-tour` (~90s), `social-square`
+Outputs: `hero-loop` and `site-*` loops (1920×1200, tight crop for the website), `feature-*` loops (1920×1080, seamless), `product-tour` (~90s), `social-square`
 (1080×1080) and `social-vertical` (1080×1920). Silent by design (autoplay-friendly); add music in an editor.

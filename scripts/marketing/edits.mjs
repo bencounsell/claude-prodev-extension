@@ -15,9 +15,9 @@ export const BRAND = {
 
 export const INTRO = {
   title: 'Inspect, edit and capture <em>any website</em>',
-  sub: '14 tools for developers and designers, docked right beside the page.',
+  sub: '15 tools for developers and designers, docked right beside the page.',
 };
-const SOCIAL_INTRO = { title: 'Your web toolkit,<br><em>in the side panel</em>', sub: '14 tools. Zero tab-switching.' };
+const SOCIAL_INTRO = { title: 'Your web toolkit,<br><em>in the side panel</em>', sub: '15 tools, right beside the page.' };
 
 const CAP = {
   inspect: { title: 'Inspect <em>any element</em>', sub: 'Box model, typography and colors at a glance.' },
@@ -34,6 +34,8 @@ const CAP = {
 
 export const LAYOUTS = {
   hero: { width: 1920, height: 1080, scale: 1.12, winCenterY: 546, capTop: 0, safeTop: 0 },
+  /** Tight crop for the website: just the page + side panel (1280×800 at 1.5x), no stage or browser frame. */
+  bare: { width: 1920, height: 1200, scale: 1.5, winCenterY: 600, capTop: 0, safeTop: 0, bare: true },
   landscape: { width: 1920, height: 1080, scale: 1.0, winCenterY: 616, capTop: 58, safeTop: 186 },
   square: {
     width: 1080, height: 1080, scale: 0.78, winCenterY: 668, capTop: 70, safeTop: 330, introIcons: 8,
@@ -93,7 +95,7 @@ const loop = (name, shots, extra = {}) => ({ name, layout: 'landscape', loop: tr
 
 export const VIDEOS = [
   {
-    name: 'hero-loop', layout: 'hero', captions: false, loop: true, web: true, crf: 22, poster: 2,
+    name: 'hero-loop', layout: 'bare', captions: false, loop: true, web: true, crf: 22, poster: 2,
     shots: [
       { ...S.inspect, from: 'open-0.5', to: 'locked+0.5', speed: 1.3, cam: [[0, 1, 'all'], ['@hovered-2.6', 1, 'all'], ['@hovered-1.4', 1.4, 'pageTop'], [-0.4, 1.4, 'pageTop']] },
       { ...S.edit, speed: 1.25, cam: [[0.3, 1.4, 'panelLow'], ['@edited-0.4', 1.4, 'panelLow'], ['@edited+0.5', 1, 'all']] },
@@ -114,7 +116,7 @@ export const VIDEOS = [
   ...[
     ['inspect-edit', [S.inspect, S.edit], 6], ['colors', [S.palette, S.picker], 3], ['fonts', [S.fonts], 2.5], ['measure', [S.measure], 6],
     ['rearrange', [S.rearrange], 3], ['export', [S.export], 5], ['capture', [S.capture], 2], ['command-palette', [S.keystroke], 1.5],
-  ].map(([n, shots, poster]) => ({ name: `site-${n}`, layout: 'hero', captions: false, loop: true, crf: 24, poster, web: true, shots })),
+  ].map(([n, shots, poster]) => ({ name: `site-${n}`, layout: 'bare', captions: false, loop: true, crf: 24, poster, web: true, shots })),
   {
     name: 'product-tour', layout: 'landscape', crf: 20,
     shots: [{ kind: 'intro', dur: 4.2 }, S.inspect, S.edit, S.palette, S.picker, { ...S.fonts, speed: 1.25 }, S.measure, { ...S.rearrange, speed: 1.4 }, S.export, { ...S.capture, speed: 1.25 }, { ...S.keystroke, speed: 1.25 }, { kind: 'end', dur: 5 }],

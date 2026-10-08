@@ -159,7 +159,7 @@ kbd {
               linear-gradient(var(--bp-line), var(--bp-line)) right / 1px 100% no-repeat;
 }
 .bm-content { position: relative; z-index: 1; background: var(--card); outline: 1px solid var(--bp-line); }
-.bm-content video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.bm-content video { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
 .tag {
   position: absolute; left: 0; bottom: calc(100% + 10px); z-index: 2; display: flex; align-items: baseline;
   font-size: .74rem; line-height: 1; white-space: nowrap; color: var(--ink-3); padding: 6px 12px;
