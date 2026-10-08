@@ -136,9 +136,10 @@ kbd {
 /* video frame: one quiet graphite frame around every video */
 .boxmodel {
   position: relative; margin: clamp(26px, 4vw, 44px) 0 0; padding: clamp(8px, 1.2vw, 14px);
-  border: 1px solid var(--line); border-radius: 20px; background: var(--paper-2);
+  border: 1px dashed color-mix(in srgb, var(--ink) 22%, transparent); border-radius: 20px;
+  background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--ink) 7%, transparent) 0 6px, transparent 6px 12px);
 }
-.bm-content { border-radius: 12px; overflow: hidden; background: var(--card); box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 12%, transparent), var(--shadow); }
+.bm-content { border-radius: 12px; overflow: hidden; background: var(--card); box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 14%, transparent); }
 .bm-content video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
 .tag {
   position: absolute; left: 24px; top: -15px; z-index: 2; font-size: .74rem; padding: 6px 10px; border-radius: 8px;
