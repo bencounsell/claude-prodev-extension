@@ -36,6 +36,16 @@ const configs = [
 
 async function copyStatic() {
   await cp(`${src}/public`, out, { recursive: true });
+  // Brand fonts (SIL OFL 1.1), bundled so extension pages never fetch fonts from the network.
+  await mkdir(`${out}/fonts`, { recursive: true });
+  for (const [pkg, file, name] of [
+    ['geist', 'geist-latin-wght-normal.woff2', 'geist'],
+    ['jetbrains-mono', 'jetbrains-mono-latin-wght-normal.woff2', 'jetbrains-mono'],
+  ]) {
+    const dir = `node_modules/@fontsource-variable/${pkg}`;
+    await cp(`${dir}/files/${file}`, `${out}/fonts/${name}.woff2`);
+    await cp(`${dir}/LICENSE`, `${out}/fonts/${name}-LICENSE.txt`);
+  }
   const pkg = JSON.parse(await readFile('package.json', 'utf8'));
   const manifest = JSON.parse(await readFile(`${src}/manifest.json`, 'utf8'));
   manifest.version = pkg.version;
