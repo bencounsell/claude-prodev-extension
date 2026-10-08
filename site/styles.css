@@ -134,30 +134,37 @@ kbd {
 .meta { display: flex; flex-wrap: wrap; gap: 8px 20px; list-style: none; padding: 0; margin: 0; font-size: .8rem; color: var(--ink-3); }
 .meta li::before { content: "✓ "; color: var(--ok); }
 
-/* video frame: drawn like DevTools' hover overlay. Margin and padding are flat tints, the video is the
-   content box, and a tooltip names the element. */
+/* video frame: a blueprint drawing of the Hairline mark. Hairline edges run past the corners like
+   construction lines, a bold corner sits top-left, and a mono label names the element. */
 .boxmodel {
-  position: relative; margin: clamp(48px, 5vw, 60px) 0 0; padding: clamp(10px, 1.4vw, 18px);
-  background: color-mix(in srgb, var(--margin) 24%, var(--paper));
+  --bp-line: color-mix(in srgb, var(--ink) 22%, transparent);
+  --bp-ext: clamp(8px, 1.6vw, 20px);
+  position: relative; margin: clamp(44px, 5vw, 56px) 0 0; padding: clamp(8px, 1.2vw, 14px);
+  background:
+    linear-gradient(var(--ink), var(--ink)) 0 0 / 30px 2px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) 0 0 / 2px 30px no-repeat,
+    var(--paper-2);
 }
-.bm-content {
-  background: var(--card); outline: 1px solid color-mix(in srgb, var(--content) 70%, transparent);
-  box-shadow: 0 0 0 clamp(6px, .9vw, 12px) color-mix(in srgb, var(--pad) 28%, var(--paper));
-  margin: clamp(6px, .9vw, 12px);
+.boxmodel::before, .boxmodel::after { content: ""; position: absolute; pointer-events: none; }
+.boxmodel::before {
+  inset: 0 calc(-1 * var(--bp-ext));
+  background: linear-gradient(var(--bp-line), var(--bp-line)) top / 100% 1px no-repeat,
+              linear-gradient(var(--bp-line), var(--bp-line)) bottom / 100% 1px no-repeat;
 }
+.boxmodel::after {
+  inset: calc(-1 * var(--bp-ext)) 0;
+  background: linear-gradient(var(--bp-line), var(--bp-line)) left / 1px 100% no-repeat,
+              linear-gradient(var(--bp-line), var(--bp-line)) right / 1px 100% no-repeat;
+}
+.bm-content { position: relative; z-index: 1; background: var(--card); outline: 1px solid var(--bp-line); }
 .bm-content video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
 .tag {
-  position: absolute; left: 0; bottom: calc(100% + 9px); z-index: 2; display: flex; align-items: baseline; gap: 0;
-  font-size: .74rem; line-height: 1; padding: 7px 10px; border-radius: 4px; white-space: nowrap;
-  background: var(--card); color: var(--ink-3); border: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+  position: absolute; left: 0; bottom: calc(100% + 12px); z-index: 2; display: flex; align-items: baseline;
+  font-size: .74rem; line-height: 1; white-space: nowrap; color: var(--ink-3);
 }
-.tag::after {
-  content: ""; position: absolute; left: 14px; top: 100%; width: 9px; height: 9px; margin-top: -4px;
-  background: var(--card); border: solid var(--line); border-width: 0 1px 1px 0; transform: rotate(45deg);
-}
-.tag i { font-style: normal; color: var(--dt-tag); }
-.tag em { font-style: normal; color: var(--dt-cls); }
-.tag b { font-weight: 400; margin-left: 10px; padding-left: 10px; border-left: 1px solid var(--line); }
+.tag i { font-style: normal; color: var(--ink); font-weight: 500; }
+.tag em { font-style: normal; color: var(--ink-2); }
+.tag b { font-weight: 400; margin-left: 12px; }
 
 /* how */
 .how { padding-top: 24px; }
