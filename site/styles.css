@@ -173,8 +173,14 @@ kbd {
 .how-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
 .how-grid article { display: grid; gap: 10px; align-content: start; }
 .how-grid svg, .tool-list svg {
-  width: 40px; height: 40px; padding: 9px; border-radius: 11px; background: var(--accent-soft);
-  fill: none; stroke: var(--accent-ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+  /* Icon tiles echo the mark: a square hairline box with a bold top-left corner. */
+  width: 40px; height: 40px; padding: 10px; border-radius: 0; border: 1px solid var(--line);
+  background:
+    linear-gradient(var(--ink), var(--ink)) 0 0 / 9px 2px no-repeat border-box,
+    linear-gradient(var(--ink), var(--ink)) 0 0 / 2px 9px no-repeat border-box,
+    var(--card);
+  margin: -1px 0 0 -1px;
+  fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
 }
 .how-grid p { color: var(--ink-2); }
 
