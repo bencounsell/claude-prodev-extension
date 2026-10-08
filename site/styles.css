@@ -219,12 +219,13 @@ kbd {
 .tool-list span:not(.pro) { display: block; color: var(--ink-2); font-size: .94rem; line-height: 1.5; }
 /* Badges echo the mark: a hairline box with a bold top-left corner. */
 .pro, .badge {
-  display: inline-block; font: 700 .68rem/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink);
-  padding: 5px 8px 5px 9px; border-radius: 2px; border: 1px solid color-mix(in srgb, var(--ink) 55%, transparent);
+  display: inline-block; font: 700 .68rem/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase;
+  padding: 5px 8px 5px 9px; border-radius: 2px; border: 1px solid #c9921a; color: #1c1406;
+  /* Pro is the one place a colour appears: a warm gold, with the mark's bold corner in ink. */
   background:
-    linear-gradient(var(--ink), var(--ink)) -1px -1px / 9px 2.5px no-repeat,
-    linear-gradient(var(--ink), var(--ink)) -1px -1px / 2.5px 9px no-repeat,
-    color-mix(in srgb, var(--ink) 5%, var(--card));
+    linear-gradient(#1c1406, #1c1406) -1px -1px / 9px 2.5px no-repeat,
+    linear-gradient(#1c1406, #1c1406) -1px -1px / 2.5px 9px no-repeat,
+    #f4c64f;
   background-origin: border-box;
 }
 .pro { margin-left: 8px; vertical-align: 1px; }
