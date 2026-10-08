@@ -1,11 +1,11 @@
 # ProDev – Web Developer & Designer Toolkit
 
-A Manifest V3 Chromium extension (Chrome, Edge, Brave) with 14 tools to inspect, edit and export any website.
+A Manifest V3 Chromium extension (Chrome, Edge, Brave) with 15 tools to inspect, edit and export any website.
 Freemium: core tools are free, Pro tools unlock with a one-time licence key.
 
 | Tool | Tier |
 |---|---|
-| CSS Inspector (live editing = Pro), Live Text Editor, List All Fonts, Color Picker, Delete Element, Page Ruler, Page Outliner, Screenshot (full page = Pro) | Free |
+| CSS Inspector (live editing = Pro), Live Text Editor, List All Fonts, Color Picker, Delete Element, Page Ruler, Page Outliner, Screenshot (full page = Pro), Send to AI (Ask free; Recreate, Edit with words, Accessibility and Style guide = Pro) | Free |
 | Fonts Changer, Color Palette, Move Element, Export Element, Extract Images, Image Replacer | Pro |
 
 ## How it's put together

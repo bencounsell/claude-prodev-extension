@@ -146,7 +146,7 @@ test.describe('side panel', () => {
 
   test('shows the launcher and the page viewport', async () => {
     await open();
-    await expect(panel.locator('.launcher .tool')).toHaveCount(14);
+    await expect(panel.locator('.launcher .tool')).toHaveCount(15);
     await expect(panel.locator('.vp')).toContainText('×');
     await expect(panel.locator('.vp b')).toHaveText(/xs|sm|md|lg|xl/);
   });
@@ -189,5 +189,75 @@ test.describe('side panel', () => {
     await expect(page.locator('prodev-root .pd-panel')).toHaveCount(0);
     await panel.close();
     await expect(shadow('.pd-panel')).toContainText('Georgia');
+  });
+});
+
+/* ------------------------------------------------------------------ Send to AI */
+
+test.describe('send to AI', () => {
+  test('builds a Recreate prompt for a picked element and opens Claude prefilled', async () => {
+    await setPro(true);
+    await toggle('send-to-ai');
+    await expect(shadow('.pd-panel')).toContainText('An element');
+    await page.click('#card', { position: { x: 10, y: 10 } });
+    await expect(shadow('.v-ai-meta')).toContainText('div#card');
+    await expect(shadow('.v-ai-shot')).toBeVisible();
+    await shadow('.v-format:has-text("React + Tailwind")').click();
+    await shadow('.v-preview summary').click();
+    const preview = shadow('.v-preview pre');
+    await expect(preview).toContainText('React function component');
+    await expect(preview).toContainText('Some paragraph text');
+    await expect(preview).toContainText('#card');
+    const [tab] = await Promise.all([ctx.waitForEvent('page'), shadow('button:has-text("Open in Claude")').click()]);
+    await expect.poll(() => tab.url()).toMatch(/^https:\/\/claude\.ai\/new\?q=/);
+    expect(decodeURIComponent(tab.url().split('?q=')[1])).toContain('Recreate the UI below as React + Tailwind');
+    await tab.close();
+  });
+
+  test('free users can Ask; Recreate shows the upsell', async () => {
+    await setPro(false);
+    await toggle('send-to-ai');
+    await page.click('#title', { position: { x: 20, y: 10 } });
+    await expect(shadow('.v-ai-meta')).toContainText('h1#title');
+    await shadow('button:has-text("Open in Claude")').click();
+    await expect(shadow('.pd-up')).toContainText('Recreate with AI is a Pro feature');
+    await shadow('button:has-text("Maybe later")').click();
+    await shadow('.v-seg button:has-text("Ask")').click();
+    await shadow('#pd-ai-input').fill('Why is this heading red?');
+    const [tab] = await Promise.all([ctx.waitForEvent('page'), shadow('button:has-text("Open in Claude")').click()]);
+    await expect.poll(() => tab.url()).toMatch(/^https:\/\/claude\.ai\/new\?q=/);
+    expect(decodeURIComponent(tab.url())).toContain('Why is this heading red?');
+    await tab.close();
+  });
+
+  test('inspector hands its element to Send to AI and applies pasted CSS', async () => {
+    await setPro(true);
+    await toggle('inspector');
+    await page.click('#title', { position: { x: 20, y: 10 } });
+    await shadow('summary:has-text("Apply CSS from your AI app")').click();
+    await shadow('#pd-apply-css').fill('```css\n{ font-size: 50px; color: rgb(1, 2, 3); }\n```');
+    await shadow('button:has-text("Apply to element")').click();
+    await expect.poll(() => page.evaluate(() => getComputedStyle(document.getElementById('title')!).fontSize)).toBe('50px');
+    await shadow('button:has-text("Reset edits")').click();
+    await expect.poll(() => page.evaluate(() => getComputedStyle(document.getElementById('title')!).fontSize)).toBe('32px');
+    await shadow('.pd-panel button:has-text("Send to AI")').click();
+    await expect(shadow('.pd-bar')).toContainText('Send to AI');
+    await expect(shadow('.v-ai-meta')).toContainText('h1#title');
+  });
+
+  test('works from the side panel', async () => {
+    await setPro(true);
+    const panel = await ctx.newPage();
+    await panel.setViewportSize({ width: 380, height: 800 });
+    await panel.goto(`chrome-extension://${new URL(sw.url()).host}/sidepanel.html?tab=${await fixtureTabId()}`);
+    await panel.locator('.tool', { hasText: 'Send to AI' }).click();
+    await expect(panel.locator('.sp-toolbar')).toContainText('Send to AI');
+    await page.bringToFront();
+    await page.click('#card', { position: { x: 10, y: 10 } });
+    await expect(panel.locator('.v-ai-meta')).toContainText('div#card');
+    await panel.locator('.v-seg button:has-text("Style guide")').click();
+    await panel.locator('.v-preview summary').click();
+    await expect(panel.locator('.v-preview pre')).toContainText('@theme');
+    await panel.close();
   });
 });

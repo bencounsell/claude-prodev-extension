@@ -107,6 +107,16 @@ chrome.runtime.onMessage.addListener((msg: Msg, sender, reply) => {
       case 'download':
         await chrome.downloads.download({ url: msg.url, filename: msg.filename });
         return true;
+      case 'open-url': {
+        // Web apps open in a new tab. App links (claude://, codex://) are handed to the OS from the
+        // current tab: the browser asks "Open Claude?" once and the page itself stays put.
+        if (/^https?:/.test(msg.url)) await chrome.tabs.create({ url: msg.url });
+        else {
+          const id = msg.tabId ?? sender.tab?.id ?? (await activeTabId());
+          if (id) await chrome.tabs.update(id, { url: msg.url });
+        }
+        return true;
+      }
       case 'open-upgrade':
         await chrome.tabs.create({ url: CONFIG.checkoutUrl });
         return true;

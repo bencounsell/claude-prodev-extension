@@ -109,3 +109,27 @@
 .v-generic b{font-size:15px}
 .v-generic p{margin:0;color:var(--muted);line-height:1.5}
 .v-generic .v-note{margin-top:10px}
+
+/* send to AI */
+.v-ai { display: grid; gap: 12px; }
+.v-ai-target { display: grid; gap: 8px; }
+.v-ai-shot { width: 100%; max-height: 160px; object-fit: cover; object-position: top; border-radius: 12px; border: 1px solid var(--border); background: var(--surface-2); }
+.v-ai-meta { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.v-link { margin-left: auto; background: none; border: 0; color: var(--accent); font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; padding: 2px 4px; }
+.v-seg { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--border); }
+.v-seg button { display: inline-flex; align-items: center; gap: 5px; padding: 6px 10px; border-radius: 9px; border: 0; background: none; color: var(--muted); font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+.v-seg button.on { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.v-pill.sm { margin-left: 0; padding: 2px 5px; font-size: 9px; }
+.v-formats, .v-dests { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 6px; }
+.v-format { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; text-align: left; }
+.v-format:hover { border-color: var(--accent); }
+.v-format.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.v-check { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text); cursor: pointer; }
+.v-check input { accent-color: var(--accent); margin: 0; }
+.v-modes { display: flex; gap: 16px; margin-top: 8px; }
+.v-text { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font: 12.5px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; resize: vertical; outline: none; }
+.v-text:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.v-note.warn { color: #b45309; }
+.v-preview summary, .v-apply summary { cursor: pointer; font-size: 12.5px; font-weight: 600; color: var(--muted); padding: 4px 0; }
+.v-apply { margin-top: 14px; display: grid; gap: 8px; }
+.v-apply[open] summary { color: var(--text); }

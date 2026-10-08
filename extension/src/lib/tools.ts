@@ -5,7 +5,7 @@ export interface ToolMeta {
   name: string;
   description: string;
   tier: Tier;
-  group: 'Inspect' | 'Edit' | 'Capture';
+  group: 'Inspect' | 'Edit' | 'Capture' | 'AI';
   /** Inline SVG path data (24x24, stroke icons). */
   icon: string;
   /** Short how-to shown in the on-page pill and the side panel. */
@@ -27,8 +27,9 @@ export const TOOLS: ToolMeta[] = [
   { id: 'outliner', hint: 'Hover to see element names and sizes', name: 'Page Outliner', description: 'Outline every element to see the HTML structure.', tier: 'free', group: 'Inspect', icon: 'M4 4h16v16H4zM8 8h8v8H8z' },
   { id: 'image-replacer', hint: 'Click an image to replace it', name: 'Image Replacer', description: 'Swap any image with a file or URL.', tier: 'pro', group: 'Edit', icon: 'M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4M9 12h6' },
   { id: 'screenshot', hint: 'Capture the visible area, an element or the full page', name: 'Take Screenshot', description: 'Capture the visible area, an element, or the full page.', tier: 'free', group: 'Capture', icon: 'M4 8h3l2-3h6l2 3h3v11H4zM12 17a4 4 0 100-8 4 4 0 000 8z' },
+  { id: 'send-to-ai', hint: 'Pick an element or the page, then choose a task', name: 'Send to AI', description: 'Recreate, explain or review anything with Claude, ChatGPT or Gemini.', tier: 'free', group: 'AI', icon: 'M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z' },
 ];
 
 export const toolById = (id: string) => TOOLS.find((t) => t.id === id);
 
-export const GROUPS = ['Inspect', 'Edit', 'Capture'] as const;
+export const GROUPS = ['Inspect', 'Edit', 'Capture', 'AI'] as const;

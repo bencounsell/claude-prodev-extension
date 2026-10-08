@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 import type { EnsureResult, Msg, PageState, Viewport } from '../lib/messaging';
 import { CONFIG, isPro } from '../lib/licence';
 import { getSettings, setSettings, type Settings } from '../lib/storage';
-import { toolById, type ToolMeta } from '../lib/tools';
+import { TOOLS, toolById, type ToolMeta } from '../lib/tools';
 import { Launcher } from '../views/Launcher';
 import { ToolView } from '../views/ToolViews';
 import { Icon, I } from '../views/Icon';
@@ -60,7 +60,7 @@ function Upsell({ feature, onClose }: { feature: string; onClose(): void }) {
         <h2>{feature} is a Pro feature</h2>
         <p>Unlock every tool with a one-time purchase. No subscription, free updates.</p>
         <ul>
-          {['All 14 tools, including full-page capture', 'Live CSS editing, export, palette & more', 'One payment, use on all your browsers'].map((s) => (
+          {[`All ${TOOLS.length} tools, including full-page capture`, 'Live CSS editing, export, palette & more', 'One payment, use on all your browsers'].map((s) => (
             <li key={s}><Icon d={I.check} size={14} />{s}</li>
           ))}
         </ul>
@@ -176,10 +176,18 @@ function App() {
     pro,
     surface: 'sidepanel',
     act: (action, payload) => void send({ type: 'tool-action', action, payload }),
-    copy: (t, m) => void copy(t, m),
+    copy: (t, m) => copy(t, m),
     toast: showToast,
     upsell: setUpsell,
     download: (url, filename) => void chrome.runtime.sendMessage({ type: 'download', url, filename } satisfies Msg),
+    copyImage: (dataUrl, m) => void (async () => {
+      try {
+        const blob = await (await fetch(dataUrl)).blob();
+        await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
+        showToast(m ?? 'Screenshot copied');
+      } catch { showToast('Couldn’t copy the image. Try again.'); }
+    })(),
+    openUrl: (url) => void chrome.runtime.sendMessage({ type: 'open-url', url, tabId: tabId ?? undefined } satisfies Msg),
   };
 
   const tool = state.active ? toolById(state.active) : null;

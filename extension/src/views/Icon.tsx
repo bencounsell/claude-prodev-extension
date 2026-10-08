@@ -20,5 +20,6 @@ export const I = {
   monitor: 'M3 5h18v11H3zM8 20h8M12 16v4',
   float: 'M4 4h16v16H4zM13 7h4v4h-4z',
   panel: 'M4 4h16v16H4zM14 4v16',
+  sparkle: 'M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z',
   shield: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z',
 };

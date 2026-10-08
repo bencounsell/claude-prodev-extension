@@ -100,6 +100,31 @@ function App() {
       </section>
 
       <section class="card">
+        <h2>Send to AI</h2>
+        <p>Where Send to AI hands off your prompts. ProDev never sends anything itself: it opens your AI app with the prompt ready, or puts it on your clipboard.</p>
+        <div class="seg" role="radiogroup" aria-label="AI app">
+          {([['claude', 'Claude'], ['chatgpt', 'ChatGPT'], ['gemini', 'Gemini'], ['copy', 'Copy only']] as const).map(([v, label]) => (
+            <button key={v} role="radio" aria-checked={settings?.aiDestination === v} class={settings?.aiDestination === v ? 'on' : ''}
+              onClick={async () => setLocal(await setSettings({ aiDestination: v }))}>{label}</button>
+          ))}
+        </div>
+        <div class="ai-apps">
+          {([['claudeApp', 'Open Claude in'], ['chatgptApp', 'Open ChatGPT in']] as const).map(([key, label]) => (
+            <div class="row between" key={key}>
+              <span>{label}</span>
+              <div class="seg" role="radiogroup" aria-label={label}>
+                {([['web', 'Browser'], ['desktop', 'Desktop app']] as const).map(([v, l]) => (
+                  <button key={v} role="radio" aria-checked={settings?.[key] === v} class={settings?.[key] === v ? 'on' : ''}
+                    onClick={async () => setLocal(await setSettings({ [key]: v }))}>{l}</button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <p class="hint">The Claude desktop app opens with your prompt filled in. The ChatGPT desktop app and Gemini open a new chat, with the prompt on your clipboard to paste.</p>
+      </section>
+
+      <section class="card">
         <h2>Appearance</h2>
         <p>Theme for the side panel, popup and settings. In-page tools always use a dark glass style for contrast.</p>
         <div class="seg" role="radiogroup" aria-label="Theme">

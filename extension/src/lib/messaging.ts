@@ -18,6 +18,7 @@ export type Msg =
   | { type: 'capture-visible' }
   | { type: 'capture-full-page'; width: number; height: number; dpr: number; viewportHeight: number; shots: { y: number; url: string }[] }
   | { type: 'download'; url: string; filename: string }
+  | { type: 'open-url'; url: string; tabId?: number }
   | { type: 'open-upgrade' };
 
 export interface PageState {

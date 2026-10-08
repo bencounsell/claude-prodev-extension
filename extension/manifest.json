@@ -3,7 +3,7 @@
   "name": "ProDev \u2013 Web Developer & Designer Toolkit",
   "short_name": "ProDev",
   "version": "0.0.0",
-  "description": "14 tools to inspect, edit and export any website: CSS inspector, color picker, fonts, ruler, screenshots and more.",
+  "description": "15 tools to inspect, edit and export any website: CSS inspector, color picker, fonts, ruler, screenshots, Send to AI and more.",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",

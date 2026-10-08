@@ -1,10 +1,15 @@
 import type { ComponentType } from 'preact';
-import { useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { toolById } from '../lib/tools';
+import { getSettings, setSettings, type Settings } from '../lib/storage';
+import {
+  buildPrompt, DESTINATIONS, destination, FORMATS, plan, TASKS, task as taskMeta,
+  type AppMode, type DestinationId, type FormatId, type TaskId,
+} from '../lib/ai/prompts';
 import { contrast, formats } from './color';
 import { Icon, I } from './Icon';
 import type {
-  DeleteData, Env, ExportData, FontsChangerData, FontsData, ImagesData, InspectorData, PaletteData, PickerData, ScreenshotData,
+  DeleteData, Env, ExportData, SendToAiData, FontsChangerData, FontsData, ImagesData, InspectorData, PaletteData, PickerData, ScreenshotData,
 } from './types';
 
 type ViewProps<T> = { data: T | null; env: Env };
@@ -29,6 +34,21 @@ function BoxModel({ box, w, h }: { box: InspectorData['box']; w: number; h: numb
         </div>
       </div>
     </div>
+  );
+}
+
+/** Paste CSS from an AI app (Edit with words) and apply it to the locked element. */
+function ApplyCss({ env }: { env: Env }) {
+  const [css, setCss] = useState('');
+  return (
+    <details class="v-apply">
+      <summary>Apply CSS from your AI app</summary>
+      <textarea id="pd-apply-css" class="v-text" rows={4} spellcheck={false} placeholder="{ border-radius: 999px; background-color: #0071e3; }"
+        value={css} onInput={(e) => setCss(e.currentTarget.value)} />
+      <div class="v-actions">
+        <button class="v-btn primary" disabled={!css.trim()} onClick={() => (env.pro ? env.act('apply-css', css) : env.upsell('Live CSS editing'))}>Apply to element</button>
+      </div>
+    </details>
   );
 }
 
@@ -89,7 +109,9 @@ function InspectorView({ data, env }: ViewProps<InspectorData>) {
         <button class="v-btn" onClick={() => env.copy(data.path, 'Selector copied')}>Copy selector</button>
         {data.edited && <button class="v-btn" onClick={() => env.act('reset')}><Icon d={I.refresh} size={14} />Reset edits</button>}
         {!env.pro && <button class="v-pill pro" onClick={() => env.upsell('Live CSS editing')}>Edit with Pro</button>}
+        <button class="v-btn" onClick={() => env.act('send-to-ai')}><Icon d={I.sparkle} size={14} />Send to AI</button>
       </div>
+      <ApplyCss env={env} />
     </div>
   );
 }
@@ -288,6 +310,125 @@ function ExportView({ data, env }: ViewProps<ExportData>) {
   );
 }
 
+
+/* ---------------------------------------------------------------- send to AI */
+
+const APP_LABEL: Record<AppMode, string> = { desktop: 'Desktop app', web: 'Browser' };
+
+function SendToAiView({ data, env }: ViewProps<SendToAiData>) {
+  const [prefs, setPrefs] = useState<Settings | null>(null);
+  const [taskId, setTaskId] = useState<TaskId>('recreate');
+  const [formatId, setFormatId] = useState<FormatId>('react-tailwind');
+  const [input, setInput] = useState('');
+  const [placeholders, setPlaceholders] = useState(true);
+  const [withShot, setWithShot] = useState(true);
+  useEffect(() => { void getSettings().then(setPrefs); }, []);
+
+  const ctx = data?.context ?? null;
+  const t = taskMeta(taskId);
+  const dest = destination((prefs?.aiDestination ?? 'claude') as DestinationId);
+  const mode: AppMode = dest.id === 'chatgpt' ? (prefs?.chatgptApp ?? 'web') : (prefs?.claudeApp ?? 'web');
+  const prompt = useMemo(() => (ctx ? buildPrompt(ctx, { task: taskId, format: formatId, input, placeholders, screenshot: withShot && !!data?.screenshot }) : null),
+    [ctx, taskId, formatId, input, placeholders, withShot, data?.screenshot]);
+
+  const save = (patch: Partial<Settings>) => void setSettings(patch).then(setPrefs);
+  const locked = t.pro && !env.pro;
+  const missingInput = !!t.needsInput && !input.trim();
+
+  const send = async () => {
+    if (!prompt) return;
+    if (locked) return env.upsell(`${t.label} with AI`);
+    const h = plan(prompt, dest, mode);
+    if (h.clipboard) await env.copy(h.clipboard, h.message);
+    else env.toast(h.message);
+    if (h.url) env.openUrl(h.url);
+  };
+
+  if (!ctx) {
+    return (
+      <>
+        {data?.picking && <div class="v-banner">Click any element on the page to send it to AI…</div>}
+        {!data?.picking && !data?.ready && <Empty icon={I.sparkle}>Measuring the page…</Empty>}
+        <div class="v-opts">
+          <button class="v-opt" onClick={() => env.act('pick')}><span class="ic"><Icon d={I.cursor} size={18} /></span><span class="tx"><b>An element</b><small>Click any section, card or component</small></span></button>
+          <button class="v-opt" onClick={() => env.act('viewport')}><span class="ic"><Icon d={I.monitor} size={18} /></span><span class="tx"><b>Visible area</b><small>What you can see right now</small></span></button>
+          <button class="v-opt" onClick={() => env.act('page')}><span class="ic"><Icon d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h4" size={18} /></span><span class="tx"><b>Whole page</b><small>Best for accessibility and style guides</small></span></button>
+        </div>
+        <p class="v-note">ProDev measures the page on your computer and hands the result to your AI app. It never sends anything itself.</p>
+      </>
+    );
+  }
+
+  return (
+    <div class="v-ai">
+      <div class="v-ai-target">
+        {data?.screenshot && <img class="v-ai-shot" src={data.screenshot} alt="" />}
+        <div class="v-ai-meta">
+          <span class="v-chip" title={ctx.target.selector}>{ctx.target.label}</span>
+          <span class="v-dim">{ctx.target.w} × {ctx.target.h}</span>
+          <button class="v-link" onClick={() => env.act('pick')}>Change</button>
+        </div>
+      </div>
+
+      <div class="v-seg" role="tablist" aria-label="Task">
+        {TASKS.map((x) => (
+          <button key={x.id} role="tab" aria-selected={x.id === taskId} class={x.id === taskId ? 'on' : ''} onClick={() => setTaskId(x.id)}>
+            {x.label}{x.pro && !env.pro && <span class="v-pill pro sm">Pro</span>}
+          </button>
+        ))}
+      </div>
+      <p class="v-note">{t.blurb}</p>
+
+      {taskId === 'recreate' && (
+        <>
+          <div class="v-formats" role="radiogroup" aria-label="Output">
+            {FORMATS.map((f) => (
+              <button key={f.id} role="radio" aria-checked={f.id === formatId} class={`v-format${f.id === formatId ? ' on' : ''}`} onClick={() => setFormatId(f.id)}>{f.label}</button>
+            ))}
+          </div>
+          <label class="v-check"><input type="checkbox" checked={placeholders} onChange={(e) => setPlaceholders(e.currentTarget.checked)} />Use placeholder text and images</label>
+        </>
+      )}
+      {t.needsInput && (
+        <textarea id="pd-ai-input" class="v-text" rows={3} value={input} onInput={(e) => setInput(e.currentTarget.value)}
+          placeholder={t.needsInput === 'question' ? 'Why does this wrap on mobile?' : 'Make it pill-shaped with a softer shadow'} />
+      )}
+      {data?.screenshot && <label class="v-check"><input type="checkbox" checked={withShot} onChange={(e) => setWithShot(e.currentTarget.checked)} />I'll attach the screenshot</label>}
+
+      <div class="v-sec">
+        <h4>Send to</h4>
+        <div class="v-dests">
+          {DESTINATIONS.map((d) => (
+            <button key={d.id} class={`v-format${d.id === dest.id ? ' on' : ''}`} onClick={() => save({ aiDestination: d.id })}>{d.name}</button>
+          ))}
+        </div>
+        {(dest.id === 'claude' || dest.id === 'chatgpt') && (
+          <div class="v-modes">
+            {(['desktop', 'web'] as AppMode[]).map((m) => (
+              <label key={m} class="v-check"><input type="radio" name="pd-ai-mode" checked={mode === m}
+                onChange={() => save(dest.id === 'claude' ? { claudeApp: m } : { chatgptApp: m })} />{APP_LABEL[m]}</label>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div class="v-actions">
+        <button class="v-btn primary wide" disabled={missingInput} onClick={() => void send()}>
+          <Icon d={I.sparkle} size={15} />{dest.id === 'copy' ? 'Copy prompt' : `Open in ${dest.name}`}{locked && <span class="v-pill pro sm">Pro</span>}
+        </button>
+        {data?.screenshot && <button class="v-btn" onClick={() => env.copyImage(data.screenshot!, 'Screenshot copied. Paste it into the chat.')}>Copy screenshot</button>}
+        {dest.id !== 'copy' && <button class="v-btn" disabled={missingInput} onClick={() => (locked ? env.upsell(`${t.label} with AI`) : void env.copy(prompt!.full, 'Prompt copied'))}>Copy prompt</button>}
+      </div>
+      {ctx.markup.truncated && taskId !== 'styleguide' && <p class="v-note warn">This is a big section, so its markup was shortened. The screenshot fills in the rest.</p>}
+
+      <details class="v-preview">
+        <summary>Prompt preview · {prompt!.full.length.toLocaleString()} characters</summary>
+        <pre class="v-code">{prompt!.full.slice(0, 8000)}{prompt!.full.length > 8000 ? '\n…' : ''}</pre>
+      </details>
+    </div>
+  );
+}
+
 /* ---------------------------------------------------------------- registry */
 
 export const VIEWS: Record<string, ComponentType<ViewProps<never>>> = {
@@ -300,6 +441,7 @@ export const VIEWS: Record<string, ComponentType<ViewProps<never>>> = {
   'fonts-changer': FontsChangerView,
   'delete-element': DeleteView,
   'export-element': ExportView,
+  'send-to-ai': SendToAiView,
 } as Record<string, ComponentType<ViewProps<never>>>;
 
 /** Shown in the side panel for tools that work purely on the page (ruler, outliner, …). */

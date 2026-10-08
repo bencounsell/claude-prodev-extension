@@ -18,8 +18,22 @@ export interface Env {
   pro: boolean;
   surface: 'sidepanel' | 'floating';
   act(action: string, payload?: unknown): void;
-  copy(text: string, message?: string): void;
+  /** Resolves once the text is on the clipboard (so callers can open another app afterwards). */
+  copy(text: string, message?: string): void | Promise<void>;
   toast(message: string): void;
   upsell(feature: string): void;
   download(url: string, filename: string): void;
+  /** Puts a PNG (data URL) on the clipboard. */
+  copyImage(dataUrl: string, message?: string): void;
+  /** Opens a web page in a new tab, or an app link (claude://) via the OS. */
+  openUrl(url: string): void;
+}
+
+/** Send to AI: what the content script measured for the chosen target. */
+export interface SendToAiData {
+  picking: boolean;
+  /** Element handed over from the inspector, ready to use. */
+  ready: boolean;
+  context: import('../lib/ai/prompts').PromptContext | null;
+  screenshot: string | null;
 }

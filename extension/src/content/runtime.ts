@@ -5,6 +5,12 @@ import { broadcast, sendToBackground, type Mode } from '../lib/messaging';
 import { toolById } from '../lib/tools';
 import type { Env } from '../views/types';
 
+/** Puts a PNG data URL on the clipboard. */
+export async function copyImage(dataUrl: string) {
+  const blob = await (await fetch(dataUrl)).blob();
+  await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
+}
+
 class Runtime {
   pro = false;
   mode: Mode = 'floating';
@@ -14,6 +20,8 @@ class Runtime {
   /** Latest data published by the active tool, rendered by its view. */
   data: unknown = null;
   private pill: HTMLElement | null = null;
+  /** Element passed from one tool to the next (inspector → Send to AI). */
+  handoff: Element | null = null;
 
   register(t: Tool) { this.tools.set(t.id, t); }
 
@@ -74,10 +82,12 @@ class Runtime {
       pro: this.pro,
       surface: 'floating',
       act: (a, p) => void this.action(a, p),
-      copy: (t, m) => void copy(t, m),
+      copy: (t, m) => copy(t, m),
       toast,
       upsell: (f) => void this.requirePro(f),
       download: (url, filename) => void sendToBackground({ type: 'download', url, filename }),
+      copyImage: (dataUrl, m) => void copyImage(dataUrl).then(() => toast(m ?? 'Screenshot copied'), () => toast('Couldn’t copy the image. Try again.')),
+      openUrl: (url) => void sendToBackground({ type: 'open-url', url }),
     };
   }
 

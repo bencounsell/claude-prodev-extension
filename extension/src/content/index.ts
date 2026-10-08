@@ -16,6 +16,7 @@ import { ruler } from './tools/ruler';
 import { outliner } from './tools/outliner';
 import { imageReplacer } from './tools/image-replacer';
 import { screenshot } from './tools/screenshot';
+import { sendToAi } from './tools/send-to-ai';
 
 declare global { interface Window { __prodev?: boolean } }
 
@@ -24,7 +25,7 @@ const viewport = () => ({ w: innerWidth, h: innerHeight });
 if (!window.__prodev) {
   window.__prodev = true;
   [inspector, textEditor, fontsChanger, fontsList, colorPicker, colorPalette, moveElement, deleteElement,
-    exportElement, extractImages, ruler, outliner, imageReplacer, screenshot].forEach((t) => runtime.register(t));
+    exportElement, extractImages, ruler, outliner, imageReplacer, screenshot, sendToAi].forEach((t) => runtime.register(t));
 
   chrome.runtime.onMessage.addListener((msg: Msg, _s, reply) => {
     switch (msg.type) {

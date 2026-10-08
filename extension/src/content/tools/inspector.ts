@@ -3,6 +3,7 @@ import { cssPath, listen, rgbToHex, target } from '../tool';
 import { el, highlightBox, isOwn, overlay, toast } from '../ui';
 import { runtime } from '../runtime';
 import type { InspectorData } from '../../views/types';
+import { parseDeclarations } from '../../lib/ai/prompts';
 
 const SECTIONS: [string, string[]][] = [
   ['Typography', ['font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing', 'color', 'text-align']],
@@ -116,6 +117,21 @@ export const inspector: Tool = {
       if (!edited.has(h)) edited.set(h, h.getAttribute('style') ?? '');
       h.style.setProperty(prop, value, 'important');
       locked = true;
+    }
+    if (action === 'apply-css') {
+      if (!runtime.requirePro('Live CSS editing')) return;
+      const decls = parseDeclarations(String(payload ?? ''));
+      if (!decls.length) { toast('No CSS declarations found to apply'); return; }
+      const h = current as HTMLElement;
+      if (!edited.has(h)) edited.set(h, h.getAttribute('style') ?? '');
+      for (const [prop, value] of decls) h.style.setProperty(prop, value, 'important');
+      locked = true;
+      toast(`Applied ${decls.length} ${decls.length === 1 ? 'property' : 'properties'}`);
+    }
+    if (action === 'send-to-ai') {
+      runtime.handoff = current;
+      void runtime.toggle('send-to-ai');
+      return;
     }
     if (action === 'reset') {
       edited.forEach((orig, node) => (orig ? node.setAttribute('style', orig) : node.removeAttribute('style')));

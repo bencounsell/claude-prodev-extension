@@ -13,9 +13,9 @@ describe('rgbToHex', () => {
 });
 
 describe('tool catalogue', () => {
-  it('has 14 uniquely-id\'d tools with a free/pro split', () => {
-    expect(TOOLS).toHaveLength(14);
-    expect(new Set(TOOLS.map((t) => t.id)).size).toBe(14);
+  it('has 15 uniquely-id\'d tools with a free/pro split', () => {
+    expect(TOOLS).toHaveLength(15);
+    expect(new Set(TOOLS.map((t) => t.id)).size).toBe(15);
     expect(TOOLS.filter((t) => t.tier === 'free').length).toBeGreaterThan(5);
     expect(toolById('screenshot')?.name).toBe('Take Screenshot');
   });
