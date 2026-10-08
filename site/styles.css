@@ -133,22 +133,13 @@ kbd {
 .meta { display: flex; flex-wrap: wrap; gap: 8px 20px; list-style: none; padding: 0; margin: 0; font-size: .8rem; color: var(--ink-3); }
 .meta li::before { content: "✓ "; color: var(--ok); }
 
-/* box-model frame */
+/* video frame: one quiet graphite frame around every video */
 .boxmodel {
-  position: relative; margin: clamp(26px, 4vw, 44px) 0 0; padding: clamp(14px, 2.6vw, 32px);
-  border: 1.5px dashed color-mix(in srgb, var(--margin) 75%, transparent); border-radius: 22px;
-  background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--margin) 10%, transparent) 0 6px, transparent 6px 12px);
+  position: relative; margin: clamp(26px, 4vw, 44px) 0 0; padding: clamp(8px, 1.2vw, 14px);
+  border: 1px solid var(--line); border-radius: 20px; background: var(--paper-2);
 }
-.bm-pad {
-  position: relative; padding: clamp(8px, 1.3vw, 16px); border-radius: 16px;
-  border: 1.5px dashed color-mix(in srgb, var(--pad) 80%, transparent);
-  background: repeating-linear-gradient(45deg, color-mix(in srgb, var(--pad) 11%, transparent) 0 6px, transparent 6px 12px);
-}
-.bm-content { border-radius: 10px; overflow: hidden; box-shadow: var(--shadow), 0 0 0 1.5px color-mix(in srgb, var(--content) 55%, transparent); background: var(--card); }
-.bm-content video { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
-.bm-label { position: absolute; font-size: .7rem; line-height: 1; padding: 3px 6px; border-radius: 5px; background: var(--paper); }
-.bm-m { top: -9px; right: 24px; color: var(--margin); }
-.bm-p { top: -9px; left: 20px; color: var(--pad); }
+.bm-content { border-radius: 12px; overflow: hidden; background: var(--card); box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 12%, transparent), var(--shadow); }
+.bm-content video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
 .tag {
   position: absolute; left: 24px; top: -15px; z-index: 2; font-size: .74rem; padding: 6px 10px; border-radius: 8px;
   background: var(--ink); color: var(--paper); box-shadow: 0 8px 18px -8px rgba(0, 0, 0, .4);
@@ -171,13 +162,9 @@ kbd {
 .feature.flip .f-copy { order: 2; }
 .f-copy { display: grid; gap: 16px; min-width: 0; }
 .f-copy > p:not(.eyebrow) { color: var(--ink-2); }
-/* Feature videos reuse the hero's box-model frame at a smaller scale. */
 .f-media { min-width: 0; }
-.f-media.boxmodel { margin: 0; padding: clamp(10px, 1.6vw, 20px); border-radius: 20px; }
-.f-media .bm-pad { padding: clamp(6px, 1vw, 12px); border-radius: 14px; }
-.f-media .bm-content { border-radius: 8px; box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--content) 55%, transparent); }
-.f-media .bm-m { right: 18px; }
-.f-media .bm-p { left: 14px; }
+.f-media.boxmodel { margin: 0; border-radius: 18px; }
+.f-media .bm-content { border-radius: 10px; }
 .ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; color: var(--ink); font-size: .98rem; }
 .ticks li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; }
 .ticks li::before {
@@ -295,7 +282,6 @@ details p { padding: 0 40px 22px 0; color: var(--ink-2); max-width: 64ch; }
   .links { display: none; }
   .nav-in { justify-content: space-between; }
   .how-grid, .plans, .tool-groups, .showcase { grid-template-columns: minmax(0, 1fr); }
-  .bm-label { display: none; }
   .tag { left: 12px; }
   .perms div { grid-template-columns: 92px minmax(0, 1fr); }
 }
