@@ -254,7 +254,7 @@ kbd {
 .perms dd { margin: 0; color: var(--ink-2); font-family: var(--f-body); }
 
 /* pricing */
-.plans { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; max-width: 900px; margin-top: 84px; }
+.plans { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; max-width: 900px; margin-top: 60px; }
 /* Safari-style grid overlay: dashed container outline, numbered lines and a hatched gap track. */
 .plans::before {
   content: ""; position: absolute; top: 0; bottom: 0; left: calc(50% - 20px); width: 40px; pointer-events: none;
@@ -263,11 +263,9 @@ kbd {
 }
 .plans::after { content: ""; position: absolute; inset: -10px; border: 1px dashed color-mix(in srgb, var(--ink) 24%, transparent); pointer-events: none; }
 .gx { position: absolute; font: 500 .7rem/1 var(--f-mono); color: var(--ink-3); pointer-events: none; white-space: nowrap; }
-.gx-tag { left: -10px; bottom: calc(100% + 44px); }
+.gx-tag { left: -10px; bottom: calc(100% + 20px); }
 .gx-tag i { font-style: normal; color: var(--ink); }
-.gx-n { top: -30px; width: 18px; height: 16px; display: grid; place-items: center; translate: -50% 0; background: var(--ink); color: var(--paper); font-size: .62rem; }
-.gx-n1 { left: 0; } .gx-n2 { left: 50%; } .gx-n3 { left: 100%; }
-.gx-gap { left: 50%; top: 50%; translate: -50% -50%; padding: 4px 5px; background: var(--paper); border: 1px solid var(--line); }
+
 .plan {
   position: relative; display: grid; gap: 14px; align-content: start; padding: 30px; border-radius: 0;
   background: var(--card); border: 1px solid var(--line);
@@ -333,7 +331,7 @@ details p { padding: 0 40px 22px 0; color: var(--ink-2); max-width: 64ch; }
   .links { display: none; }
   .nav-in { justify-content: space-between; }
   .how-grid, .plans, .tool-groups, .showcase { grid-template-columns: minmax(0, 1fr); }
-  .plans::before, .gx-n, .gx-gap { display: none; }
+  .plans::before { display: none; }
   .perms div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
 }
 @media (prefers-reduced-motion: reduce) {
