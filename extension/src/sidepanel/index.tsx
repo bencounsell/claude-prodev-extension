@@ -6,7 +6,7 @@ import { getSettings, setSettings, type Settings } from '../lib/storage';
 import { TOOLS, toolById, type ToolMeta } from '../lib/tools';
 import { Launcher } from '../views/Launcher';
 import { ToolView } from '../views/ToolViews';
-import { Icon, I } from '../views/Icon';
+import { Icon, I, Logo } from '../views/Icon';
 import type { Env } from '../views/types';
 import viewsCss from '../views/views.css';
 
@@ -89,10 +89,10 @@ function AccessCard({ res, onRetry }: { res: EnsureResult; onRetry(): void }) {
   return (
     <div class="sp-access">
       <span class="ic"><Icon d={I.unlock} size={24} /></span>
-      <h2>Allow ProDev on this page</h2>
-      <p>ProDev only touches pages you choose. To keep working as you browse with the side panel open, allow it on all sites. It still runs nothing until you pick a tool.</p>
+      <h2>Allow Hairline on this page</h2>
+      <p>Hairline only touches pages you choose. To keep working as you browse with the side panel open, allow it on all sites. It still runs nothing until you pick a tool.</p>
       <button class="v-btn primary wide" onClick={grant}>Allow on all sites</button>
-      <p class="v-note">Or click the ProDev icon in your toolbar to enable it for just this tab.</p>
+      <p class="v-note">Or click the Hairline icon in your toolbar to enable it for just this tab.</p>
       <button class="sp-link" onClick={onRetry}>Try again</button>
     </div>
   );
@@ -200,8 +200,8 @@ function App() {
   return (
     <div class="sp">
       <header class="sp-head">
-        <div class="logo"><Icon d={I.logo} size={16} /></div>
-        <div class="brand"><h1>ProDev</h1><span>Web developer toolkit</span></div>
+        <div class="logo"><Logo /></div>
+        <div class="brand"><h1>Hairline</h1><span>web devtools</span></div>
         {viewport && (
           <span class="vp" title="Page viewport. The side panel narrows the page. Switch to floating mode to inspect at full width.">
             <Icon d={I.monitor} size={13} />{viewport.w}<i>×</i>{viewport.h}<b>{breakpoint(viewport.w)}</b>

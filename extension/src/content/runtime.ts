@@ -38,7 +38,7 @@ class Runtime {
     setActiveTool(id);
     this.pill = bar(`${meta.name} — ${meta.hint}`, [{ label: 'Done', primary: true, onClick: () => this.deactivate() }]);
     this.render();
-    try { await tool.activate(); } catch (e) { console.error('[ProDev]', e); toast('Something went wrong with this tool'); this.deactivate(); }
+    try { await tool.activate(); } catch (e) { console.error('[Hairline]', e); toast('Something went wrong with this tool'); this.deactivate(); }
   }
 
   deactivate() {

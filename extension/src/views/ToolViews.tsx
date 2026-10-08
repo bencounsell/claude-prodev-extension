@@ -159,7 +159,7 @@ function PaletteView({ data, env }: ViewProps<PaletteData>) {
 
 /* ---------------------------------------------------------------- images */
 
-const fileName = (u: string) => `prodev/${(u.split('/').pop() ?? 'image').split('?')[0].slice(0, 80) || 'image'}`;
+const fileName = (u: string) => `hairline/${(u.split('/').pop() ?? 'image').split('?')[0].slice(0, 80) || 'image'}`;
 
 function ImagesView({ data, env }: ViewProps<ImagesData>) {
   if (!data) return null;
@@ -247,7 +247,7 @@ function ScreenshotView({ data, env }: ViewProps<ScreenshotData>) {
         {opt('element', 'Select an element', 'Click any element to capture just that', I.cursor)}
         {opt('full', 'Full page', 'The entire scrollable page, stitched', 'M6 3h12v18H6zM9 7h6M9 11h6M9 15h4', true)}
       </div>
-      <p class="v-note">Saved as PNG to your Downloads/prodev folder.</p>
+      <p class="v-note">Saved as PNG to your Downloads/hairline folder.</p>
     </>
   );
 }
@@ -302,7 +302,7 @@ function ExportView({ data, env }: ViewProps<ExportData>) {
       <pre class="v-code">{data.html.slice(0, 6000)}{data.html.length > 6000 ? '\n…' : ''}</pre>
       <div class="v-actions">
         <button class="v-btn primary" onClick={() => env.copy(data.html!, 'HTML copied')}><Icon d={I.copy} size={14} />Copy HTML</button>
-        <button class="v-btn" onClick={() => env.download(`data:text/html;charset=utf-8,${encodeURIComponent(`<!doctype html><meta charset="utf-8">\n${data.html}`)}`, `prodev/${data.label?.replace(/[^\w.-]+/g, '-') || 'element'}.html`)}>
+        <button class="v-btn" onClick={() => env.download(`data:text/html;charset=utf-8,${encodeURIComponent(`<!doctype html><meta charset="utf-8">\n${data.html}`)}`, `hairline/${data.label?.replace(/[^\w.-]+/g, '-') || 'element'}.html`)}>
           <Icon d={I.download} size={14} />Download .html
         </button>
       </div>
@@ -354,7 +354,7 @@ function SendToAiView({ data, env }: ViewProps<SendToAiData>) {
           <button class="v-opt" onClick={() => env.act('viewport')}><span class="ic"><Icon d={I.monitor} size={18} /></span><span class="tx"><b>Visible area</b><small>What you can see right now</small></span></button>
           <button class="v-opt" onClick={() => env.act('page')}><span class="ic"><Icon d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h4" size={18} /></span><span class="tx"><b>Whole page</b><small>Best for accessibility and style guides</small></span></button>
         </div>
-        <p class="v-note">ProDev measures the page on your computer and hands the result to your AI app. It never sends anything itself.</p>
+        <p class="v-note">Hairline measures the page on your computer and hands the result to your AI app. It never sends anything itself.</p>
       </>
     );
   }

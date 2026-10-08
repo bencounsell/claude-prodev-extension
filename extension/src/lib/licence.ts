@@ -8,7 +8,7 @@ export const CONFIG = {
   /** Set to your Lemon Squeezy store/product IDs so keys from other products are rejected. */
   storeId: 0,
   productId: 0,
-  checkoutUrl: 'https://prodev.example.com/pricing',
+  checkoutUrl: 'https://hairline.example.com/pricing',
   /** Days a cached validation stays trusted while offline. */
   graceDays: 14,
   /** Re-validate against the API at most this often (hours). */
@@ -51,9 +51,9 @@ function matchesProduct(meta?: { store_id: number; product_id: number }) {
 
 export async function activate(key: string): Promise<{ ok: boolean; error?: string }> {
   try {
-    const data = await post('activate', { license_key: key.trim(), instance_name: `ProDev ${chrome.runtime.id}` });
+    const data = await post('activate', { license_key: key.trim(), instance_name: `Hairline ${chrome.runtime.id}` });
     if (!data.activated || !data.instance || !matchesProduct(data.meta)) {
-      return { ok: false, error: data.error ?? 'This licence key is not valid for ProDev.' };
+      return { ok: false, error: data.error ?? 'This licence key is not valid for Hairline.' };
     }
     await chrome.storage.local.set({
       [KEY]: { key: key.trim(), instanceId: data.instance.id, validatedAt: Date.now(), valid: true } satisfies LicenceRecord,

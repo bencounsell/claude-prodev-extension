@@ -74,7 +74,7 @@ export function Launcher({ pro, onRun, onUpgrade, active }: Props) {
       <div class="scroll" ref={listRef}>
         {!pro && !q && (
           <div class="cta">
-            <div><b>Unlock ProDev Pro</b><span>All {TOOLS.length} tools · one-time payment</span></div>
+            <div><b>Unlock Hairline Pro</b><span>All {TOOLS.length} tools · one-time payment</span></div>
             <button onClick={onUpgrade}>Upgrade</button>
           </div>
         )}

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'preact/hooks';
 import { activate, deactivate, isPro, CONFIG } from '../lib/licence';
 import { getSettings, setSettings, type Settings } from '../lib/storage';
 import { TOOLS } from '../lib/tools';
+import { Logo } from '../views/Icon';
 
 const Icon = ({ d, size = 18 }: { d: string; size?: number }) => (
   <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true"><path d={d} /></svg>
@@ -42,17 +43,17 @@ function App() {
   return (
     <div class="wrap">
       <header class="top">
-        <div class="logo lg"><Icon d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14" size={20} /></div>
-        <div class="brand"><h1>ProDev</h1><span>Settings · v{chrome.runtime.getManifest().version}</span></div>
+        <div class="logo lg"><Logo size={44} /></div>
+        <div class="brand"><h1>Hairline</h1><span>Settings · v{chrome.runtime.getManifest().version}</span></div>
         <span class={`badge ${pro ? '' : 'free'}`}>{pro ? 'PRO' : 'FREE'}</span>
       </header>
 
       {welcome && (
         <section class="card hero">
-          <h2>Welcome to ProDev 👋</h2>
+          <h2>Welcome to Hairline 👋</h2>
           <p>Inspect, edit and capture any website in seconds. Here's how to get going:</p>
           <ol class="steps">
-            <li><b>Pin ProDev</b><span>Click the puzzle icon in your toolbar and pin ProDev. Clicking it opens ProDev in Chrome's side panel.</span></li>
+            <li><b>Pin Hairline</b><span>Click the puzzle icon in your toolbar and pin Hairline. Clicking it opens Hairline in Chrome's side panel.</span></li>
             <li><b>Open any website</b><span>Pick a tool from the side panel, or press <kbd>Alt</kbd> <kbd>Shift</kbd> <kbd>K</kbd> for the command palette.</span></li>
             <li><b>Press Esc to exit</b><span>Every tool closes with Esc and page edits reset when you reload.</span></li>
           </ol>
@@ -62,7 +63,7 @@ function App() {
       <section class={`card ${pro ? '' : 'plan'}`}>
         {pro ? (
           <>
-            <div class="row between"><div><h2>ProDev Pro is active</h2><p>Thanks for supporting independent software. Every tool is unlocked on this browser.</p></div>
+            <div class="row between"><div><h2>Hairline Pro is active</h2><p>Thanks for supporting independent software. Every tool is unlocked on this browser.</p></div>
               <span class="seal"><Icon d={CHECK} size={22} /></span></div>
             <button class="btn ghost" onClick={async () => { await deactivate(); setMsg(null); await refresh(); }}>Deactivate this browser</button>
           </>
@@ -101,7 +102,7 @@ function App() {
 
       <section class="card">
         <h2>Send to AI</h2>
-        <p>Where Send to AI hands off your prompts. ProDev never sends anything itself: it opens your AI app with the prompt ready, or puts it on your clipboard.</p>
+        <p>Where Send to AI hands off your prompts. Hairline never sends anything itself: it opens your AI app with the prompt ready, or puts it on your clipboard.</p>
         <div class="seg" role="radiogroup" aria-label="AI app">
           {([['claude', 'Claude'], ['chatgpt', 'ChatGPT'], ['gemini', 'Gemini'], ['copy', 'Copy only']] as const).map(([v, label]) => (
             <button key={v} role="radio" aria-checked={settings?.aiDestination === v} class={settings?.aiDestination === v ? 'on' : ''}
@@ -145,7 +146,7 @@ function App() {
         <div class="kbds">
           {cmds.map((c) => (
             <div class="kbdrow" key={c.name}>
-              <span>{c.name === '_execute_action' ? 'Open ProDev' : c.description}</span>
+              <span>{c.name === '_execute_action' ? 'Open Hairline' : c.description}</span>
               <span>{c.shortcut ? c.shortcut.split('+').map((k) => <kbd key={k}>{k}</kbd>) : <em>Not set</em>}</span>
             </div>
           ))}
@@ -168,7 +169,7 @@ function App() {
 
       <section class="card">
         <h2>Privacy</h2>
-        <p class="last">ProDev runs entirely in your browser. No analytics, no tracking, and page content never leaves your device. It only goes online to check a Pro licence key, or to load a Google Font when you preview one with Fonts Changer.</p>
+        <p class="last">Hairline runs entirely in your browser. No analytics, no tracking, and page content never leaves your device. It only goes online to check a Pro licence key, or to load a Google Font when you preview one with Fonts Changer.</p>
       </section>
     </div>
   );

@@ -18,12 +18,12 @@ import { imageReplacer } from './tools/image-replacer';
 import { screenshot } from './tools/screenshot';
 import { sendToAi } from './tools/send-to-ai';
 
-declare global { interface Window { __prodev?: boolean } }
+declare global { interface Window { __hairline?: boolean } }
 
 const viewport = () => ({ w: innerWidth, h: innerHeight });
 
-if (!window.__prodev) {
-  window.__prodev = true;
+if (!window.__hairline) {
+  window.__hairline = true;
   [inspector, textEditor, fontsChanger, fontsList, colorPicker, colorPalette, moveElement, deleteElement,
     exportElement, extractImages, ruler, outliner, imageReplacer, screenshot, sendToAi].forEach((t) => runtime.register(t));
 

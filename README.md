@@ -1,4 +1,4 @@
-# ProDev – Web Developer & Designer Toolkit
+# Hairline: CSS Inspector & Dev Tools
 
 A Manifest V3 Chromium extension (Chrome, Edge, Brave) with 15 tools to inspect, edit and export any website.
 Freemium: core tools are free, Pro tools unlock with a one-time licence key.
@@ -32,7 +32,7 @@ npm run dev        # watch build into dist/
 npm run build      # production build
 npm run typecheck && npm run lint && npm test
 npm run test:e2e   # Playwright (set CHROMIUM_PATH to a Chromium binary)
-npm run zip        # prodev-<version>.zip for the Chrome Web Store
+npm run zip        # hairline-<version>.zip for the Chrome Web Store
 ```
 Load `dist/` via `chrome://extensions` → Developer mode → Load unpacked.
 

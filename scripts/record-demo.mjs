@@ -1,4 +1,4 @@
-// Records review videos (MP4) + key-frame PNGs of ProDev in action.
+// Records review videos (MP4) + key-frame PNGs of Hairline in action.
 //
 //   E2E=1 npm run build && CHROMIUM_PATH=/path/to/chrome OUT=media node scripts/record-demo.mjs
 //
@@ -295,6 +295,6 @@ const norm = clips.map((c, i) => {
 });
 const list = path.join(FRAMES, 'all.txt');
 fs.writeFileSync(list, norm.map((n) => `file '${n}'`).join('\n'));
-ff('-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', '-movflags', '+faststart', path.join(OUT, '00-prodev-walkthrough.mp4'));
+ff('-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', '-movflags', '+faststart', path.join(OUT, '00-hairline-walkthrough.mp4'));
 if (!process.env.KEEP_FRAMES) fs.rmSync(FRAMES, { recursive: true, force: true });
 console.log(`Done → ${OUT}`);

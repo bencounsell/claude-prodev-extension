@@ -1,4 +1,4 @@
-// "Send to AI" prompts. ProDev never calls an AI itself: it builds a prompt from what it measured on
+// "Send to AI" prompts. Hairline never calls an AI itself: it builds a prompt from what it measured on
 // the page, then opens the user's own AI app with it (prefilled where the app supports it) or puts it
 // on the clipboard. Everything here is pure so it can be unit-tested.
 
@@ -53,7 +53,7 @@ export const destination = (id: DestinationId) => DESTINATIONS.find((d) => d.id 
 export const format = (id: FormatId) => FORMATS.find((f) => f.id === id) ?? FORMATS[0];
 export const task = (id: TaskId) => TASKS.find((t) => t.id === id) ?? TASKS[0];
 
-/** Everything ProDev measured, assembled by the content script. */
+/** Everything Hairline measured, assembled by the content script. */
 export interface PromptContext {
   url: string;
   title: string;
@@ -107,7 +107,7 @@ function designValues(c: PromptContext) {
 
 function contextBlock(c: PromptContext, o: PromptOptions) {
   const parts = [
-    '# Page context (measured by ProDev)',
+    '# Page context (measured by Hairline)',
     `- URL: ${c.url}`,
     `- Title: ${c.title || '(untitled)'}`,
     `- Viewport: ${c.viewport.w} × ${c.viewport.h}px (Tailwind \`${c.viewport.breakpoint}\` breakpoint)`,
@@ -174,7 +174,7 @@ function instructionsFor(c: PromptContext, o: PromptOptions) {
     case 'a11y':
       return [
         `You are an accessibility specialist. Review ${c.target.kind === 'element' ? 'this section of the page' : 'this page'} against WCAG 2.2 AA.${shot}`,
-        'ProDev has already measured some facts locally (listed in the context); verify them against the markup and look for anything else.',
+        'Hairline has already measured some facts locally (listed in the context); verify them against the markup and look for anything else.',
         '',
         'List issues by impact (critical, serious, moderate, minor). For each give: what is wrong, who it affects, where (selector), and the exact fix as code.',
         'Finish with a short checklist of things to test by hand: keyboard only, a screen reader, 200% zoom and reduced motion.',

@@ -10,7 +10,7 @@ let hl: ReturnType<typeof highlightBox> | null = null;
 let picking = false;
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
-const save = (dataUrl: string, name: string) => sendToBackground({ type: 'download', url: dataUrl, filename: `prodev/${name}-${Date.now()}.png` });
+const save = (dataUrl: string, name: string) => sendToBackground({ type: 'download', url: dataUrl, filename: `hairline/${name}-${Date.now()}.png` });
 const publish = () => runtime.publish({ picking });
 
 const visible = captureVisible;

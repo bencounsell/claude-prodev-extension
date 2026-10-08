@@ -6,7 +6,7 @@
 
 /** The only place the product name appears (end cards). */
 export const BRAND = {
-  name: 'ProDev',
+  name: 'Hairline',
   tagline: 'The web developer &amp; designer toolkit for Chrome',
   cta: 'Add to Chrome, it’s free',
   secondary: 'Pro: one-time purchase',

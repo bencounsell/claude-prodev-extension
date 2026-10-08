@@ -13,7 +13,7 @@ export const hasView = (toolId: string) => toolId in VIEWS;
 export function showFloating(toolId: string, data: unknown, env: Env, onClose: () => void) {
   if (shown !== toolId) {
     hideFloating();
-    shell = panel(toolById(toolId)?.name ?? 'ProDev', onClose);
+    shell = panel(toolById(toolId)?.name ?? 'Hairline', onClose);
     shown = toolId;
   }
   render(<ToolView toolId={toolId} data={data} env={env} />, shell!.body);

@@ -8,7 +8,7 @@
 .v-chip{display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:600 12px ui-monospace,SFMono-Regular,Menlo,monospace;
   padding:4px 9px;border-radius:8px;background:var(--accent-soft);color:var(--accent)}
 .v-pill{font:700 10px/1 system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase;padding:4px 8px;border-radius:99px;background:var(--surface-3);color:var(--muted);border:0;margin-left:auto;cursor:pointer}
-.v-pill.pro{background:var(--grad);color:#fff}
+.v-pill.pro{background:var(--grad);color:var(--on-grad)}
 .v-pill.ok{background:rgba(16,185,129,.15);color:var(--ok)}
 .v-sec{margin-top:18px}
 .v-sec>h4{margin:0 0 6px;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
@@ -28,7 +28,7 @@
   background:var(--surface-2);border:1px solid var(--border);color:var(--text);cursor:pointer;transition:background .15s,transform .1s,filter .15s}
 .v-btn:hover{background:var(--surface-3)}.v-btn:active{transform:scale(.97)}
 .v-btn:disabled{opacity:.45;cursor:default;transform:none}
-.v-btn.primary{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 4px 14px rgba(124,108,255,.3)}
+.v-btn.primary{background:var(--grad);border-color:transparent;color:var(--on-grad);box-shadow:0 4px 14px var(--glow)}
 .v-btn.primary:hover{filter:brightness(1.08)}
 .v-btn.wide{width:100%;padding:11px}
 .v-btn:focus-visible,.v-opt:focus-visible,.v-swatch:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -105,7 +105,7 @@
 
 /* generic */
 .v-generic{text-align:center;padding:28px 8px 8px;display:grid;justify-items:center;gap:6px}
-.v-generic-ic{width:60px;height:60px;border-radius:20px;display:grid;place-items:center;background:var(--grad);color:#fff;margin-bottom:8px;box-shadow:0 10px 26px rgba(124,108,255,.35)}
+.v-generic-ic{width:60px;height:60px;border-radius:20px;display:grid;place-items:center;background:var(--grad);color:var(--on-grad);margin-bottom:8px;box-shadow:0 10px 26px var(--glow)}
 .v-generic b{font-size:15px}
 .v-generic p{margin:0;color:var(--muted);line-height:1.5}
 .v-generic .v-note{margin-top:10px}

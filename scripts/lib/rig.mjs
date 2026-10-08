@@ -19,7 +19,7 @@ export const CURSOR = () => {
   window.__pdCursor = true;
   const layer = (css) => {
     const d = document.createElement('div');
-    d.setAttribute('popover', 'manual'); // top layer: above every z-index, including ProDev's own UI
+    d.setAttribute('popover', 'manual'); // top layer: above every z-index, including Hairline's own UI
     d.style.cssText = `all:initial;inset:auto;position:fixed;left:0;top:0;margin:0;padding:0;border:0;background:transparent;
       pointer-events:none;overflow:visible;outline:none!important;${css}`;
     document.documentElement.append(d);

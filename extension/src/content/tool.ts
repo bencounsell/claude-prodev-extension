@@ -16,7 +16,7 @@ export function listen<K extends keyof DocumentEventMap>(
   return () => document.removeEventListener(type, fn as EventListener, opts);
 }
 
-/** Element under the pointer, ignoring ProDev's own overlay. */
+/** Element under the pointer, ignoring Hairline's own overlay. */
 export function target(e: Event): Element | null {
   const t = e.composedPath()[0];
   return t instanceof Element && t.tagName !== 'PRODEV-ROOT' ? t : null;

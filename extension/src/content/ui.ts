@@ -3,14 +3,14 @@ import { sendToBackground } from '../lib/messaging';
 import viewsCss from '../views/views.css';
 
 /* ------------------------------------------------------------------ *
- * ProDev in-page design system. Everything renders inside a Shadow DOM
+ * Hairline in-page design system. Everything renders inside a Shadow DOM
  * so host-page CSS can never leak in (or ours out).
  * ------------------------------------------------------------------ */
 const CSS = `
 :host{all:initial;
- --glass:rgba(16,18,25,.9);--solid:#101219;
+ --glass:rgba(16,17,19,.92);--solid:#111214;
  --text:#f2f4fa;--muted:#a1a8bb;--faint:#727a90;--surface:rgba(255,255,255,.04);--surface-2:rgba(255,255,255,.06);--surface-3:rgba(255,255,255,.1);
- --border:rgba(255,255,255,.09);--accent:#9d90ff;--accent-soft:rgba(124,108,255,.2);--grad:linear-gradient(135deg,#7c6cff,#a78bfa);
+ --border:rgba(255,255,255,.09);--accent:#ecedee;--accent-soft:rgba(255,255,255,.1);--grad:#f2f2f3;--on-grad:#0d0e10;--glow:rgba(0,0,0,.45);--hl:#3b8cf0;
  --ok:#34d399;--err:#f87171}
 /* The host carries an inline all:initial (beats :host), so base type lives on top-level children. */
 :host>*{font:13px/1.45 -apple-system,BlinkMacSystemFont,"Inter","Segoe UI",system-ui,sans-serif;color:var(--text);
@@ -30,8 +30,8 @@ kbd{font-size:10.5px;padding:1px 5px;border-radius:5px;background:var(--surface-
 .pd-bar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:6px 6px 6px 7px;
  border-radius:14px;z-index:5;animation:pd-up .28s cubic-bezier(.2,.9,.3,1.2) both;user-select:none;max-width:calc(100vw - 24px)}
 .pd-bar.moved{transform:none}
-.pd-grip{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;cursor:grab;flex:none;background:var(--grad);box-shadow:0 4px 14px rgba(124,108,255,.45)}
-.pd-grip svg{width:16px;height:16px;stroke:#fff}
+.pd-grip{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;cursor:grab;flex:none;background:var(--grad);color:var(--on-grad);box-shadow:0 4px 14px var(--glow)}
+.pd-grip svg{width:16px;height:16px;stroke:currentColor}
 .pd-bar.dragging .pd-grip{cursor:grabbing}
 .pd-tt{display:flex;flex-direction:column;min-width:0;padding-right:8px}
 .pd-tt b{font-weight:650;font-size:12.5px;white-space:nowrap}
@@ -40,7 +40,7 @@ kbd{font-size:10.5px;padding:1px 5px;border-radius:5px;background:var(--surface-
  background:var(--surface-2);border:1px solid var(--border);transition:background .15s,transform .1s}
 .pd-btn:hover{background:var(--surface-3)}.pd-btn:active{transform:scale(.97)}
 .pd-btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.pd-btn.primary{background:var(--grad);border-color:transparent;color:#fff}
+.pd-btn.primary{background:var(--grad);border-color:transparent;color:var(--on-grad)}
 .pd-btn.icon{padding:6px;border-radius:9px}.pd-btn.icon svg{width:14px;height:14px}
 
 /* floating panel shell (contents are the shared Preact views) */
@@ -52,9 +52,9 @@ kbd{font-size:10.5px;padding:1px 5px;border-radius:5px;background:var(--surface-
 .pd-panel .body{padding:14px 14px 16px;overflow:auto;scrollbar-width:thin;scrollbar-color:var(--surface-3) transparent}
 
 /* highlight + labels */
-.pd-hl{position:fixed;pointer-events:none;border:1.5px solid #7c6cff;background:rgba(124,108,255,.13);z-index:3;border-radius:2px;
+.pd-hl{position:fixed;pointer-events:none;border:1.5px solid var(--hl);background:rgba(59,140,240,.13);z-index:3;border-radius:2px;
  box-shadow:0 0 0 1px rgba(255,255,255,.35);transition:left .07s,top .07s,width .07s,height .07s}
-.pd-hl.lk{background:transparent;border-width:2px;box-shadow:0 0 0 3px rgba(124,108,255,.18)}
+.pd-hl.lk{background:transparent;border-width:2px;box-shadow:0 0 0 3px rgba(59,140,240,.2)}
 .pd-hl.m{border:0;background:rgba(251,146,60,.28);box-shadow:none}.pd-hl.p{border:0;background:rgba(52,211,153,.3);box-shadow:none}
 .pd-tip{position:fixed;background:var(--solid);color:var(--text);font:600 11px ui-monospace,SFMono-Regular,Menlo,monospace;padding:4px 8px;border-radius:7px;
  pointer-events:none;z-index:4;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.35);border:1px solid var(--border)}
@@ -69,8 +69,8 @@ kbd{font-size:10.5px;padding:1px 5px;border-radius:5px;background:var(--surface-
 /* modal (upsell + palette) */
 .pd-back{position:fixed;inset:0;background:rgba(6,8,12,.5);backdrop-filter:blur(4px);z-index:8;display:grid;animation:pd-fade .18s both}
 .pd-up{margin:auto;width:380px;max-width:92vw;padding:28px 26px 22px;border-radius:22px;text-align:center;animation:pd-in .3s cubic-bezier(.2,.9,.3,1.1) both}
-.pd-up .lock{width:54px;height:54px;border-radius:18px;margin:0 auto 14px;display:grid;place-items:center;background:var(--grad);box-shadow:0 10px 30px rgba(124,108,255,.5)}
-.pd-up .lock svg{width:26px;height:26px;stroke:#fff}
+.pd-up .lock{width:54px;height:54px;border-radius:18px;margin:0 auto 14px;display:grid;place-items:center;background:var(--grad);color:var(--on-grad);box-shadow:0 10px 30px var(--glow)}
+.pd-up .lock svg{width:26px;height:26px;stroke:currentColor}
 .pd-up h2{font-size:18px;font-weight:700;letter-spacing:-.01em}.pd-up p{color:var(--muted);margin:8px 0 18px;font-size:13px;line-height:1.5}
 .pd-up .row2{display:flex;gap:8px;justify-content:center}.pd-up .pd-btn{padding:9px 16px;font-size:13px}
 .pd-up ul{list-style:none;text-align:left;margin:0 0 18px;display:grid;gap:7px;padding:12px 14px;background:var(--surface-2);border-radius:12px;font-size:12.5px}
@@ -87,7 +87,7 @@ kbd{font-size:10.5px;padding:1px 5px;border-radius:5px;background:var(--surface-
 .pd-pal .tx{flex:1;min-width:0}.pd-pal .tx b{display:block;font-weight:600}.pd-pal .tx span{display:block;color:var(--muted);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pd-pal footer{display:flex;gap:14px;padding:9px 16px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px}
 .pd-pal .none{padding:26px;text-align:center;color:var(--muted)}
-.pd-pill{font-size:10px;font-weight:700;letter-spacing:.05em;padding:2px 7px;border-radius:99px;background:var(--grad);color:#fff}
+.pd-pill{font-size:10px;font-weight:700;letter-spacing:.05em;padding:2px 7px;border-radius:99px;background:var(--grad);color:var(--on-grad)}
 ` + viewsCss;
 
 let host: HTMLElement | null = null;
@@ -109,7 +109,7 @@ export function overlay(): ShadowRoot {
   return root;
 }
 
-/** True when the event originated inside ProDev's own UI. */
+/** True when the event originated inside Hairline's own UI. */
 export const isOwn = (e: Event) => e.composedPath().some((n) => n === host);
 
 export function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls = '', html = ''): HTMLElementTagNameMap[K] {

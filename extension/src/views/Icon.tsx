@@ -2,6 +2,14 @@ export const Icon = ({ d, size = 18, class: cls }: { d: string; size?: number; c
   <svg class={cls} viewBox="0 0 24 24" width={size} height={size} aria-hidden="true"><path d={d} /></svg>
 );
 
+/** The Hairline mark: a selection corner with hairline guides. Fills its tile (32-unit grid). */
+export const Logo = ({ size = 32 }: { size?: number }) => (
+  <svg viewBox="0 0 32 32" width={size} height={size} aria-hidden="true">
+    <path d="M10 24V10h14" stroke-width="2.4" />
+    <path d="M24 10v14H10M10 5v5M5 10h5" stroke-width="1" opacity=".55" />
+  </svg>
+);
+
 export const I = {
   check: 'M5 12.5l4.5 4.5L19 7.5',
   lock: 'M7 11V8a5 5 0 0110 0v3M6 11h12v9H6z',
@@ -15,7 +23,6 @@ export const I = {
   undo: 'M9 14L4 9l5-5M4 9h10a6 6 0 010 12h-3',
   unlock: 'M7 11V8a5 5 0 019.6-2M6 11h12v9H6z',
   gear: 'M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z',
-  logo: 'M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14',
   back: 'M15 6l-6 6 6 6',
   monitor: 'M3 5h18v11H3zM8 20h8M12 16v4',
   float: 'M4 4h16v16H4zM13 7h4v4h-4z',

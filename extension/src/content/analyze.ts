@@ -79,7 +79,7 @@ export function shadowsIn(root: Element = document.body) {
 
 /* ------------------------------------------------------------------ screenshots */
 
-/** Hides ProDev's own UI while capturing so it never appears in screenshots. */
+/** Hides Hairline's own UI while capturing so it never appears in screenshots. */
 export async function withoutOverlay<T>(fn: () => Promise<T>): Promise<T> {
   const host = overlay().host as HTMLElement;
   host.style.visibility = 'hidden';

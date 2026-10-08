@@ -1,9 +1,9 @@
 {
-  "name": "prodev-extension",
+  "name": "hairline-extension",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "ProDev - 14 developer & designer tools for any website",
+  "description": "Hairline: CSS inspector & dev tools for any website",
   "scripts": {
     "build": "node scripts/build.mjs",
     "dev": "node scripts/build.mjs --watch",
