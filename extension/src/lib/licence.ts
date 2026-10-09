@@ -1,17 +1,16 @@
 /**
- * Licensing via Lemon Squeezy's public License API (no secret key required in the client).
- * https://docs.lemonsqueezy.com/api/license-api
- * Swap CONFIG to move to Paddle or another vendor; only validate()/activate() need changing.
+ * Licensing via Creem (https://creem.io), through the small PHP proxy in /server/licence.php.
+ * Creem's licence API needs a secret API key, so the extension never talks to Creem directly: the
+ * proxy holds the key, checks the key belongs to Hairline's product, and returns { valid, instance_id }.
  */
 export const CONFIG = {
-  apiBase: 'https://api.lemonsqueezy.com/v1/licenses',
-  /** Set to your Lemon Squeezy store/product IDs so keys from other products are rejected. */
-  storeId: 0,
-  productId: 0,
+  /** Where server/licence.php is deployed. Also listed in manifest.json host_permissions. */
+  licenceUrl: 'https://hairline.example.com/licence.php',
+  /** Creem checkout link for Hairline Pro (Creem dashboard → Products → Share / payment link). */
   checkoutUrl: 'https://hairline.example.com/pricing',
   /** Days a cached validation stays trusted while offline. */
   graceDays: 14,
-  /** Re-validate against the API at most this often (hours). */
+  /** Re-validate at most this often (hours). */
   revalidateHours: 24,
 };
 
@@ -29,34 +28,25 @@ export async function getRecord(): Promise<LicenceRecord | null> {
   return (rec as LicenceRecord | undefined) ?? null;
 }
 
-async function post(path: string, body: Record<string, string>) {
-  const res = await fetch(`${CONFIG.apiBase}/${path}`, {
-    method: 'POST',
-    headers: { Accept: 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams(body),
-  });
-  return (await res.json()) as {
-    activated?: boolean;
-    valid?: boolean;
-    error?: string | null;
-    instance?: { id: string };
-    meta?: { store_id: number; product_id: number };
-  };
-}
+interface ProxyReply { valid: boolean; instance_id?: string; error?: string }
 
-function matchesProduct(meta?: { store_id: number; product_id: number }) {
-  if (!CONFIG.storeId && !CONFIG.productId) return true; // unconfigured dev build
-  return meta?.store_id === CONFIG.storeId && meta?.product_id === CONFIG.productId;
+/** Calls the licence proxy. Throws on network failure or a server error (5xx), so callers can apply the grace period. */
+async function post(action: 'activate' | 'validate' | 'deactivate', body: Record<string, string>): Promise<ProxyReply> {
+  const res = await fetch(`${CONFIG.licenceUrl}?action=${action}`, {
+    method: 'POST',
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (res.status >= 500) throw new Error(`licence server ${res.status}`);
+  return (await res.json()) as ProxyReply;
 }
 
 export async function activate(key: string): Promise<{ ok: boolean; error?: string }> {
   try {
-    const data = await post('activate', { license_key: key.trim(), instance_name: `Hairline ${chrome.runtime.id}` });
-    if (!data.activated || !data.instance || !matchesProduct(data.meta)) {
-      return { ok: false, error: data.error ?? 'This licence key is not valid for Hairline.' };
-    }
+    const data = await post('activate', { key: key.trim(), instance_name: `Hairline ${chrome.runtime.id}` });
+    if (!data.valid || !data.instance_id) return { ok: false, error: data.error ?? 'This licence key is not valid for Hairline.' };
     await chrome.storage.local.set({
-      [KEY]: { key: key.trim(), instanceId: data.instance.id, validatedAt: Date.now(), valid: true } satisfies LicenceRecord,
+      [KEY]: { key: key.trim(), instanceId: data.instance_id, validatedAt: Date.now(), valid: true } satisfies LicenceRecord,
     });
     return { ok: true };
   } catch {
@@ -68,7 +58,7 @@ export async function deactivate(): Promise<void> {
   const rec = await getRecord();
   if (rec) {
     try {
-      await post('deactivate', { license_key: rec.key, instance_id: rec.instanceId });
+      await post('deactivate', { key: rec.key, instance_id: rec.instanceId });
     } catch {
       /* offline: still clear locally */
     }
@@ -83,11 +73,10 @@ export async function isPro(): Promise<boolean> {
   const age = Date.now() - rec.validatedAt;
   if (age < CONFIG.revalidateHours * 3_600_000) return true;
   try {
-    const data = await post('validate', { license_key: rec.key, instance_id: rec.instanceId });
-    const valid = !!data.valid && matchesProduct(data.meta);
-    await chrome.storage.local.set({ [KEY]: { ...rec, valid, validatedAt: Date.now() } });
-    return valid;
+    const { valid } = await post('validate', { key: rec.key, instance_id: rec.instanceId });
+    await chrome.storage.local.set({ [KEY]: { ...rec, valid: !!valid, validatedAt: Date.now() } });
+    return !!valid;
   } catch {
-    return age < CONFIG.graceDays * 86_400_000; // offline grace period
+    return age < CONFIG.graceDays * 86_400_000; // offline or server down: grace period
   }
 }

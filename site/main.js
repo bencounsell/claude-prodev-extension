@@ -1,7 +1,7 @@
 // Site configuration: set these once the store listing and checkout exist.
 const CONFIG = {
   storeUrl: '',      // Chrome Web Store listing URL; until set, install buttons scroll to #pricing
-  checkoutUrl: '',   // Lemon Squeezy (or Paddle) checkout URL for Pro
+  checkoutUrl: '',   // Creem checkout link for Hairline Pro
   price: '$29',      // shown on the Pro plan
 };
 

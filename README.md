@@ -38,9 +38,26 @@ Load `dist/` via `chrome://extensions` → Developer mode → Load unpacked.
 
 ## Before launch (TODO)
 - Final name / trademark + domain check, replace placeholder icons (`scripts/icons.mjs` generates temporary ones).
-- Set `CONFIG` in `extension/src/lib/licence.ts` (Lemon Squeezy store/product IDs, real checkout URL).
+- Deploy the licence proxy and set `CONFIG` in `extension/src/lib/licence.ts` (see Payments below).
 - Marketing site, privacy policy, store screenshots/promo tiles, listing copy.
 - Test on complex sites (SPAs, iframes, shadow DOM) in Chrome, Edge and Brave.
+
+## Payments (Creem)
+Pro is a one-time Creem purchase that comes with a licence key. Creem's licence API needs your secret
+API key, so the extension talks to a tiny PHP proxy instead (`server/licence.php`), never to Creem directly.
+
+1. In Creem, create the **Hairline Pro** product (one-time, $29) with **licence keys** enabled and an
+   activation limit (e.g. 3 browsers). Note its product ID and the checkout link.
+2. Upload `server/licence.php` to any PHP 8+ host with curl (e.g. `https://hairline.app/licence.php`).
+   Copy `server/config.example.php` to `config.php` with your API key and product ID, ideally outside
+   the web root (point `HAIRLINE_CONFIG` at it), or set the same names as environment variables.
+   Use `CREEM_API_BASE=https://test-api.creem.io` and a test key while testing.
+3. In `extension/src/lib/licence.ts` set `licenceUrl` and `checkoutUrl`, and put the proxy's origin in
+   `host_permissions` in `extension/manifest.json`. On the site, set `checkoutUrl` in `site/main.js`.
+
+Buyers get the key from Creem's receipt and paste it into Hairline → Settings → Activate Pro. The extension
+re-validates about once a day and keeps Pro unlocked offline for 14 days. `php server/test.php` exercises
+the proxy against a fake Creem.
 
 ## Marketing videos
 Two-stage pipeline in `scripts/marketing/` (footage is the real extension; output is not committed):

@@ -32,7 +32,7 @@
     "sidePanel"
   ],
   "host_permissions": [
-    "https://api.lemonsqueezy.com/*"
+    "https://hairline.example.com/*"
   ],
   "commands": {
     "_execute_action": {
