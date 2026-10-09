@@ -55,6 +55,25 @@ API key, so the extension talks to a tiny PHP proxy instead (`server/licence.php
 3. In `extension/src/lib/licence.ts` set `licenceUrl` and `checkoutUrl`, and put the proxy's origin in
    `host_permissions` in `extension/manifest.json`. On the site, set `checkoutUrl` in `site/main.js`.
 
+4. In the Creem product, set the **success URL** to `https://<your-site>/thanks.html` (activation steps) and
+   the **support email** to the same address shown on the site.
+
+### Creem account review checklist
+Creem reviews the store before live payments. Status in this repo:
+
+- [x] Clear description of what's sold, and visible pricing (`site/index.html`, pricing table + fine print)
+- [x] Privacy policy (`site/privacy.html`), terms of service (`site/terms.html`), refund policy (`site/refunds.html`),
+      all linked from every page's footer and naming Creem as merchant of record
+- [x] Post-purchase page with activation steps (`site/thanks.html`)
+- [x] No fake reviews, testimonials or inflated user counts (the demo site in the videos uses neutral copy)
+- [x] Refund promise matches Creem's rules: 14-day refunds, replies within 3 business days
+- [ ] **Fill in the placeholders** (highlighted yellow on the pages): seller name and country in terms/privacy,
+      and replace `support@hairline.example.com` everywhere (`grep -rn hairline.example.com site extension`)
+- [ ] Support email set in the Creem dashboard and matching the site; receipts show it
+- [ ] Product live (Chrome Web Store listing) and the store URL set in `site/main.js`
+- [ ] Trademark check for the name "Hairline"
+- [ ] One Creem store for this website only
+
 Buyers get the key from Creem's receipt and paste it into Hairline → Settings → Activate Pro. The extension
 re-validates about once a day and keeps Pro unlocked offline for 14 days. `php server/test.php` exercises
 the proxy against a fake Creem.

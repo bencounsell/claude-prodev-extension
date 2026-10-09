@@ -8,6 +8,10 @@ export const CONFIG = {
   licenceUrl: 'https://hairline.example.com/licence.php',
   /** Creem checkout link for Hairline Pro (Creem dashboard → Products → Share / payment link). */
   checkoutUrl: 'https://hairline.example.com/pricing',
+  /** Shown in Settings; must match the support email in your Creem dashboard and on the website. */
+  supportEmail: 'support@hairline.example.com',
+  /** Website with the terms and refund policy. */
+  siteUrl: 'https://hairline.example.com',
   /** Days a cached validation stays trusted while offline. */
   graceDays: 14,
   /** Re-validate at most this often (hours). */

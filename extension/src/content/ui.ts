@@ -265,8 +265,8 @@ function modal(content: HTMLElement, onClose?: () => void) {
 export function upsell(feature: string) {
   const c = el('div', 'pd-up glass');
   c.innerHTML = `<div class="lock">${icon(ICONS.lock, 26)}</div><h2>${esc(feature)} is a Pro feature</h2>
-    <p>Unlock every tool with a one-time purchase. No subscription, free updates.</p>
-    <ul>${[`All ${TOOLS.length} tools, including full-page capture`, 'Live CSS editing, export, palette & more', 'One payment, use on all your browsers'].map((s) => `<li>${icon(ICONS.check, 14)}${s}</li>`).join('')}</ul>
+    <p>Unlock every tool with a one-time purchase. No subscription, 14-day money-back guarantee.</p>
+    <ul>${[`All ${TOOLS.length} tools, including full-page capture`, 'Live CSS editing, export, palette & more', 'One payment, use on up to 3 browsers'].map((s) => `<li>${icon(ICONS.check, 14)}${s}</li>`).join('')}</ul>
     <div class="row2"><button class="pd-btn" data-a="later">Maybe later</button><button class="pd-btn primary" data-a="up">Unlock Pro</button></div>`;
   const m = modal(c);
   c.querySelector<HTMLElement>('[data-a=later]')!.onclick = m.close;

@@ -58,9 +58,9 @@ function Upsell({ feature, onClose }: { feature: string; onClose(): void }) {
       <div class="sp-upsell" role="dialog" aria-modal="true" aria-label={`${feature} is a Pro feature`}>
         <div class="lock"><Icon d={I.lock} size={24} /></div>
         <h2>{feature} is a Pro feature</h2>
-        <p>Unlock every tool with a one-time purchase. No subscription, free updates.</p>
+        <p>Unlock every tool with a one-time purchase. No subscription, 14-day money-back guarantee.</p>
         <ul>
-          {[`All ${TOOLS.length} tools, including full-page capture`, 'Live CSS editing, export, palette & more', 'One payment, use on all your browsers'].map((s) => (
+          {[`All ${TOOLS.length} tools, including full-page capture`, 'Live CSS editing, export, palette & more', 'One payment, use on up to 3 browsers'].map((s) => (
             <li key={s}><Icon d={I.check} size={14} />{s}</li>
           ))}
         </ul>

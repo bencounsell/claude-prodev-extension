@@ -66,11 +66,12 @@ function App() {
             <div class="row between"><div><h2>Hairline Pro is active</h2><p>Thanks for supporting independent software. Every tool is unlocked on this browser.</p></div>
               <span class="seal"><Icon d={CHECK} size={22} /></span></div>
             <button class="btn ghost" onClick={async () => { await deactivate(); setMsg(null); await refresh(); }}>Deactivate this browser</button>
+            <p class="hint">Need help with your licence? Email <a href={`mailto:${CONFIG.supportEmail}`}>{CONFIG.supportEmail}</a>.</p>
           </>
         ) : (
           <>
             <div class="row between">
-              <div><h2>Upgrade to Pro</h2><p>One payment. Every tool. Free updates, forever.</p></div>
+              <div><h2>Upgrade to Pro</h2><p>One payment, no subscription. Every tool, in up to 3 browsers.</p></div>
               <a class="btn" href={CONFIG.checkoutUrl} target="_blank" rel="noopener">Buy Pro</a>
             </div>
             <ul class="perks">
@@ -82,6 +83,8 @@ function App() {
               <input class="input" placeholder="Paste your licence key" value={key} onInput={(e) => setKey((e.target as HTMLInputElement).value)} aria-label="Licence key" spellcheck={false} />
               <button class="btn" disabled={busy || !key.trim()}>{busy ? 'Activating…' : 'Activate'}</button>
             </form>
+            <p class="hint">Your key is in the receipt email from Creem. Payments are processed by Creem, our merchant of record, with a 14-day money-back guarantee. Lost your key? Email <a href={`mailto:${CONFIG.supportEmail}`}>{CONFIG.supportEmail}</a>.</p>
+            <p class="hint"><a href={`${CONFIG.siteUrl}/terms.html`} target="_blank" rel="noopener">Terms</a> · <a href={`${CONFIG.siteUrl}/refunds.html`} target="_blank" rel="noopener">Refund policy</a> · <a href={`${CONFIG.siteUrl}/privacy.html`} target="_blank" rel="noopener">Privacy</a></p>
           </>
         )}
         {msg && <div class={`msg ${msg.ok ? 'ok' : 'err'}`} role="status">{msg.text}</div>}
