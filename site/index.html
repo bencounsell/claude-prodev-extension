@@ -204,29 +204,37 @@
       <p class="eyebrow mono">Pricing</p>
       <h2>Free tools, with a one-time Pro upgrade</h2>
     </div>
-    <div class="plans">
-      <span class="gx gx-tag" aria-hidden="true"><i>div.plans</i>&nbsp;&nbsp;grid · 2 × 1</span>
-      <article class="plan">
-        <h3>Free</h3>
-        <p class="price"><b>$0</b></p>
-        <p class="plan-note">Everything you need to inspect a page.</p>
-        <ul class="ticks">
-          <li>CSS Inspector (read-only)</li><li>Color Picker with contrast checks</li><li>List All Fonts</li><li>Page Ruler and Outliner</li>
-          <li>Live Text Editor and Delete Element</li><li>Visible-area and element screenshots</li><li>Send to AI: ask about any element</li><li>Side panel, floating mode, command palette</li>
-        </ul>
-        <a class="btn btn-ghost" data-store href="#pricing"><svg class="i-line" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Add to Chrome</a>
-      </article>
-      <article class="plan plan-pro">
-        <span class="badge mono">One-time</span>
-        <h3>Pro</h3>
-        <p class="price"><b data-price>$29</b> <span>once, no subscription</span></p>
-        <p class="plan-note">Everything in Free, plus:</p>
-        <ul class="ticks">
-          <li>Live CSS editing in the inspector</li><li>Color Palette with CSS and Tailwind export</li><li>Fonts Changer</li><li>Move Element and Image Replacer</li>
-          <li>Send to AI: recreate, edit, accessibility and style guide prompts</li><li>Export Element as HTML + CSS</li><li>Extract Images and full-page screenshots</li><li>Free updates</li>
-        </ul>
-        <a class="btn btn-primary" data-checkout href="#pricing"><svg class="i-line" viewBox="0 0 32 32" aria-hidden="true"><path d="M10 24V10h14" stroke-width="3"/><path d="M24 10v14H10M10 5v5M5 10h5" stroke-width="1.5" opacity=".55"/></svg>Get Hairline Pro</a>
-      </article>
+    <div class="pricing-table">
+      <table>
+        <caption class="sr-only">Free and Pro plans compared</caption>
+        <colgroup><col class="c-feat"><col><col></colgroup>
+        <thead>
+          <tr>
+            <th scope="col"><span class="t-note">Every tool, side by side. Pro is a single payment, no subscription.</span></th>
+            <th scope="col"><div class="plan-head"><span class="plan-name">Free</span><p class="price"><b>$0</b></p><a class="btn btn-ghost" data-store href="#pricing"><svg class="i-line" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Add to Chrome</a></div></th>
+            <th scope="col" class="c-pro"><div class="plan-head"><span class="plan-name">Pro <span class="badge mono">One-time</span></span><p class="price"><b data-price>$29</b> <span>once</span></p><a class="btn btn-primary" data-checkout href="#pricing"><svg class="i-line" viewBox="0 0 32 32" aria-hidden="true"><path d="M10 24V10h14" stroke-width="3"/><path d="M24 10v14H10M10 5v5M5 10h5" stroke-width="1.5" opacity=".55"/></svg>Get Pro</a></div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="grp"><th colspan="3" scope="colgroup">Inspect</th></tr>
+          <tr><th scope="row">css-inspector</th><td>read-only</td><td class="c-pro"><span class="yes">live editing</span></td></tr>
+          <tr><th scope="row">color-picker</th><td><span class="yes">with contrast checks</span></td><td class="c-pro"><span class="yes"></span></td></tr>
+          <tr><th scope="row">color-palette</th><td><span class="no" aria-label="Not included">—</span></td><td class="c-pro"><span class="yes">CSS + Tailwind export</span></td></tr>
+          <tr><th scope="row">fonts</th><td>list every font</td><td class="c-pro"><span class="yes">list + swap live</span></td></tr>
+          <tr><th scope="row">ruler · outliner</th><td><span class="yes"></span></td><td class="c-pro"><span class="yes"></span></td></tr>
+          <tr class="grp"><th colspan="3" scope="colgroup">Edit</th></tr>
+          <tr><th scope="row">text-editor · delete</th><td><span class="yes"></span></td><td class="c-pro"><span class="yes"></span></td></tr>
+          <tr><th scope="row">move · image-replacer</th><td><span class="no" aria-label="Not included">—</span></td><td class="c-pro"><span class="yes"></span></td></tr>
+          <tr class="grp"><th colspan="3" scope="colgroup">Capture &amp; AI</th></tr>
+          <tr><th scope="row">screenshots</th><td>visible area + element</td><td class="c-pro"><span class="yes">+ full page</span></td></tr>
+          <tr><th scope="row">extract-images</th><td><span class="no" aria-label="Not included">—</span></td><td class="c-pro"><span class="yes"></span></td></tr>
+          <tr><th scope="row">export-element</th><td><span class="no" aria-label="Not included">—</span></td><td class="c-pro"><span class="yes">HTML + CSS</span></td></tr>
+          <tr><th scope="row">send-to-ai</th><td>ask about an element</td><td class="c-pro"><span class="yes">recreate, edit, a11y, style guide</span></td></tr>
+          <tr class="grp"><th colspan="3" scope="colgroup">General</th></tr>
+          <tr><th scope="row">side panel · floating · palette</th><td><span class="yes"></span></td><td class="c-pro"><span class="yes"></span></td></tr>
+          <tr><th scope="row">updates</th><td><span class="yes"></span></td><td class="c-pro"><span class="yes">free, forever</span></td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
