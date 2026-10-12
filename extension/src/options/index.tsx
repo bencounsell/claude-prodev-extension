@@ -84,7 +84,7 @@ function App() {
               <button class="btn" disabled={busy || !key.trim()}>{busy ? 'Activating…' : 'Activate'}</button>
             </form>
             <p class="hint">Your key is in the receipt email from Creem. Payments are processed by Creem, our merchant of record, with a 14-day money-back guarantee. Lost your key? Email <a href={`mailto:${CONFIG.supportEmail}`}>{CONFIG.supportEmail}</a>.</p>
-            <p class="hint"><a href={`${CONFIG.siteUrl}/terms.html`} target="_blank" rel="noopener">Terms</a> · <a href={`${CONFIG.siteUrl}/refunds.html`} target="_blank" rel="noopener">Refund policy</a> · <a href={`${CONFIG.siteUrl}/privacy.html`} target="_blank" rel="noopener">Privacy</a></p>
+            <p class="hint"><a href={`${CONFIG.siteUrl}/terms.html`} target="_blank" rel="noopener">Terms</a> · <a href={`${CONFIG.siteUrl}/refunds.html`} target="_blank" rel="noopener">Refund policy</a> · <a href={CONFIG.privacyUrl} target="_blank" rel="noopener">Privacy</a></p>
           </>
         )}
         {msg && <div class={`msg ${msg.ok ? 'ok' : 'err'}`} role="status">{msg.text}</div>}

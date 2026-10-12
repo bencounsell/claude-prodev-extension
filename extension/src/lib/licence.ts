@@ -1,10 +1,11 @@
 /**
- * Licensing via Creem (https://creem.io), through the small PHP proxy in /server/licence.php.
+ * Licensing via Creem (https://creem.io), through the small PHP proxy at
+ * bencounsell.com/hairline/licence.php (source: hairline/licence.php in the bencounsell/bencounsell.com repo).
  * Creem's licence API needs a secret API key, so the extension never talks to Creem directly: the
  * proxy holds the key, checks the key belongs to Hairline's product, and returns { valid, instance_id }.
  */
 export const CONFIG = {
-  /** Where server/licence.php is deployed. Also listed in manifest.json host_permissions. */
+  /** Where the licence proxy is deployed. Also listed in manifest.json host_permissions. */
   licenceUrl: 'https://bencounsell.com/hairline/licence.php',
   /** Creem checkout link for Hairline Pro (Creem dashboard → Products → Share / payment link). */
   checkoutUrl: 'https://bencounsell.com/hairline/#pricing',
@@ -12,6 +13,8 @@ export const CONFIG = {
   supportEmail: 'support@bencounsell.com',
   /** Website with the terms and refund policy. */
   siteUrl: 'https://bencounsell.com/hairline',
+  /** Company-wide privacy policy, shared by every product. */
+  privacyUrl: 'https://bencounsell.com/privacy.html',
   /** Days a cached validation stays trusted while offline. */
   graceDays: 14,
   /** Re-validate at most this often (hours). */

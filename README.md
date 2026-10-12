@@ -39,44 +39,45 @@ Load `dist/` via `chrome://extensions` → Developer mode → Load unpacked.
 ## Before launch (TODO)
 - Final name / trademark + domain check, replace placeholder icons (`scripts/icons.mjs` generates temporary ones).
 - Deploy the licence proxy and set `CONFIG` in `extension/src/lib/licence.ts` (see Payments below).
-- Marketing site, privacy policy, store screenshots/promo tiles, listing copy.
+- Store screenshots/promo tiles, listing copy. The marketing site, legal pages and licence proxy live in
+  [bencounsell/bencounsell.com](https://github.com/bencounsell/bencounsell.com) under `hairline/`.
 - Test on complex sites (SPAs, iframes, shadow DOM) in Chrome, Edge and Brave.
 
 ## Payments (Creem)
 Pro is a one-time Creem purchase that comes with a licence key. Creem's licence API needs your secret
-API key, so the extension talks to a tiny PHP proxy instead (`server/licence.php`), never to Creem directly.
+API key, so the extension talks to a tiny PHP proxy instead (`hairline/licence.php` in bencounsell/bencounsell.com), never to Creem directly.
 
 1. In Creem, create the **Hairline Pro** product (one-time, $29) with **licence keys** enabled and an
    activation limit (e.g. 3 browsers). Note its product ID and the checkout link.
-2. Upload `server/licence.php` to any PHP 8+ host with curl (e.g. `https://hairline.app/licence.php`).
-   Copy `server/config.example.php` to `config.php` with your API key and product ID, ideally outside
+2. Deploy the website repo (bencounsell/bencounsell.com), which serves the proxy at `https://bencounsell.com/hairline/licence.php`.
+   Copy `hairline/config.example.php` to `config.php` with your API key and product ID, ideally outside
    the web root (point `HAIRLINE_CONFIG` at it), or set the same names as environment variables.
    Use `CREEM_API_BASE=https://test-api.creem.io` and a test key while testing.
 3. In `extension/src/lib/licence.ts` set `licenceUrl` and `checkoutUrl`, and put the proxy's origin in
-   `host_permissions` in `extension/manifest.json`. On the site, set `checkoutUrl` in `site/main.js`.
+   `host_permissions` in `extension/manifest.json`. On the site, set `checkoutUrl` in `hairline/main.js`.
 
-4. In the Creem product, set the **success URL** to `https://<your-site>/thanks.html` (activation steps) and
+4. In the Creem product, set the **success URL** to `https://bencounsell.com/hairline/thanks.html` (activation steps) and
    the **support email** to the same address shown on the site.
 
 ### Creem account review checklist
 Creem reviews the store before live payments. Status in this repo:
 
-- [x] Clear description of what's sold, and visible pricing (`site/index.html`, pricing table + fine print)
-- [x] Privacy policy (`site/privacy.html`), terms of service (`site/terms.html`), refund policy (`site/refunds.html`),
+- [x] Clear description of what's sold, and visible pricing (`hairline/index.html` in the website repo, pricing table + fine print)
+- [x] Privacy policy (`privacy.html`), terms of service and refund policy (`hairline/terms.html`, `refunds.html`) in the website repo,
       all linked from every page's footer and naming Creem as merchant of record
-- [x] Post-purchase page with activation steps (`site/thanks.html`)
+- [x] Post-purchase page with activation steps (`hairline/thanks.html`)
 - [x] No fake reviews, testimonials or inflated user counts (the demo site in the videos uses neutral copy)
 - [x] Refund promise matches Creem's rules: 14-day refunds, replies within 3 business days
-- [x] Seller named (Ben Counsell Consulting, Sweden); one company-wide privacy policy (`legal/privacy.html`),
-      shared terms and refunds generated per product (`npm run legal -- --strict`; see `legal/README.md`)
+- [x] Seller named (Ben Counsell Consulting, Sweden); one company-wide privacy policy,
+      shared terms and refunds generated per product (`npm run legal` in the website repo)
 - [x] Support email `support@bencounsell.com` on the site, in the extension and in the legal pages
 - [ ] Same support email (`support@bencounsell.com`) set in the Creem dashboard, so receipts show it
-- [ ] Product live (Chrome Web Store listing) and the store URL set in `site/main.js`
+- [ ] Product live (Chrome Web Store listing) and the store URL set in `hairline/main.js`
 - [ ] Trademark check for the name "Hairline"
 - [ ] One Creem store for this website only
 
 Buyers get the key from Creem's receipt and paste it into Hairline → Settings → Activate Pro. The extension
-re-validates about once a day and keeps Pro unlocked offline for 14 days. `php server/test.php` exercises
+re-validates about once a day and keeps Pro unlocked offline for 14 days. `php tests/licence.php` in the website repo exercises
 the proxy against a fake Creem.
 
 ## Marketing videos
@@ -99,3 +100,4 @@ TAKES=media/takes OUT=media/marketing node scripts/marketing/render.mjs [video .
 
 Outputs: `hero-loop` and `site-*` loops (1920×1200, tight crop for the website), `feature-*` loops (1920×1080, seamless), `product-tour` (~90s), `social-square`
 (1080×1080) and `social-vertical` (1080×1920). Silent by design (autoplay-friendly); add music in an editor.
+Copy the website loops and posters into `hairline/media/` in [bencounsell/bencounsell.com](https://github.com/bencounsell/bencounsell.com).
