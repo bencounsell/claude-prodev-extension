@@ -8,7 +8,7 @@ export const CONFIG = {
   /** Where the licence proxy is deployed. Also listed in manifest.json host_permissions. */
   licenceUrl: 'https://bencounsell.com/hairline/licence.php',
   /** Creem checkout link for Hairline Pro (Creem dashboard → Products → Share / payment link). */
-  checkoutUrl: 'https://bencounsell.com/hairline/#pricing',
+  checkoutUrl: 'https://www.creem.io/payment/prod_4Ek7rErk5ODXnv4XQrPzQ9',
   /** Shown in Settings; must match the support email in your Creem dashboard and on the website. */
   supportEmail: 'support@bencounsell.com',
   /** Website with the terms and refund policy. */
