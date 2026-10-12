@@ -1,0 +1,36 @@
+{
+  "name": "Hairline",
+  "type": "browser extension",
+  "paid": "Hairline Pro",
+  "platforms": "Chrome, Microsoft Edge and Brave",
+  "freeTier": "Some tools are free to use. Hairline Pro unlocks the rest, as listed on our <a href=\"index.html#pricing\">pricing table</a>.",
+  "description": "Hairline runs in your browser; changes it makes to web pages are visible only to you and reset when you reload.",
+  "seats": "3 browsers",
+  "activate": "Paste it into Hairline → Settings → Activate Pro.",
+  "move": "You can move it between browsers by deactivating one in Settings.",
+  "licenceCheck": "Hairline checks your licence with our licence server about once a day. It keeps working offline for up to 14 days.",
+  "uninstall": "uninstalling it",
+  "afterRefund": "Your licence key is deactivated and Pro tools lock again. The free tools keep working.",
+  "acceptableUse": "Don't use Hairline to copy or republish content, designs or code you don't have permission to use.",
+  "thirdParties": "Send to AI only prepares a prompt and opens the AI app you choose (such as Claude, ChatGPT or Gemini); your use of those apps is governed by their own terms and privacy policies. Font previews may load fonts from Google Fonts.",
+  "privacy": {
+    "summary": "Hairline is a browser extension that runs on your device. It has no accounts, no analytics and no tracking, and it doesn't sell or share data with anyone.",
+    "onDevice": [
+      "Page content you inspect, edit, export or capture is processed in your browser and never sent to us.",
+      "Your settings (theme, panel location, recently used tools) are stored with your browser's extension storage, which may sync between your own browsers if you use browser sync.",
+      "Screenshots and images you save go to your Downloads folder.",
+      "<b>Send to AI</b> builds its prompt in your browser. Hairline never sends it anywhere: it opens your AI app (Claude, ChatGPT or Gemini) with the prompt filled in or copied to your clipboard, and nothing is shared until you send it yourself under that app's own privacy policy."
+    ],
+    "network": [
+      "<b>Licence checks.</b> When you activate a Pro licence, and about once a day after that, Hairline sends your licence key and an instance name to our licence server, which checks it with Creem to confirm it's valid. Nothing about the pages you visit is included, and we don't log keys.",
+      "<b>Font previews.</b> If you preview a font with Fonts Changer that isn't installed on your computer, the page loads that font from Google Fonts, as any website using Google Fonts would."
+    ],
+    "permissions": [
+      "<b>activeTab</b> and <b>scripting</b>: to show tools on the tab you open Hairline on.",
+      "<b>storage</b>: to remember your settings and licence.",
+      "<b>downloads</b>: to save screenshots and images.",
+      "<b>sidePanel</b>: to dock Hairline beside the page.",
+      "<b>Optional \"all sites\" access</b>: only if you allow it, so the side panel keeps working as you switch tabs. You can remove it any time in your browser's extension settings."
+    ]
+  }
+}

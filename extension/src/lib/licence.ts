@@ -5,13 +5,13 @@
  */
 export const CONFIG = {
   /** Where server/licence.php is deployed. Also listed in manifest.json host_permissions. */
-  licenceUrl: 'https://hairline.example.com/licence.php',
+  licenceUrl: 'https://bencounsell.com/hairline/licence.php',
   /** Creem checkout link for Hairline Pro (Creem dashboard → Products → Share / payment link). */
-  checkoutUrl: 'https://hairline.example.com/pricing',
+  checkoutUrl: 'https://bencounsell.com/hairline/#pricing',
   /** Shown in Settings; must match the support email in your Creem dashboard and on the website. */
-  supportEmail: 'support@hairline.example.com',
+  supportEmail: 'support@bencounsell.com',
   /** Website with the terms and refund policy. */
-  siteUrl: 'https://hairline.example.com',
+  siteUrl: 'https://bencounsell.com/hairline',
   /** Days a cached validation stays trusted while offline. */
   graceDays: 14,
   /** Re-validate at most this often (hours). */

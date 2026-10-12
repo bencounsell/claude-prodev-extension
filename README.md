@@ -67,9 +67,10 @@ Creem reviews the store before live payments. Status in this repo:
 - [x] Post-purchase page with activation steps (`site/thanks.html`)
 - [x] No fake reviews, testimonials or inflated user counts (the demo site in the videos uses neutral copy)
 - [x] Refund promise matches Creem's rules: 14-day refunds, replies within 3 business days
-- [ ] **Fill in the placeholders** (highlighted yellow on the pages): seller name and country in terms/privacy,
-      and replace `support@hairline.example.com` everywhere (`grep -rn hairline.example.com site extension`)
-- [ ] Support email set in the Creem dashboard and matching the site; receipts show it
+- [ ] **Fill in your legal name and country** in `legal/company.json`, then `npm run legal -- --strict`
+      (legal pages are generated from the shared texts in `legal/`; see `legal/README.md`)
+- [x] Support email `support@bencounsell.com` on the site, in the extension and in the legal pages
+- [ ] Same support email (`support@bencounsell.com`) set in the Creem dashboard, so receipts show it
 - [ ] Product live (Chrome Web Store listing) and the store URL set in `site/main.js`
 - [ ] Trademark check for the name "Hairline"
 - [ ] One Creem store for this website only

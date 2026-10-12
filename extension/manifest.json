@@ -32,7 +32,7 @@
     "sidePanel"
   ],
   "host_permissions": [
-    "https://hairline.example.com/*"
+    "https://bencounsell.com/*"
   ],
   "commands": {
     "_execute_action": {

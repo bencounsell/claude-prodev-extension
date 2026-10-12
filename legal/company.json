@@ -1,0 +1,13 @@
+{
+  "_note": "Filled in once, shared by every product. 'name' is the legal seller (you or your company) and 'country' sets governing law.",
+  "name": "[TODO: your legal name or company]",
+  "country": "[TODO: country]",
+  "domain": "bencounsell.com",
+  "supportEmail": "support@bencounsell.com",
+  "updated": "12 October 2026",
+  "merchant": "Creem",
+  "merchantTerms": "https://www.creem.io/buyer-terms",
+  "merchantPrivacy": "https://www.creem.io/privacy",
+  "refundDays": 14,
+  "refundReplyDays": 3
+}
