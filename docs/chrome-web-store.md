@@ -46,8 +46,8 @@ Website: https://bencounsell.com/hairline/
 Support: support@bencounsell.com
 ```
 
-**Graphics:** icon `extension/public/icons/icon128.png`; screenshots (1280×800) from `docs/screenshots/` or
-`npm run` the screenshot script (see README); promo video: upload `product-tour.mp4` to YouTube and paste the link.
+**Graphics:** screenshots (1280×800, upload in order 1–5) and promo tiles (`promo-small.png` 440×280,
+`promo-marquee.png` 1400×560) are in `docs/store/`, as 24-bit PNGs without alpha. Promo video: upload `product-tour.mp4` to YouTube and paste the link.
 
 **Website:** https://bencounsell.com/hairline/ · **Support URL:** mailto:support@bencounsell.com
 
