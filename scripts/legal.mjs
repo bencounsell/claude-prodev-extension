@@ -3,9 +3,9 @@
 //   node scripts/legal.mjs <product> <site-dir> [--strict]
 //
 // legal/company.json holds the details shared by every product (seller, country, support email, refund
-// policy); legal/products/<product>.json holds what is specific to one product (what it is, licence seats,
-// the data it touches). The master texts legal/{terms,privacy,refunds}.html use {{company.x}} and
-// {{product.x}}; arrays render as list items. <site-dir>/_legal-shell.html wraps each page in the site's
+// policy); legal/products/<product>.json holds what is specific to one product (what it is, licence seats).
+// legal/terms.html and refunds.html use {{company.x}} and {{product.x}}. legal/privacy.html is the single
+// company-wide privacy policy, written out in full, with a section per product; it is copied as is. <site-dir>/_legal-shell.html wraps each page in the site's
 // header and footer ({{title}}, {{content}}).
 //
 // Values still marked "[TODO …]" render highlighted and print a warning; --strict makes them an error,
@@ -37,10 +37,16 @@ function fill(text, extra = {}) {
   });
 }
 
-const pages = { terms: 'terms of service', privacy: 'privacy policy', refunds: 'refund policy' };
-for (const [name, label] of Object.entries(pages)) {
+// The privacy policy is one company-wide document (every product has its own section in it), so its title
+// names the company rather than the product.
+const pages = {
+  terms: `${data.product.name} terms of service`,
+  privacy: `Privacy policy · ${data.company.name}`,
+  refunds: `${data.product.name} refund policy`,
+};
+for (const [name, title] of Object.entries(pages)) {
   const content = fill(fs.readFileSync(path.join(root, `${name}.html`), 'utf8')).trim();
-  const html = fill(shell, { title: `${data.product.name} ${label}`, content });
+  const html = fill(shell, { title, content });
   if (/\{\{/.test(html)) throw new Error(`${name}.html: unresolved placeholder`);
   fs.writeFileSync(path.join(outDir, `${name}.html`), html);
   console.log(`  → ${path.join(outDir, `${name}.html`)}`);

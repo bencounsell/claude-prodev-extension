@@ -1,7 +1,7 @@
 {
-  "_note": "Filled in once, shared by every product. 'name' is the legal seller (you or your company) and 'country' sets governing law.",
-  "name": "[TODO: your legal name or company]",
-  "country": "[TODO: country]",
+  "_note": "Shared by every product. The privacy policy (legal/privacy.html) is one company-wide document with these details written in.",
+  "name": "Ben Counsell Consulting",
+  "country": "Sweden",
   "domain": "bencounsell.com",
   "supportEmail": "support@bencounsell.com",
   "updated": "12 October 2026",

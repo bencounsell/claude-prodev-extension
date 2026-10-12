@@ -1,27 +1,62 @@
-<p class="eyebrow mono">Last updated {{company.updated}}</p>
+<p class="eyebrow mono">Last updated 12 October 2026</p>
 <h1>Privacy policy</h1>
-<p>This policy covers {{product.name}}, made by {{company.name}}, {{company.country}}. We keep the same approach across all our products: collect as little as possible, never sell data, and say plainly what each product does. {{product.privacy.summary}}</p>
+<p>This policy covers every product, website and service from <b>Ben Counsell Consulting</b>, Sweden ("we", "us"), including the Hairline browser extension and bencounsell.com. We are the data controller for the personal data described here.</p>
+<p class="callout"><b>The short version.</b> We collect as little as possible. Our products have no accounts, analytics or tracking, and we never sell or share your data for advertising. Payments are handled by Creem, so we never see your card details.</p>
 
-<h2>What stays on your device</h2>
+<h2>What we collect and why</h2>
 <ul>
-{{product.privacy.onDevice}}
+  <li><b>Purchases.</b> When you buy a licence, Creem (our merchant of record) shares your name, email address, country, order details and licence key with us. We use them to provide your licence, answer support requests and keep the records the law requires. Legal basis: performing our contract with you, and our legal obligations.</li>
+  <li><b>Licence checks.</b> Paid products check your licence with our licence server: they send your licence key and an instance ID or name, which we pass to Creem to confirm the licence is valid. To stop people guessing keys, the server keeps a count of recent requests against a one-way hash of your IP address. Nothing about how you use the product is included. Legal basis: performing our contract with you, and our legitimate interest in preventing abuse.</li>
+  <li><b>Support emails.</b> If you email us, we keep the conversation so we can help you. Legal basis: our legitimate interest in answering you, or our contract with you.</li>
+  <li><b>Our websites.</b> Our websites don't use analytics, advertising or tracking cookies. Like any website, our hosting provider records standard server logs (IP address, browser and pages requested) to keep the sites running and secure. Legal basis: our legitimate interest in running secure websites.</li>
+</ul>
+<p>We don't use your data for automated decision-making or profiling, and we don't knowingly collect data from children.</p>
+
+<h2>Who we share it with</h2>
+<ul>
+  <li><b>Creem</b> processes payments, tax, invoices and refunds as merchant of record, under its own <a href="https://www.creem.io/privacy" rel="noopener">privacy policy</a>.</li>
+  <li><b>Service providers</b> that host our websites, licence server and email, acting only on our instructions.</li>
+  <li><b>Authorities</b>, only where the law requires it.</li>
+</ul>
+<p>Some of these providers may process data outside the EU/EEA. When they do, we rely on safeguards such as the European Commission's standard contractual clauses or an adequacy decision.</p>
+
+<h2>How long we keep it</h2>
+<ul>
+  <li>Order and licence records: for as long as your licence is active, and as long as Swedish bookkeeping law requires (currently seven years).</li>
+  <li>Support emails: until your question is resolved, and no longer than two years after we last heard from you.</li>
+  <li>Server logs and rate-limit counts: a short time, for security only.</li>
 </ul>
 
-<h2>The only network requests {{product.name}} makes</h2>
-<ul>
-{{product.privacy.network}}
-</ul>
+<h2>Our products</h2>
 
-<h2>Permissions</h2>
+<h3>Hairline (browser extension)</h3>
+<p>Hairline runs on your device. It has no accounts, no analytics and no tracking.</p>
 <ul>
-{{product.privacy.permissions}}
+  <li>Page content you inspect, edit, export or capture is processed in your browser and never sent to us.</li>
+  <li>Your settings (theme, panel location, recently used tools) are stored in your browser's extension storage, which may sync between your own browsers if you use browser sync.</li>
+  <li>Screenshots and images you save go to your Downloads folder.</li>
+  <li><b>Send to AI</b> builds its prompt in your browser. Hairline never sends it anywhere: it opens your AI app (Claude, ChatGPT or Gemini) with the prompt filled in or copied to your clipboard, and nothing is shared until you send it yourself under that app's own privacy policy.</li>
 </ul>
-
-<h2>Purchases</h2>
-<p>Purchases are handled by {{company.merchant}}, our merchant of record, which processes your payment details under its own <a href="{{company.merchantPrivacy}}" rel="noopener">privacy policy</a>. We receive your order and licence information (such as your name, email address and licence key) to provide your licence and support, not your card details. We keep it only as long as needed for that and for our legal and tax records.</p>
+<p>The only network requests Hairline makes:</p>
+<ul>
+  <li><b>Licence checks</b> for Hairline Pro, when you activate it and about once a day after that, as described above.</li>
+  <li><b>Font previews.</b> If you preview a font with Fonts Changer that isn't installed on your computer, the page loads that font from Google Fonts, as any website using Google Fonts would.</li>
+</ul>
+<p>Permissions Hairline asks for:</p>
+<ul>
+  <li><b>activeTab</b> and <b>scripting</b>: to show tools on the tab you open Hairline on.</li>
+  <li><b>storage</b>: to remember your settings and licence.</li>
+  <li><b>downloads</b>: to save screenshots and images.</li>
+  <li><b>sidePanel</b>: to dock Hairline beside the page.</li>
+  <li><b>Optional "all sites" access</b>: only if you allow it, so the side panel keeps working as you switch tabs. You can remove it any time in your browser's extension settings.</li>
+</ul>
+<p>Hairline's use of information received from Chrome APIs adheres to the Chrome Web Store User Data Policy, including the Limited Use requirements.</p>
 
 <h2>Your rights</h2>
-<p>You can ask us for a copy of the personal data we hold about you, or ask us to correct or delete it, by emailing us. Depending on where you live you may have further rights, including complaining to your local data protection authority.</p>
+<p>Under the GDPR you can ask for a copy of your personal data, and ask us to correct, delete or export it, or to restrict or object to how we use it. Email us and we'll reply within one month. You can also complain to the Swedish Authority for Privacy Protection (<a href="https://www.imy.se" rel="noopener">Integritetsskyddsmyndigheten, IMY</a>) or the data protection authority where you live.</p>
+
+<h2>Changes</h2>
+<p>When we add a product or change how we handle data, we update this policy and the date at the top. For significant changes, we'll also mention it in the product or on our website.</p>
 
 <h2>Contact</h2>
-<p>Questions about privacy? Email <a href="mailto:{{company.supportEmail}}">{{company.supportEmail}}</a>.</p>
+<p>Ben Counsell Consulting, Sweden. Email <a href="mailto:support@bencounsell.com">support@bencounsell.com</a>.</p>

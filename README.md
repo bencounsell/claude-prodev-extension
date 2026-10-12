@@ -67,8 +67,8 @@ Creem reviews the store before live payments. Status in this repo:
 - [x] Post-purchase page with activation steps (`site/thanks.html`)
 - [x] No fake reviews, testimonials or inflated user counts (the demo site in the videos uses neutral copy)
 - [x] Refund promise matches Creem's rules: 14-day refunds, replies within 3 business days
-- [ ] **Fill in your legal name and country** in `legal/company.json`, then `npm run legal -- --strict`
-      (legal pages are generated from the shared texts in `legal/`; see `legal/README.md`)
+- [x] Seller named (Ben Counsell Consulting, Sweden); one company-wide privacy policy (`legal/privacy.html`),
+      shared terms and refunds generated per product (`npm run legal -- --strict`; see `legal/README.md`)
 - [x] Support email `support@bencounsell.com` on the site, in the extension and in the legal pages
 - [ ] Same support email (`support@bencounsell.com`) set in the Creem dashboard, so receipts show it
 - [ ] Product live (Chrome Web Store listing) and the store URL set in `site/main.js`

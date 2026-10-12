@@ -307,6 +307,7 @@ kbd {
 .policy { max-width: 46rem; padding-block: 56px 96px; display: grid; gap: 18px; }
 .policy h1 { font-size: var(--s-2); }
 .policy h2 { font-size: 1.35rem; margin-top: 18px; }
+.policy h3 { font-size: 1.1rem; margin-top: 8px; font-family: var(--f-mono); }
 .policy p, .policy li { color: var(--ink-2); }
 .policy ul, .policy ol { margin: 0; padding-left: 1.2rem; display: grid; gap: 6px; }
 .policy .callout { padding: 16px 18px; border: 1px solid var(--line); background: var(--card); }
