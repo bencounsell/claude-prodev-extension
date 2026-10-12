@@ -63,7 +63,7 @@ API key, so the extension talks to a tiny PHP proxy instead (`hairline/licence.p
 Creem reviews the store before live payments. Status in this repo:
 
 - [x] Clear description of what's sold, and visible pricing (`hairline/index.html` in the website repo, pricing table + fine print)
-- [x] Privacy policy (`privacy.html`), terms of service and refund policy (`hairline/terms.html`, `refunds.html`) in the website repo,
+- [x] Privacy policy and terms of service (`privacy.html`, `terms.html`) and refund policy (`hairline/refunds.html`) in the website repo,
       all linked from every page's footer and naming Creem as merchant of record
 - [x] Post-purchase page with activation steps (`hairline/thanks.html`)
 - [x] No fake reviews, testimonials or inflated user counts (the demo site in the videos uses neutral copy)

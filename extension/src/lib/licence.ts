@@ -13,6 +13,8 @@ export const CONFIG = {
   supportEmail: 'support@bencounsell.com',
   /** Website with the terms and refund policy. */
   siteUrl: 'https://bencounsell.com/hairline',
+  /** Company-wide terms of service, shared by every product. */
+  termsUrl: 'https://bencounsell.com/terms.html',
   /** Company-wide privacy policy, shared by every product. */
   privacyUrl: 'https://bencounsell.com/privacy.html',
   /** Days a cached validation stays trusted while offline. */

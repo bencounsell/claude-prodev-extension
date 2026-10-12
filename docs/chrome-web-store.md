@@ -71,7 +71,7 @@ code of web pages you visit.
 to unlock Pro). Then certify all three statements: not sold to third parties, not used for unrelated purposes,
 not used for creditworthiness or lending.
 
-**Privacy policy URL:** https://bencounsell.com/privacy.html
+**Privacy policy URL:** https://bencounsell.com/privacy.html · **Terms:** https://bencounsell.com/terms.html
 
 ## After approval
 Put the listing URL in `hairline/main.js` (`storeUrl`) in the bencounsell/bencounsell.com repo, and remove
