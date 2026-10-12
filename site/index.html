@@ -14,6 +14,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="styles.css">
+<style>
+/* Mobile "More tools": video first, then a swipeable row of tool cards right under it, so a tap changes a video you can see. */
+@media (max-width: 720px) {
+  .showcase { gap: 14px; }
+  #sc-panel { order: -1; }
+  .sc-tabs { flex-direction: row; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 2px; padding: 2px 2px 8px; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+  .sc-tabs::-webkit-scrollbar { display: none; }
+  .sc-tabs::after, .sc-tab + .sc-tab::before, .sc-tabs > .gx-tag { display: none; }
+  .sc-tab { flex: 0 0 78%; scroll-snap-align: start; padding: 14px 16px; align-content: start; }
+  .sc-tab span { font-size: .9rem; }
+  .sc-dots { display: flex; justify-content: center; gap: 6px; margin-top: -4px; }
+  .sc-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line); transition: background .2s ease, width .2s ease; }
+  .sc-dots i.on { width: 16px; border-radius: 3px; background: var(--ink); }
+}
+@media (min-width: 721px) { .sc-dots { display: none; } }
+</style>
 </head>
 <body>
 <header class="nav">
@@ -278,5 +294,27 @@
   <video controls playsinline preload="none" poster="media/product-tour.jpg"><source src="media/product-tour.mp4" type="video/mp4"></video>
 </dialog>
 <script src="main.js"></script>
+<script>
+(() => {
+  const strip = document.querySelector('.sc-tabs');
+  if (!strip) return;
+  const cards = [...strip.querySelectorAll('.sc-tab')];
+  const mobile = matchMedia('(max-width: 720px)');
+  const dots = document.createElement('div');
+  dots.className = 'sc-dots'; dots.setAttribute('aria-hidden', 'true');
+  cards.forEach(() => dots.appendChild(document.createElement('i')));
+  strip.after(dots);
+  const sync = () => cards.forEach((c, i) => dots.children[i].classList.toggle('on', c.getAttribute('aria-selected') === 'true'));
+  // Keep the chosen card in view inside the strip without scrolling the page vertically.
+  const reveal = (c) => {
+    if (!mobile.matches) return;
+    const left = c.offsetLeft - 2; // .sc-tabs is position: relative, so offsetLeft is already relative to the strip
+    strip.scrollTo({ left, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  };
+  new MutationObserver(sync).observe(strip, { subtree: true, attributes: true, attributeFilter: ['aria-selected'] });
+  cards.forEach((c) => c.addEventListener('click', () => reveal(c)));
+  sync();
+})();
+</script>
 </body>
 </html>
