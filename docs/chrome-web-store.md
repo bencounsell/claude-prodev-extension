@@ -47,7 +47,7 @@ Support: support@bencounsell.com
 ```
 
 **Graphics:** screenshots (1280×800, upload in order 1–5) and promo tiles (`promo-small.png` 440×280,
-`promo-marquee.png` 1400×560) are in `docs/store/`, as 24-bit PNGs without alpha. Promo video: upload `product-tour.mp4` to YouTube and paste the link.
+`promo-marquee.png` 1400×560) are in `docs/store/`, as 24-bit PNGs without alpha. Promo video: upload `product-tour.mp4` to YouTube (thumbnail: `docs/store/youtube-thumbnail.jpg`, 1280×720) and paste the link.
 
 **Website:** https://bencounsell.com/hairline/ · **Support URL:** mailto:support@bencounsell.com
 
