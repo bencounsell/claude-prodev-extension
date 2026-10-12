@@ -5,7 +5,7 @@
 // legal/company.json holds the details shared by every product (seller, country, support email, refund
 // policy); legal/products/<product>.json holds what is specific to one product (what it is, licence seats).
 // legal/terms.html and refunds.html use {{company.x}} and {{product.x}}. legal/privacy.html is the single
-// company-wide privacy policy, written out in full, with a section per product; it is copied as is. <site-dir>/_legal-shell.html wraps each page in the site's
+// company-wide privacy policy, written out in full and naming no product; it is copied as is. <site-dir>/_legal-shell.html wraps each page in the site's
 // header and footer ({{title}}, {{content}}).
 //
 // Values still marked "[TODO …]" render highlighted and print a warning; --strict makes them an error,
@@ -37,7 +37,7 @@ function fill(text, extra = {}) {
   });
 }
 
-// The privacy policy is one company-wide document (every product has its own section in it), so its title
+// The privacy policy is one company-wide document that names no product, so its title
 // names the company rather than the product.
 const pages = {
   terms: `${data.product.name} terms of service`,
