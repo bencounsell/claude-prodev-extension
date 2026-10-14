@@ -54,7 +54,9 @@ API key, so the extension talks to a tiny PHP proxy instead (`hairline/licence.p
    the web root (point `HAIRLINE_CONFIG` at it), or set the same names as environment variables.
    Use `CREEM_API_BASE=https://test-api.creem.io` and a test key while testing.
 3. In `extension/src/lib/licence.ts` set `licenceUrl` and `checkoutUrl`, and put the proxy's origin in
-   `host_permissions` in `extension/manifest.json`. On the site, set `checkoutUrl` in `hairline/main.js`.
+   `host_permissions` in `extension/manifest.json`. Buy buttons open `https://bencounsell.com/hairline/store/`, which forwards to the
+   Creem link (Creem wants checkout traffic to come from the seller's site); the link itself lives in
+   `hairline/store/index.html` in the website repo.
 
 4. In the Creem product, set the **success URL** to `https://bencounsell.com/hairline/thanks.html` (activation steps) and
    the **support email** to the same address shown on the site.
